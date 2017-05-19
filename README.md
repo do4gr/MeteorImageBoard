@@ -6,7 +6,10 @@ Bitte Feature Branches mit informativen Namen erstellen wenn ihr Änderungen vor
 
 Wie erwähnt würde ich gerne GraphQL statt REST als API Technologie einsetzen. Hier ein paar Infos zu GraphQL:
 
-Übersicht: https://blog.meteor.com/the-meteor-chef-an-introduction-to-apollo-b1904955289e
+Übersicht:
+https://www.youtube.com/watch?v=WQLzZf34FJ8
+
+https://blog.meteor.com/the-meteor-chef-an-introduction-to-apollo-b1904955289e
 
 Für Meteor gibt es einen GraphQL Client der einem die API Funktionen erstellt und Caching und Query Batching und andere fancy Sachen macht.
 
