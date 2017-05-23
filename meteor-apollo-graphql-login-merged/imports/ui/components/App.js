@@ -73,7 +73,7 @@ class App extends React.Component {
               Log in with Email
             </span>
           </div>
-          <span>Log in to create new posts</span>
+          <span>Log in to view and create posts</span>
           <div>
             <span
               onClick={this._showSignup}
@@ -83,8 +83,7 @@ class App extends React.Component {
             </span>
           </div>
         </div>
-        <ListPage />
-      </div>
+‚‚      </div>
     )
   }
 }
