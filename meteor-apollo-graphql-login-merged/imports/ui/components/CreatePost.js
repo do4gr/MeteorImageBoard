@@ -14,6 +14,7 @@ class CreatePost extends React.Component {
   state = {
     description: '',
     imageUrl: '',
+    category: '',   //this is an enum, options need to be loaded from enum properties
   }
 
   render () {
@@ -38,6 +39,12 @@ class CreatePost extends React.Component {
           />
           <input
             className='w-100 pa3 mv2'
+            value={this.state.category}
+            placeholder='Category -> Try KITTENS or WTF'
+            onChange={(e) => this.setState({category: e.target.value})}
+          />
+          <input
+            className='w-100 pa3 mv2'
             value={this.state.imageUrl}
             placeholder='Image Url'
             onChange={(e) => this.setState({imageUrl: e.target.value})}
@@ -54,8 +61,8 @@ class CreatePost extends React.Component {
   }
 
   handlePost = () => {
-    const {description, imageUrl} = this.state
-    this.props.mutate({variables: {description, imageUrl}})
+    const {description, imageUrl, category} = this.state
+    this.props.mutate({variables: {description, imageUrl, category}})
       .then(() => {
         this.props.router.replace('/')
       })
@@ -63,8 +70,8 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-  mutation ($description: String!, $imageUrl: String!) {
-    createPost(description: $description, imageUrl: $imageUrl) {
+  mutation ($description: String!, $imageUrl: String!, $category: POST_CATEGORY!) {
+    createPost(description: $description, imageUrl: $imageUrl, category: $category) {
       id
     }
   }

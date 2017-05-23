@@ -20,6 +20,9 @@ export default class Post extends React.Component {
         <div className='pt3'>
           {this.props.post.description}&nbsp;
         </div>
+        <div className='pt3'>
+          {this.props.post.category}&nbsp;
+        </div>
       </div>
     )
   }

@@ -2,8 +2,8 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { withRouter } from 'react-router'
 import gql from 'graphql-tag'
-import ListPage from './ListPage'
-import NewPostLink from './NewPostLink'
+import ListPage from '../containers/ListPage'
+import Nav from './Nav'
 
 class App extends React.Component {
   static propTypes = {
@@ -44,6 +44,7 @@ class App extends React.Component {
   renderLoggedIn() {
     return (
       <div>
+        <Nav />
         <span>
           Logged in as {this.props.data.user.name}
         </span>
@@ -56,7 +57,6 @@ class App extends React.Component {
           </span>
         </div>
         <ListPage />
-        <NewPostLink />
       </div>
     )
   }
