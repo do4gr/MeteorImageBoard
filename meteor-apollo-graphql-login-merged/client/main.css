@@ -115,3 +115,18 @@ body {
 .AddBook button {
   float: right;
 }
+
+
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.body {
+  flex: 1 1 auto;
+}
