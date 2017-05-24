@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import ListPage from '../containers/ListPage'
 import Nav from './Nav'
 
-class App extends React.Component {
+class Home extends React.Component {
   static propTypes = {
     router: React.PropTypes.object.isRequired,
     data: React.PropTypes.object.isRequired,
@@ -44,7 +44,6 @@ class App extends React.Component {
   renderLoggedIn() {
     return (
       <div>
-        <Nav />
         <span>
           Logged in as {this.props.data.user.name}
         </span>
@@ -83,7 +82,7 @@ class App extends React.Component {
             </span>
           </div>
         </div>
-‚‚      </div>
+      </div>
     )
   }
 }
@@ -97,4 +96,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, { options: {forceFetch: true }})(withRouter(App))
+export default graphql(userQuery, { options: {forceFetch: true }})(withRouter(Home))
