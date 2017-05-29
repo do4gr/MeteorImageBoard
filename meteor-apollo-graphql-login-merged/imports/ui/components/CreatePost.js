@@ -8,7 +8,7 @@ class CreatePost extends React.Component {
   static propTypes = {
     router: React.PropTypes.object,
     mutate: React.PropTypes.func,
-    data: React.PropTypes.object,
+    data: React.PropTypes.object
   }
 
   state = {
@@ -17,7 +17,9 @@ class CreatePost extends React.Component {
 	imageUrl: '',
 	isSubmitting: false,
 	file: null,
-	postedFileId: ''
+	postedFileId: '',
+	isDraggingFile: false
+	
   }
 	
 	isSubmittable() {
@@ -25,22 +27,72 @@ class CreatePost extends React.Component {
 	}
 	
 	onDrop(event) {
+		event.stopPropagation();
 		event.preventDefault();
-		console.log("on drop:", event);
+		this.setState({'isDraggingFile': false});
+		var file = null;
+		if(event.dataTransfer.files.length >= 1) {
+			file = event.dataTransfer.files[0];
+		}
+		this.handleFileSelect(file);
+		return false;
+	}
+	onDragOver(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		event.dataTransfer.dropEffect = 'copy';
+		this.setState({'isDraggingFile': true});
+		return false;
+	}
+	onDragEnter(event) {
+		if(event.currentTarget == window) {
+			event.stopPropagation();
+			event.preventDefault();
+			return false;
+		}
+	}
+	onDragLeave(event) {
+		if(event.currentTarget == window) {
+			event.stopPropagation();
+			event.preventDefault();
+			this.setState({'isDraggingFile': false});
+			return false;
+		}
+	}
+	onDragEnd(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		this.setState({'isDraggingFile': false});
 		return false;
 	}
 	dropHandler = null;
-	componentWillMount() {
+	dragOverHandler = null;
+	dragEnterHandler = null;
+	dragLeaveHandler = null;
+	dragEndHandler = null;
+	componentDidMount() {
 		this.dropHandler = (event) => {return this.onDrop(event);};
-		$(document).on('drop', this.dropHandler);
-		$(document).on('dragover', function(){console.log('dragging');});
-		console.log('added drop handler');
+		window.addEventListener('drop', this.dropHandler);
+		this.dragOverHandler = (event) => {return this.onDragOver(event);};
+		window.addEventListener('dragover', this.dragOverHandler);
+		this.dragEnterHandler = (event) => {return this.onDragEnter(event);};
+		window.addEventListener('dragenter', this.dragEnterHandler);
+		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
+		window.addEventListener('dragleave', this.dragLeaveHandler);
+		this.dragEndHandler = (event) => {return this.onDragEnd(event);};
+		window.addEventListener('dragend', this.dragEndHandler);
 	}
 	componentWillUnmount() {
-		if(this.dropHandler != null) {
-			$(document).off('drop', this.dropHandler);
-			this.dropHandler = null;
-		}
+		window.removeEventListener('drop', this.dropHandler);
+		this.dropHandler = null;
+		window.removeEventListener('dragover', this.dragOverHandler);
+		this.dragOverHandler = null;
+		window.removeEventListener('dragenter', this.dragEnterHandler);
+		this.dragEnterHandler = null;
+		window.removeEventListener('dragleave', this.dragLeaveHandler);
+		this.dragLeaveHandler = null;
+		window.removeEventListener('dragend', this.dragEndHandler);
+		this.dragEndHandler = null;
 	}
 
 	render () {
@@ -69,20 +121,25 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<input type='file' class='w-100 pa3 mv2' accept="image/*"
-						onChange={this.handleFileSelect.bind(this)}
+					<input type='file' className='w-100 pa3 mv2' accept="image/*"
+						onChange={this.onFileSelected.bind(this)}
 						onClick={(event)=> { 
 							event.target.value = null;
 						}}
 					/>
-					<div className='imegaPreview w-100'>
-						{this.state.imageUrl && 
-							<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
-						}
-						{!this.state.imageUrl && 
-							<span>Kein Bild ausgewählt.</span>
-						}
-					</div>
+					{ !this.state.isDraggingFile &&
+						<div className='imegaPreview w-100'>
+							{this.state.imageUrl && 
+								<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
+							}
+							{!this.state.imageUrl && 
+								<span>Kein Bild ausgewählt.</span>
+							}
+						</div>
+					}
+					{ this.state.isDraggingFile &&
+						<div className='w-100 dropToUpload'>Drop to Upload</div>
+					}
 					<button disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.handlePost}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
 				</div>
 			</div>
@@ -115,18 +172,25 @@ class CreatePost extends React.Component {
 		});
 	}
 	
-	handleFileSelect(event) {
-		var self = this;
+	onFileSelected(event) {
 		if(event.target.files.length >= 1) {
 			var file = event.target.files[0];
-			this.setState({'file': file});
+			handleFileSelect(file);
+		}
+	}
+	handleFileSelect(file) {
+		this.setState({'file': file});
+		if(file != null) {
 			var reader = new FileReader();
 			
+			// TODO: handle errors
 			reader.addEventListener("load", () => {
 				this.setState({imageUrl: reader.result});
 			}, false);
 			
 			reader.readAsDataURL(file);
+		} else {
+			this.setState({imageUrl: ''});
 		}
 	}
 }
