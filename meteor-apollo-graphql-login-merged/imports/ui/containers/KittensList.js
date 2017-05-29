@@ -6,7 +6,6 @@ const KittenQuery = gql`query {
   allPosts(orderBy: createdAt_DESC
   filter: {category: KITTENS}) {
     id
-    imageUrl
 	postedFile { url }
     description
   }

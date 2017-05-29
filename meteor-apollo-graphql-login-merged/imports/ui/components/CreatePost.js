@@ -13,8 +13,8 @@ class CreatePost extends React.Component {
 
   state = {
     description: '',
-    imageUrl: '',
     category: '',   //this is an enum, options need to be loaded from enum properties
+	imageUrl: '',
 	postedFileId: ''
   }
 
@@ -44,32 +44,27 @@ class CreatePost extends React.Component {
             placeholder='Category -> Try KITTENS or WTF'
             onChange={(e) => this.setState({category: e.target.value})}
           />
-          <input
-            className='w-100 pa3 mv2'
-            value={this.state.imageUrl}
-            placeholder='Image Url'
-            onChange={(e) => this.setState({imageUrl: e.target.value})}
-          />
 					<input type='file' class='w-100 pa3 mv2' accept="image/*"
 						onChange={this.handleFileSelect.bind(this)}
 						onClick={(event)=> { 
 							event.target.value = null;
 						}}
 					/>
-          {this.state.imageUrl &&
+          {this.state.postedFileId && 
             <img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
           }
-          {this.state.description && this.state.imageUrl &&
+          {this.state.description && this.state.postedFileId &&
             <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.handlePost}>Post</button>
           }
+		  <button onClick={this.useRandomImage.bind(this)}>Use Random Image</button>
         </div>
       </div>
     )
   }
 
   handlePost = () => {
-    const {description, imageUrl, category, postedFileId} = this.state
-    this.props.mutate({variables: {description, imageUrl, postedFileId, category}})
+    const {description, category, postedFileId} = this.state
+    this.props.mutate({variables: {description, postedFileId, category}})
       .then(() => {
         this.props.router.replace('/')
       })
@@ -80,7 +75,6 @@ class CreatePost extends React.Component {
 			var self = this;
 			var fileUploadSucceded = function (response) {
 				response.json().then(result => {
-					console.log(result);
 					self.setState({imageUrl: result.url});
 					self.setState({postedFileId: result.id});
 					window.test = self;
@@ -93,23 +87,38 @@ class CreatePost extends React.Component {
 			
 			var file = event.target.files[0];
 			
-			//'https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl';
 			let data = new FormData();
 			data.append('data', file);
-			// TODO: upload image
-			//return (dispatch) => {
+			
 			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
 				body: data,
 				method: 'POST'
 			}).then(fileUploadSucceded);
-			//};
 		}
+	}
+	
+	randomImages = [
+		{
+			fileId: 'cj39xcdg3000e0162caiv4fdd',
+			url: 'https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/cj39xcdbp000d0162xunhusc5'
+		},
+		{
+			fileId: 'cj39ytp6s00110132etgtgtru',
+			url: 'https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/cj39ytp3i00100132wyrkk14y'
+		}
+	];
+	
+	useRandomImage() {
+		var index = Math.floor(this.randomImages.length * Math.random());
+		var image = this.randomImages[index];
+		this.setState({postedFileId: image.fileId});
+		this.setState({imageUrl: image.url});
 	}
 }
 
 const createPost = gql`
-  mutation ($description: String!, $imageUrl: String!, $category: POST_CATEGORY!, $postedFileId: ID!) {
-    createPost(description: $description, imageUrl: $imageUrl, postedFileId: $postedFileId, category: $category) {
+  mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!) {
+    createPost(description: $description, postedFileId: $postedFileId, category: $category) {
       id
 	  postedFile { id }
     }

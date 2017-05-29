@@ -5,7 +5,7 @@ import ListPage from '../components/ListPage';
 const HotQuery = gql`query {
   allPosts(orderBy: createdAt_DESC) {
     id
-    imageUrl
+	postedFile { url }
     description
   }
 }`
