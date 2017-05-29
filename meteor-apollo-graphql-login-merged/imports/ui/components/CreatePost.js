@@ -179,7 +179,7 @@ class CreatePost extends React.Component {
 	onFileSelected(event) {
 		if(event.target.files.length >= 1) {
 			var file = event.target.files[0];
-			handleFileSelect(file);
+			this.handleFileSelect(file);
 		}
 	}
 	handleFileSelect(file) {
