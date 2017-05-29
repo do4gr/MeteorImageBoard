@@ -7,6 +7,7 @@ const KittenQuery = gql`query {
   filter: {category: KITTENS}) {
     id
     imageUrl
+	postedFile { url }
     description
   }
 }`

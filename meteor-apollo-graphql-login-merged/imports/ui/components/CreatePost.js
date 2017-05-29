@@ -15,6 +15,7 @@ class CreatePost extends React.Component {
     description: '',
     imageUrl: '',
     category: '',   //this is an enum, options need to be loaded from enum properties
+	postedFileId: ''
   }
 
   render () {
@@ -67,8 +68,8 @@ class CreatePost extends React.Component {
   }
 
   handlePost = () => {
-    const {description, imageUrl, category} = this.state
-    this.props.mutate({variables: {description, imageUrl, category}})
+    const {description, imageUrl, category, postedFileId} = this.state
+    this.props.mutate({variables: {description, imageUrl, postedFileId, category}})
       .then(() => {
         this.props.router.replace('/')
       })
@@ -79,8 +80,10 @@ class CreatePost extends React.Component {
 			var self = this;
 			var fileUploadSucceded = function (response) {
 				response.json().then(result => {
-					console.log(result.url);
+					console.log(result);
 					self.setState({imageUrl: result.url});
+					self.setState({postedFileId: result.id});
+					window.test = self;
 				});
 			}
 			// TODO: handle upload error
@@ -105,9 +108,10 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-  mutation ($description: String!, $imageUrl: String!, $category: POST_CATEGORY!) {
-    createPost(description: $description, imageUrl: $imageUrl, category: $category) {
+  mutation ($description: String!, $imageUrl: String!, $category: POST_CATEGORY!, $postedFileId: ID!) {
+    createPost(description: $description, imageUrl: $imageUrl, postedFileId: $postedFileId, category: $category) {
       id
+	  postedFile { id }
     }
   }
 `

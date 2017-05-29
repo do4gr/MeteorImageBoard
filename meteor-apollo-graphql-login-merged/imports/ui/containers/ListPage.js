@@ -6,6 +6,7 @@ const FeedQuery = gql`query {
   allPosts(orderBy: createdAt_DESC) {
     id
     imageUrl
+	postedFile { url }
     description
   }
 }`

@@ -12,7 +12,7 @@ export default class Post extends React.Component {
         <div
           className='w-100'
           style={{
-            backgroundImage: `url(${this.props.post.imageUrl})`,
+            backgroundImage: `url(${this.props.post.postedFile.url})`,
             backgroundSize: 'cover',
             paddingBottom: '100%',
           }}
