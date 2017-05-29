@@ -13,8 +13,9 @@ class CreatePost extends React.Component {
 
   state = {
     description: '',
-    imageUrl: '',
     category: '',   //this is an enum, options need to be loaded from enum properties
+	imageUrl: '',
+	postedFileId: ''
   }
 
   render () {
@@ -43,16 +44,16 @@ class CreatePost extends React.Component {
             placeholder='Category -> Try KITTENS or WTF'
             onChange={(e) => this.setState({category: e.target.value})}
           />
-          <input
-            className='w-100 pa3 mv2'
-            value={this.state.imageUrl}
-            placeholder='Image Url'
-            onChange={(e) => this.setState({imageUrl: e.target.value})}
-          />
-          {this.state.imageUrl &&
+					<input type='file' class='w-100 pa3 mv2' accept="image/*"
+						onChange={this.handleFileSelect.bind(this)}
+						onClick={(event)=> { 
+							event.target.value = null;
+						}}
+					/>
+          {this.state.postedFileId && 
             <img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
           }
-          {this.state.description && this.state.imageUrl &&
+          {this.state.description && this.state.postedFileId &&
             <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.handlePost}>Post</button>
           }
         </div>
@@ -61,18 +62,46 @@ class CreatePost extends React.Component {
   }
 
   handlePost = () => {
-    const {description, imageUrl, category} = this.state
-    this.props.mutate({variables: {description, imageUrl, category}})
+    const {description, category, postedFileId} = this.state
+    this.props.mutate({variables: {description, postedFileId, category}})
       .then(() => {
         this.props.router.replace('/')
       })
   }
+
+	handleFileSelect(event) {
+		if(event.target.files.length >= 1) {
+			var self = this;
+			var fileUploadSucceded = function (response) {
+				response.json().then(result => {
+					self.setState({imageUrl: result.url});
+					self.setState({postedFileId: result.id});
+					window.test = self;
+				});
+			}
+			// TODO: handle upload error
+			var fileUploadFailed = function(response) {
+				console.log('file upload failed!');
+			}
+			
+			var file = event.target.files[0];
+			
+			let data = new FormData();
+			data.append('data', file);
+			
+			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
+				body: data,
+				method: 'POST'
+			}).then(fileUploadSucceded);
+		}
+	}
 }
 
 const createPost = gql`
-  mutation ($description: String!, $imageUrl: String!, $category: POST_CATEGORY!) {
-    createPost(description: $description, imageUrl: $imageUrl, category: $category) {
+  mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!) {
+    createPost(description: $description, postedFileId: $postedFileId, category: $category) {
       id
+	  postedFile { id }
     }
   }
 `
