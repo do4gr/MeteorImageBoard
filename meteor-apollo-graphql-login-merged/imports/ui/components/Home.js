@@ -41,6 +41,7 @@ class Home extends React.Component {
     }
   }
 
+//refactor methods into logged in and logged out components
   renderLoggedIn() {
     return (
       <div>
