@@ -5,22 +5,21 @@ import gql from 'graphql-tag'
 
 class CreatePost extends React.Component {
 
-  static propTypes = {
-    router: React.PropTypes.object,
-    mutate: React.PropTypes.func,
-    data: React.PropTypes.object
-  }
-
-  state = {
-    description: '',
-    category: '',   //this is an enum, options need to be loaded from enum properties
-	imageUrl: '',
-	isSubmitting: false,
-	file: null,
-	postedFileId: '',
-	isDraggingFile: false
+	static propTypes = {
+		router: React.PropTypes.object,
+		mutate: React.PropTypes.func,
+		data: React.PropTypes.object
+	}
 	
-  }
+	state = {
+		description: '',
+		category: '',   //this is an enum, options need to be loaded from enum properties
+		imageUrl: '',
+		isSubmitting: false,
+		file: null,
+		postedFileId: '',
+		isDraggingFile: false
+	}
 	
 	isSubmittable() {
 		return this.state.description && this.state.file && !this.state.isSubmitting;
@@ -121,7 +120,8 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<input type='file' className='w-100 pa3 mv2' accept="image/*"
+					<label forName='imageFile' className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
+					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
 						onChange={this.onFileSelected.bind(this)}
 						onClick={(event)=> { 
 							event.target.value = null;
