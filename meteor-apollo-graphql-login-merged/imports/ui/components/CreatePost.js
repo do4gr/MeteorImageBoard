@@ -49,6 +49,12 @@ class CreatePost extends React.Component {
             placeholder='Image Url'
             onChange={(e) => this.setState({imageUrl: e.target.value})}
           />
+					<input type='file' class='w-100 pa3 mv2' accept="image/*"
+						onChange={this.handleFileSelect.bind(this)}
+						onClick={(event)=> { 
+							event.target.value = null;
+						}}
+					/>
           {this.state.imageUrl &&
             <img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
           }
@@ -67,6 +73,35 @@ class CreatePost extends React.Component {
         this.props.router.replace('/')
       })
   }
+
+	handleFileSelect(event) {
+		if(event.target.files.length >= 1) {
+			var self = this;
+			var fileUploadSucceded = function (response) {
+				response.json().then(result => {
+					console.log(result.url);
+					self.setState({imageUrl: result.url});
+				});
+			}
+			// TODO: handle upload error
+			var fileUploadFailed = function(response) {
+				console.log('file upload failed!');
+			}
+			
+			var file = event.target.files[0];
+			
+			//'https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl';
+			let data = new FormData();
+			data.append('data', file);
+			// TODO: upload image
+			//return (dispatch) => {
+			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
+				body: data,
+				method: 'POST'
+			}).then(fileUploadSucceded);
+			//};
+		}
+	}
 }
 
 const createPost = gql`
