@@ -56,7 +56,6 @@ class CreatePost extends React.Component {
           {this.state.description && this.state.postedFileId &&
             <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.handlePost}>Post</button>
           }
-		  <button onClick={this.useRandomImage.bind(this)}>Use Random Image</button>
         </div>
       </div>
     )
@@ -95,24 +94,6 @@ class CreatePost extends React.Component {
 				method: 'POST'
 			}).then(fileUploadSucceded);
 		}
-	}
-	
-	randomImages = [
-		{
-			fileId: 'cj39xcdg3000e0162caiv4fdd',
-			url: 'https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/cj39xcdbp000d0162xunhusc5'
-		},
-		{
-			fileId: 'cj39ytp6s00110132etgtgtru',
-			url: 'https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/cj39ytp3i00100132wyrkk14y'
-		}
-	];
-	
-	useRandomImage() {
-		var index = Math.floor(this.randomImages.length * Math.random());
-		var image = this.randomImages[index];
-		this.setState({postedFileId: image.fileId});
-		this.setState({imageUrl: image.url});
 	}
 }
 
