@@ -18,7 +18,8 @@ class CreatePost extends React.Component {
 		isSubmitting: false,
 		file: null,
 		postedFileId: '',
-		isDraggingFile: false
+		isDraggingFile: false,
+		isLoadingFile: false
 	}
 	
 	isSubmittable() {
@@ -120,25 +121,28 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<label forName='imageFile' className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
+					<label className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
 					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
 						onChange={this.onFileSelected.bind(this)}
 						onClick={(event)=> { 
 							event.target.value = null;
 						}}
 					/>
-					{ !this.state.isDraggingFile &&
+					{ this.state.isDraggingFile &&
+						<div className='w-100 dropToUpload'>Drop to Upload</div>
+					}
+					{ (this.state.imageUrl || !this.state.isDraggingFile) &&
 						<div className='imegaPreview w-100'>
 							{this.state.imageUrl && 
 								<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
 							}
-							{!this.state.imageUrl && 
+							{!this.state.imageUrl && !this.state.isLoadingFile && 
 								<span>Kein Bild ausgewählt.</span>
 							}
+							{!this.state.imageUrl && this.state.isLoadingFile && 
+								<span>Processing File...</span>
+							}
 						</div>
-					}
-					{ this.state.isDraggingFile &&
-						<div className='w-100 dropToUpload'>Drop to Upload</div>
 					}
 					<button disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.handlePost}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
 				</div>
@@ -183,9 +187,12 @@ class CreatePost extends React.Component {
 		if(file != null) {
 			var reader = new FileReader();
 			
+			this.setState({imageUrl: ""});
+			this.setState({isLoadingFile: true});
 			// TODO: handle errors
 			reader.addEventListener("load", () => {
 				this.setState({imageUrl: reader.result});
+				this.setState({isLoadingFile: false});
 			}, false);
 			
 			reader.readAsDataURL(file);
