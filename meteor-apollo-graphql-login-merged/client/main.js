@@ -13,11 +13,18 @@ import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
+import Profile from '../imports/ui/components/Profile'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
+
+import MyGroups from '../imports/ui/containers/MyGroups'
+import MyPosts from '../imports/ui/containers/MyPosts'
+import MyComments from '../imports/ui/containers/MyComments'
+import Upvoted from '../imports/ui/containers/Upvoted'
+import Downvoted from '../imports/ui/containers/Downvoted'
 
 
 const networkInterface = createNetworkInterface({ uri: 'https://api.graph.cool/simple/v1/cj2ryvxmbt4qw0160y6qhdgdl' })
@@ -49,10 +56,16 @@ ReactDOM.render((
         <Route path='create' component={CreatePost} />
         <Route path='login' component={LoginUser} />
         <Route path='signup' component={CreateUser} />
+        <Route path='profile' component={Profile} />
         <Route path='kittenslist' component={KittensList} />
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
+        <Route path='mygroups' component={MyGroups} />
+        <Route path='myposts' component={MyPosts} />
+        <Route path='mycomments' component={MyComments} />
+        <Route path='upvoted' component={Upvoted} />
+        <Route path='upvoted' component={Downvoted} />
       </Route>
     </Router>
   </ApolloProvider>
