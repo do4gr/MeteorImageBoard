@@ -61,7 +61,7 @@ export default class Example extends React.Component {
 										Hallo
 									</DropdownToggle>
 									<DropdownMenu className="dropdown-menu-right">
-										<DropdownItem href="/profile/">My Profile</DropdownItem>
+										<DropdownItem href="/myposts/">My Profile</DropdownItem>
 										<DropdownItem>Settings</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>

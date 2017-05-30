@@ -13,7 +13,7 @@ import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
-import Profile from '../imports/ui/components/Profile'
+import ProfilePage from '../imports/ui/components/ProfilePage'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
@@ -56,16 +56,17 @@ ReactDOM.render((
         <Route path='create' component={CreatePost} />
         <Route path='login' component={LoginUser} />
         <Route path='signup' component={CreateUser} />
-        <Route path='profile' component={Profile} />
         <Route path='kittenslist' component={KittensList} />
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
-        <Route path='mygroups' component={MyGroups} />
-        <Route path='myposts' component={MyPosts} />
-        <Route path='mycomments' component={MyComments} />
-        <Route path='upvoted' component={Upvoted} />
-        <Route path='upvoted' component={Downvoted} />
+        <Route component={ProfilePage} >
+          <Route path='mygroups' component={MyGroups} />
+          <Route path='myposts' component={MyPosts} />
+          <Route path='mycomments' component={MyComments} />
+          <Route path='upvoted' component={Upvoted} />
+          <Route path='upvoted' component={Downvoted} />
+        </Route>
       </Route>
     </Router>
   </ApolloProvider>
