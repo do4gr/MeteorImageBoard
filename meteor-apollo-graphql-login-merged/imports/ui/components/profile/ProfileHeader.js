@@ -90,7 +90,9 @@ export default class ProfileHeader extends React.Component {
 				<div>
 					Karma: {this.state.karma}
 				</div>
-				<NavPersonalLists />
+				<div>
+					<NavPersonalLists />
+				</div>
 			</div>
 		);
 	}

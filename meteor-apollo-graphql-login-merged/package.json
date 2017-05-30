@@ -18,6 +18,7 @@
     "react": "^15.5.4",
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-apollo": "^0.11.2",
+    "react-avatar-editor": "^9.1.1",
     "react-dom": "^15.5.4",
     "react-router": "^2.8.1",
     "react-strap": "0.0.1",
