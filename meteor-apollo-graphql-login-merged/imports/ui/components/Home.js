@@ -48,7 +48,7 @@ class Home extends React.Component {
 
   renderLoggedOut() {
     return (
-      <div>
+      <div className="center-text">
         <div className="greet-title">
           <h2>Welcome to coolGAG!</h2>
           <h3>Please Log In or Sign In.</h3>

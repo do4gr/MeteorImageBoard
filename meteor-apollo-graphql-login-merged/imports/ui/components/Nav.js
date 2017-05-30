@@ -1,6 +1,6 @@
 import React from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button} from 'reactstrap';
-import {Button, ButtonGroup, Collapse, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
+import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -15,9 +15,11 @@ class Example extends React.Component {
 
 		this.toggleNavBar = this.toggleNavBar.bind(this);
 		this.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
+    this.toggleCategoriesMenu = this.toggleCategoriesMenu.bind(this);
 		this.state = {
 			isNavBarOpen: false,
 			isBurgerMenuOpen: false,
+      isCategoriesMenuOpen: false,
 		};
 	}
 
@@ -32,6 +34,11 @@ class Example extends React.Component {
 			isBurgerMenuOpen: !this.state.isBurgerMenuOpen,
 		});
 	}
+  toggleCategoriesMenu() {
+    this.setState( {
+      isCategoriesMenuOpen: !this.state.isCategoriesMenuOpen,
+    });
+  }
 
   _logout = () => {
     // remove token from local storage and reload page to reset apollo client
@@ -63,7 +70,7 @@ class Example extends React.Component {
 			<div>
 				<Navbar color="faded" light toggleable>
 					<NavbarToggler right onClick={this.toggleNavBar} />
-					<NavbarBrand href="/">CoolGag</NavbarBrand>
+					<NavbarBrand href="/">coolGAG</NavbarBrand>
 					<Collapse isOpen={this.state.isNavBarOpen} navbar>
 						<Nav className="ml-auto" navbar>
 							<NavItem>
@@ -81,35 +88,45 @@ class Example extends React.Component {
 							<NavItem>
 								<NavLink href="/create/">Create&nbsp;Post</NavLink>
               </NavItem>
+               <NavItem >
+                <NavLink >
+                <Dropdown  isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleCategoriesMenu}>
+                        <DropdownToggle caret color="secondary" outline>
+                          More&nbsp;Fun
+                        </DropdownToggle>{''}
+                        <DropdownMenu className="dropdown-menu-left">
+                          <DropdownItem>Dark Humor</DropdownItem>
+                          <DropdownItem>Yummy</DropdownItem>
+                          <DropdownItem>Funny</DropdownItem>
+                          <DropdownItem>Cute</DropdownItem>
+                          <DropdownItem>Hackers United</DropdownItem>
+                          <DropdownItem>Work</DropdownItem>
+                          <DropdownItem>Politics</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>   
+                </NavLink>
+              </NavItem>
               <NavItem>
-                  <NavLink href="/Profile/" className='bg-green pa3 pointer dim'>
-                  <span className='white'>
-                    {this.props.data.user.name}
-                  </span>
+                <NavLink >
+                <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
+                        <DropdownToggle caret color="info" outline >
+                          {this.props.data.user.name}
+                        </DropdownToggle>
+                        <DropdownMenu className="dropdown-menu-left">
+                          <DropdownItem href="/myposts/">My Profile</DropdownItem>
+                          <DropdownItem divider />
+                          <DropdownItem>Settings</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>   
                 </NavLink>
               </NavItem>
               <NavItem > 
-                <NavLink href="/" className=' bg-red pa3 pointer dim' onClick={this._logout}>
-                  <span className="white">Logout</span>    
-                </NavLink> 
+                <NavLink href="/"  onClick={this._logout}>
+                  <Button color="danger"  outline >Logout</Button>{''}    
+                </NavLink>
 							</NavItem>
 						</Nav>
 					</Collapse>
-					<Nav>
-						<NavItem>
-							<ButtonGroup className="profile-logout-button">
-								<Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
-									<DropdownToggle caret>
-										Hallo
-									</DropdownToggle>
-									<DropdownMenu className="dropdown-menu-right">
-										<DropdownItem href="/myposts/">My Profile</DropdownItem>
-										<DropdownItem>Settings</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</ButtonGroup>
-						</NavItem>
-					</Nav>
 				</Navbar>
 			</div>
 		);

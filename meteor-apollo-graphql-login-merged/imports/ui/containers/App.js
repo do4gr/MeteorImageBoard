@@ -31,8 +31,9 @@ class App extends React.Component {
       <div className='app'>
         <div className='header'>
           <Nav />
+          <hr/>
         </div>
-
+        
         <div className='body'>
           {this.props.children}
         </div>
