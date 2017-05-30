@@ -15,7 +15,10 @@ class App extends React.Component {
     this.checkRedirect(this.props)
   }
   checkRedirect(props) {
-    if (props.data && props.data.user === null && props.location.pathname !== '/') {
+    if (props.data && props.data.user === null
+        && props.location.pathname !== '/'
+        && props.location.pathname !== '/login'
+        &&props.location.pathname !== '/signup' ) {
       window.localStorage.removeItem('graphcoolToken')
       location.href = '/'
     }
