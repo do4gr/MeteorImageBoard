@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import ListPage from '../components/ListPage';
+import ListPage from '../../components/ListPage';
 
-//TODO
-const MyCommentsQuery = gql`query {
+//TO DO
+const UpvotedQuery = gql`query {
   allPosts(orderBy: createdAt_DESC) {
     id
 	postedFile { url }
@@ -11,4 +11,4 @@ const MyCommentsQuery = gql`query {
   }
 }`
 
-export default graphql(MyCommentsQuery)(ListPage);
+export default graphql(UpvotedQuery)(ListPage);

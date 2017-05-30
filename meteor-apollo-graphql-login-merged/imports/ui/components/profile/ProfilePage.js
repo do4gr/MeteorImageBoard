@@ -1,12 +1,12 @@
 import React from 'react'
-import Profile from '../components/Profile'
+import ProfileHeader from './ProfileHeader'
 
 
 export default function App(props) {
   return (
     <div className='profile-page'>
       <div className='profile-header'>
-        <Profile />
+        <ProfileHeader />
       </div>
 
       <div className='nav-personal-lists'>

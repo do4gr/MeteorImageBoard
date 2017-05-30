@@ -13,18 +13,18 @@ import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
-import ProfilePage from '../imports/ui/components/ProfilePage'
+import ProfilePage from '../imports/ui/components/profile/ProfilePage'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
 
-import MyGroups from '../imports/ui/containers/MyGroups'
-import MyPosts from '../imports/ui/containers/MyPosts'
-import MyComments from '../imports/ui/containers/MyComments'
-import Upvoted from '../imports/ui/containers/Upvoted'
-import Downvoted from '../imports/ui/containers/Downvoted'
+import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
+import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
+import MyComments from '../imports/ui/containers/profileLists/MyComments'
+import Upvoted from '../imports/ui/containers/profileLists/Upvoted'
+import Downvoted from '../imports/ui/containers/profileLists/Downvoted'
 
 
 const networkInterface = createNetworkInterface({ uri: 'https://api.graph.cool/simple/v1/cj2ryvxmbt4qw0160y6qhdgdl' })
@@ -65,7 +65,7 @@ ReactDOM.render((
           <Route path='myposts' component={MyPosts} />
           <Route path='mycomments' component={MyComments} />
           <Route path='upvoted' component={Upvoted} />
-          <Route path='upvoted' component={Downvoted} />
+          <Route path='downvoted' component={Downvoted} />
         </Route>
       </Route>
     </Router>

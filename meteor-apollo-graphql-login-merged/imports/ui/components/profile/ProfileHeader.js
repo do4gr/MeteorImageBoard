@@ -4,9 +4,9 @@ import { withRouter, Redirect } from 'react-router'
 import gql from 'graphql-tag'
 import { Button, ButtonGroup } from 'reactstrap'
 import AvatarEditor from 'react-avatar-editor' 
-import NavPersonalLists from '../components/NavPersonalLists'
+import NavPersonalLists from './NavPersonalLists'
 
-export default class Profile extends React.Component {
+export default class ProfileHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onClickSave = this.onClickSave.bind(this);

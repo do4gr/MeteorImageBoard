@@ -2,7 +2,7 @@ import React from 'react'
 import {Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink} from 'reactstrap'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import ListPage from '../components/ListPage'
+import ListPage from '../ListPage'
 
 
 export default class NavPersonalLists extends React.Component {
