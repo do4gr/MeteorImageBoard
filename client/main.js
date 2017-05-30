@@ -19,6 +19,7 @@ import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
+import detailPost from '../imports/ui/containers/detailPost'
 
 
 const networkInterface = createNetworkInterface({ uri: 'https://api.graph.cool/simple/v1/cj2ryvxmbt4qw0160y6qhdgdl' })
@@ -54,7 +55,7 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
-        <Route path='showpost' component={ShowPost} />
+        <Route path='showpost' component={detailPost} />
       </Route>
     </Router>
   </ApolloProvider>
