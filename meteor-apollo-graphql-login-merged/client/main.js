@@ -37,7 +37,9 @@ networkInterface.use([{
 
 const client = new ApolloClient({networkInterface: networkInterface});
 
-
+const NotFound = () => (
+  <h3>404.. This page is not found!</h3>
+  )
 //container the listpage to open it with the query of the category you are looking at
 
 //einrücken von
@@ -53,6 +55,7 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
+        <Route path='*' component={NotFound} />
       </Route>
     </Router>
   </ApolloProvider>
