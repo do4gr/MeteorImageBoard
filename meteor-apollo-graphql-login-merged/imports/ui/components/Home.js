@@ -11,11 +11,7 @@ class Home extends React.Component {
     data: React.PropTypes.object.isRequired,
   }
 
-  _logout = () => {
-    // remove token from local storage and reload page to reset apollo client
-    window.localStorage.removeItem('graphcoolToken')
-    location.reload()
-  }
+  
 
   _showLogin = () => {
     this.props.router.push('/login')
@@ -45,17 +41,6 @@ class Home extends React.Component {
   renderLoggedIn() {
     return (
       <div>
-        <span>
-          Logged in as {this.props.data.user.name}
-        </span>
-        <div className='pv3'>
-          <span
-            className='dib bg-red white pa3 pointer dim'
-            onClick={this._logout}
-          >
-            Logout
-          </span>
-        </div>
         <ListPage />
       </div>
     )
@@ -63,7 +48,11 @@ class Home extends React.Component {
 
   renderLoggedOut() {
     return (
-      <div>
+      <div className="center-text">
+        <div className="greet-title">
+          <h2>Welcome to coolGAG!</h2>
+          <h3>Please Log In or Sign In.</h3>
+        </div>
         <div className='pv3'>
           <div>
             <span

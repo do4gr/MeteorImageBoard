@@ -1,5 +1,6 @@
 import React from 'react'
 import ProfileHeader from './ProfileHeader'
+import Nav from '../Nav'
 
 
 export default function App(props) {
@@ -8,7 +9,6 @@ export default function App(props) {
       <div className='profile-header'>
         <ProfileHeader />
       </div>
-
       <div className='nav-personal-lists'>
         {props.children}
       </div>
