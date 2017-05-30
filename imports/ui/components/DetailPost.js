@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Button } from 'reactstrap';
 
 export default class DetailPost extends React.Component {
 
@@ -27,6 +27,14 @@ export default class DetailPost extends React.Component {
         </div>
         <div className='pt3'>
           {"Votes: " + this.props.post.upvotes}&nbsp;
+        </div>
+        <div className='pt3'>
+        <p><b>Comments: </b></p>
+        </div>
+        <div className="pt3">
+        <input type="text"></input>	        </div>
+        <div className="pt3">
+          <button>{"Add Comment"}</button>
         </div>
       </div>
     )
