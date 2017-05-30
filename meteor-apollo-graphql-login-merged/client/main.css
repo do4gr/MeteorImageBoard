@@ -130,3 +130,7 @@ body {
 .body {
   flex: 1 1 auto;
 }
+
+.center-text{
+  text-align: center;
+}
