@@ -1,146 +1,51 @@
 import React from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
-import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
+export default class Example extends React.Component {
+  constructor(props) {
+    super(props);
 
-class Example extends React.Component {
-  static propTypes = {
-    data: React.PropTypes.object.isRequired
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
   }
-
-	constructor(props) {
-		super(props);
-
-		this.toggleNavBar = this.toggleNavBar.bind(this);
-		this.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
-    this.toggleCategoriesMenu = this.toggleCategoriesMenu.bind(this);
-		this.state = {
-			isNavBarOpen: false,
-			isBurgerMenuOpen: false,
-      isCategoriesMenuOpen: false,
-		};
-	}
-
-	toggleNavBar() {
-		this.setState({
-			isNavBarOpen: !this.state.isNavBarOpen
-		});
-	}
-
-	toggleBurgerMenu() {
-		this.setState( {
-			isBurgerMenuOpen: !this.state.isBurgerMenuOpen,
-		});
-	}
-  toggleCategoriesMenu() {
-    this.setState( {
-      isCategoriesMenuOpen: !this.state.isCategoriesMenuOpen,
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
     });
   }
 
-  _logout = () => {
-    // remove token from local storage and reload page to reset apollo client
-    window.localStorage.removeItem('graphcoolToken')
-  }
-
-  _isLoggedIn() {
-    window.x = this.props;
-    return this.props.data.user
-  }
   //container the listpage to open it with the query of the category you are looking at
 
-	render() {
-    if (this._isLoggedIn()) {
-      return this.renderLoggedIn()
-    } else {
-      return this.renderLoggedOut()
-    }    
-  }
 
-  renderLoggedOut() {
+  render() {
     return (
-      null
-    );
-  }
-
-  renderLoggedIn() {
-		return (
-			<div>
-				<Navbar color="faded" light toggleable>
-					<NavbarToggler right onClick={this.toggleNavBar} />
-					<NavbarBrand href="/">coolGAG</NavbarBrand>
-					<Collapse isOpen={this.state.isNavBarOpen} navbar>
-						<Nav className="ml-auto" navbar>
-							<NavItem>
-								<NavLink href="/hotlist/">Hot</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/trendinglist/">Trending</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/freshlist/">Fresh</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/create/">Create&nbsp;Post</NavLink>
-              </NavItem>
-               <NavItem >
-                <NavLink >
-                <Dropdown  isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleCategoriesMenu}>
-                        <DropdownToggle caret color="secondary" outline>
-                          More&nbsp;Fun
-                        </DropdownToggle>{''}
-                        <DropdownMenu className="dropdown-menu-left">
-                          <DropdownItem>Dark Humor</DropdownItem>
-                          <DropdownItem>Yummy</DropdownItem>
-                          <DropdownItem>Funny</DropdownItem>
-                          <DropdownItem>Cute</DropdownItem>
-                          <DropdownItem>Hackers United</DropdownItem>
-                          <DropdownItem>Work</DropdownItem>
-                          <DropdownItem>Politics</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>   
-                </NavLink>
+      <div>
+        <Navbar color="faded" light toggleable>
+          <NavbarToggler right onClick={this.toggle} />
+          <NavbarBrand href="/">CoolGag</NavbarBrand>
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/hotlist/">Hot</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink >
-                <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
-                        <DropdownToggle caret color="info" outline >
-                          {this.props.data.user.name}
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-left">
-                          <DropdownItem href="/myposts/">My Profile</DropdownItem>
-                          <DropdownItem divider />
-                          <DropdownItem>Settings</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>   
-                </NavLink>
+                <NavLink href="/trendinglist/">Trending</NavLink>
               </NavItem>
-              <NavItem > 
-                <NavLink href="/"  onClick={this._logout}>
-                  <Button color="danger"  outline >Logout</Button>{''}    
-                </NavLink>
-							</NavItem>
-						</Nav>
-					</Collapse>
-				</Navbar>
-			</div>
-		);
-	}
-}
-
-const userQuery = gql`
-  query {
-    user {
-      id
-      name
-    }
+              <NavItem>
+                <NavLink href="/freshlist/">Fresh</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/kittenslist/">Kittens List</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/create/">Create Post</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
   }
-`
-
-export default graphql(userQuery, { options: {forceFetch: true }})(Example)
-
+}
