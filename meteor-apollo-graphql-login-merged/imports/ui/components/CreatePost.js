@@ -10,7 +10,7 @@ class CreatePost extends React.Component {
 		mutate: React.PropTypes.func,
 		data: React.PropTypes.object
 	}
-	
+
 	state = {
 		description: '',
 		category: '',   //this is an enum, options need to be loaded from enum properties
@@ -19,13 +19,14 @@ class CreatePost extends React.Component {
 		file: null,
 		postedFileId: '',
 		isDraggingFile: false,
-		isLoadingFile: false
+		isLoadingFile: false,
+		userId: ''
 	}
-	
+
 	isSubmittable() {
 		return this.state.description && this.state.file && !this.state.isSubmitting;
 	}
-	
+
 	onDrop(event) {
 		event.stopPropagation();
 		event.preventDefault();
@@ -99,13 +100,13 @@ class CreatePost extends React.Component {
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
-		
+
 		// redirect if no user is logged in
 		if (!this.props.data.user) {
 			console.warn('only logged in users can create new posts')
 			this.props.router.replace('/')
 		}
-		
+
 		return (
 			<div className='w-100 pa4 flex justify-center'>
 				<div style={{ maxWidth: 400 }} className=''>
@@ -124,7 +125,7 @@ class CreatePost extends React.Component {
 					<label className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
 					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
 						onChange={this.onFileSelected.bind(this)}
-						onClick={(event)=> { 
+						onClick={(event)=> {
 							event.target.value = null;
 						}}
 					/>
@@ -133,13 +134,13 @@ class CreatePost extends React.Component {
 					}
 					{ (this.state.imageUrl || !this.state.isDraggingFile) &&
 						<div className='imegaPreview w-100'>
-							{this.state.imageUrl && 
+							{this.state.imageUrl &&
 								<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
 							}
-							{!this.state.imageUrl && !this.state.isLoadingFile && 
+							{!this.state.imageUrl && !this.state.isLoadingFile &&
 								<span>Kein Bild ausgewählt.</span>
 							}
-							{!this.state.imageUrl && this.state.isLoadingFile && 
+							{!this.state.imageUrl && this.state.isLoadingFile &&
 								<span>Processing File...</span>
 							}
 						</div>
@@ -152,10 +153,10 @@ class CreatePost extends React.Component {
 
 	handlePost = () => {
 		this.setState({'isSubmitting': true});
-		
+
 		let data = new FormData();
 		data.append('data', this.state.file);
-		
+
 		fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
 			body: data,
 			method: 'POST'
@@ -163,8 +164,9 @@ class CreatePost extends React.Component {
 			response.json().then(result => {
 				//self.setState({imageUrl: result.url});
 				this.setState({postedFileId: result.id});
-				const {description, category, postedFileId} = this.state
-				this.props.mutate({variables: {description, postedFileId, category}})
+				this.setState({userId: this.props.data.user.id});
+				const {description, category, postedFileId, userId} = this.state
+				this.props.mutate({variables: {description, postedFileId, category, userId}})
 					.then(() => {
 						this.props.router.replace('/')
 					});
@@ -175,7 +177,7 @@ class CreatePost extends React.Component {
 			this.setState({'isSubmitting': false});
 		});
 	}
-	
+
 	onFileSelected(event) {
 		if(event.target.files.length >= 1) {
 			var file = event.target.files[0];
@@ -186,7 +188,7 @@ class CreatePost extends React.Component {
 		this.setState({'file': file});
 		if(file != null) {
 			var reader = new FileReader();
-			
+
 			this.setState({imageUrl: ""});
 			this.setState({isLoadingFile: true});
 			// TODO: handle errors
@@ -194,7 +196,7 @@ class CreatePost extends React.Component {
 				this.setState({imageUrl: reader.result});
 				this.setState({isLoadingFile: false});
 			}, false);
-			
+
 			reader.readAsDataURL(file);
 		} else {
 			this.setState({imageUrl: ''});
@@ -203,8 +205,12 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!) {
-		createPost(description: $description, postedFileId: $postedFileId, category: $category) {
+	mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!, $userId: ID!) {
+		createPost(
+			description: $description,
+			postedFileId: $postedFileId,
+			category: $category,
+			userId: $userId) {
 			id
 			postedFile { id }
 		}
