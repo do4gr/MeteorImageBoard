@@ -1,12 +1,12 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
 import gql from 'graphql-tag'
 import { Button, ButtonGroup } from 'reactstrap'
-import AvatarEditor from 'react-avatar-editor' 
+import AvatarEditor from 'react-avatar-editor'
 import NavPersonalLists from './NavPersonalLists'
 
-export default class ProfileHeader extends React.Component {
+class ProfileHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onClickSave = this.onClickSave.bind(this);
@@ -24,10 +24,12 @@ export default class ProfileHeader extends React.Component {
 						border={50}
 						color={[255, 255, 255, 0.6]} // RGBA
 						scale={1.2}
-					/>, 
+					/>,
 			joinedAt: "07.06.1234",
 			karma: "100"
 		};
+		console.log(this.props)
+		this.loadData()
 	}
 
 	// den Editor zum Upload und Bearbeiten eines Profilbildes mache ich (Hendrik) noch fertig.
@@ -60,8 +62,22 @@ export default class ProfileHeader extends React.Component {
 		this.editor = editor
 	}
 
+  async loadData() {
+		const result = await this.props.client.query({
+			query: gql`
+				{
+					user {
+						id
+						name
+					}
+				}
+			`
+		})
+		console.log(result)
+		this.setState({ name: result.data.user.name })
+	}
 
-	
+
 	render() {
 		return (
 			<div className="center-text">
@@ -97,3 +113,5 @@ export default class ProfileHeader extends React.Component {
 		);
 	}
 }
+
+export default withApollo(ProfileHeader)
