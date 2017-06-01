@@ -1,6 +1,7 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
+import {Container, Row, Col} from 'reactstrap';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -68,7 +69,10 @@ class Example extends React.Component {
   renderLoggedIn() {
 		return (
 			<div>
-				<Navbar color="faded" light toggleable>
+      <Container>
+        <Row>
+        <Col>
+				<Navbar color="faded" light className="navbar-toggleable-md">
 					<NavbarToggler right onClick={this.toggleNavBar} />
 					<NavbarBrand href="/">coolGAG</NavbarBrand>
 					<Collapse isOpen={this.state.isNavBarOpen} navbar>
@@ -128,6 +132,9 @@ class Example extends React.Component {
 						</Nav>
 					</Collapse>
 				</Navbar>
+        </Col>
+        </Row>
+        </Container>
 			</div>
 		);
 	}

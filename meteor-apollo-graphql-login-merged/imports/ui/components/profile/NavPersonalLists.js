@@ -24,7 +24,7 @@ export default class NavPersonalLists extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar color="faded" light toggleable>
+				<Navbar color="faded" light className="navbar-toggleable-md">
 					<NavbarToggler right onClick={this.toggleNavBar} />
 					<Collapse isOpen={this.state.isNavBarOpen} navbar>
 						<Nav className="ml-auto" navbar>

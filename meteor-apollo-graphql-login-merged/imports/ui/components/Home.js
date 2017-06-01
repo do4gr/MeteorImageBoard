@@ -62,8 +62,8 @@ class Home extends React.Component {
           
             <span
               onClick={this._showLogin}
-              className='dib pa3 white bg-blue dim pointer'>
-              Login with Email
+              className='dib pa3 white bg-blue dim pointer btn-login'>
+              Login 
             </span>
           
            </Col>
@@ -73,8 +73,8 @@ class Home extends React.Component {
           
             <span
               onClick={this._showSignup}
-              className='dib pa3 white bg-blue dim pointer'>
-              Signup with Email
+              className='dib pa3 white bg-blue dim pointer btn-singup'>
+              Signup
             </span>
           
 

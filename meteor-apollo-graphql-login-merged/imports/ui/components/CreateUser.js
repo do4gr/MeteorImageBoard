@@ -70,7 +70,7 @@ class CreateUser extends React.Component {
               Subscribe to email notifications?
             </span>
           </div>
-          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Login</button>
+          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</button>
           
           </form>
         </div>

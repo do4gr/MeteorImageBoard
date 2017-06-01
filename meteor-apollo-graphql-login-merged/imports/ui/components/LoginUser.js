@@ -53,7 +53,7 @@ class CreateLogin extends React.Component {
             onChange={(e) => this.setState({password: e.target.value})}
           />
 
-          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Signin</button>
+          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Login</button>
 
           </form>
         </div>
