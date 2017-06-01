@@ -16,6 +16,14 @@ class CreateLogin extends React.Component {
     password: '',
   }
 
+  isSubmittable() {
+    return this.state.email && this.state.password;
+  }  
+
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
   render () {
     if (this.props.data.loading) {
       return (<div>Loading</div>)
@@ -30,6 +38,7 @@ class CreateLogin extends React.Component {
     return (
       <div className='w-100 pa4 flex justify-center'>
         <div style={{ maxWidth: 400 }} className=''>
+        <form onSubmit={this.handleSubmit}>
           <input
             className='w-100 pa3 mv2'
             value={this.state.email}
@@ -44,9 +53,9 @@ class CreateLogin extends React.Component {
             onChange={(e) => this.setState({password: e.target.value})}
           />
 
-          {this.state.email && this.state.password &&
-          <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.signinUser}>Log in</button>
-          }
+          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Signin</button>
+
+          </form>
         </div>
       </div>
     )

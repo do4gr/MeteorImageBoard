@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import gql from 'graphql-tag'
 import ListPage from '../containers/ListPage'
 import Nav from './Nav'
+import {Container, Row, Col } from 'reactstrap'
 
 class Home extends React.Component {
   static propTypes = {
@@ -49,29 +50,37 @@ class Home extends React.Component {
   renderLoggedOut() {
     return (
       <div className="center-text">
-        <div className="greet-title">
+      <Container fluid>
+      <Row>
+        <Col className="greet-title">
           <h2>Welcome to coolGAG!</h2>
-          <h3>Please Log In or Sign In.</h3>
-        </div>
-        <div className='pv3'>
-          <div>
+          <h3>Please Login or Signin.</h3>
+        </Col>
+      </Row>
+      <Row>
+        <Col className='pv3'>
+          
             <span
               onClick={this._showLogin}
-              className='dib pa3 white bg-blue dim pointer'
-            >
-              Log in with Email
+              className='dib pa3 white bg-blue dim pointer'>
+              Login with Email
             </span>
-          </div>
-          <span>Log in to view and create posts</span>
-          <div>
+          
+           </Col>
+        </Row>
+         <Row>
+        <Col className='pv3'>
+          
             <span
               onClick={this._showSignup}
-              className='dib pa3 white bg-blue dim pointer'
-            >
-              Sign up with Email
+              className='dib pa3 white bg-blue dim pointer'>
+              Signup with Email
             </span>
-          </div>
-        </div>
+          
+
+          </Col>
+        </Row>
+        </Container>
       </div>
     )
   }
