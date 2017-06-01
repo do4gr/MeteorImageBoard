@@ -8,7 +8,7 @@ export default class Post extends React.Component {
 
   render () {
     return (
-      <div className='pa3 bg-black-05 ma3'>
+      <div className='pa2 bg-black-05 ma2'>
         <div
           className='w-100'
           style={{
