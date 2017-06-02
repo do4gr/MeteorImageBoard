@@ -18,6 +18,12 @@ class CreateUser extends React.Component {
     name: '',
     emailSubscription: false,
   }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  isSubmittable() {
+    return this.state.email && this.state.password && this.state.name;
+  }
 
   render () {
     if (this.props.data.loading) {
@@ -33,6 +39,7 @@ class CreateUser extends React.Component {
     return (
       <div className='w-100 pa4 flex justify-center'>
         <div style={{ maxWidth: 400 }} className=''>
+        <form onSubmit={this.handleSubmit}>
           <input
             className='w-100 pa3 mv2'
             value={this.state.email}
@@ -63,14 +70,14 @@ class CreateUser extends React.Component {
               Subscribe to email notifications?
             </span>
           </div>
-
-          {this.state.name && this.state.email && this.state.password &&
-          <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.createUser}>Log in</button>
-          }
+          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</button>
+          
+          </form>
         </div>
       </div>
     )
   }
+  // <input className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.createUser} type="submit" value="Login"/> 
 
   createUser = () => {
     const {email, password, name, emailSubscription} = this.state

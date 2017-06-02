@@ -1,5 +1,5 @@
 import React from 'react'
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
+import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Row, Col} from 'reactstrap'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ListPage from '../ListPage'
@@ -24,7 +24,10 @@ export default class NavPersonalLists extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar color="faded" light toggleable>
+			<Container>	
+				<Row>
+				<Col>
+				<Navbar color="faded" light className="navbar-toggleable-md">
 					<NavbarToggler right onClick={this.toggleNavBar} />
 					<Collapse isOpen={this.state.isNavBarOpen} navbar>
 						<Nav className="ml-auto" navbar>
@@ -46,6 +49,9 @@ export default class NavPersonalLists extends React.Component {
 						</Nav>
 					</Collapse>
 				</Navbar>
+				</Col>
+				</Row>
+			</Container>
 			</div>
 		);
   }

@@ -29,7 +29,6 @@ body {
   clear: both;
 }
 
-
 .app {
   display: flex;
   flex-direction: column;
@@ -38,7 +37,10 @@ body {
 .header {
   flex: 0 0 auto;
 }
-
+.btn-singup, .btn-login{
+  display: inline-block;
+ 
+}
 .body {
   flex: 1 1 auto;
 }
@@ -53,4 +55,8 @@ nav {
 nav .nav-item {
   display: flex;
   align-items: center;  
+}
+
+nav .navbar-toggable-md{
+
 }
