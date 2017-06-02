@@ -3,7 +3,7 @@ import Post from '../Post'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-export default class ProfileListPage extends React.Component {
+export default class ProfilePostListPage extends React.Component {
 
   static propTypes = {
     data: React.PropTypes.object,

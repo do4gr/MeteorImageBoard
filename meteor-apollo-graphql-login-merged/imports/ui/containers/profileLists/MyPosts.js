@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import ListPage from '../../components/profile/ProfileListPage';
+import ProfilePostListPage from '../../components/profile/ProfilePostListPage';
 
 
 //TODO
@@ -14,4 +14,4 @@ const MyPostsQuery = gql`query {
     }
 }`
 
-export default graphql(MyPostsQuery)(ListPage);
+export default graphql(MyPostsQuery)(ProfilePostListPage);
