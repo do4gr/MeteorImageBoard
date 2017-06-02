@@ -3,6 +3,7 @@ import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Con
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ListPage from '../ListPage'
+import ProfilePostListPage from './ProfilePostListPage'
 
 
 export default class NavPersonalLists extends React.Component {
@@ -24,7 +25,7 @@ export default class NavPersonalLists extends React.Component {
 	render() {
 		return (
 			<div>
-			<Container>	
+			<Container>
 				<Row>
 				<Col>
 				<Navbar color="faded" light className="navbar-toggleable-md">
