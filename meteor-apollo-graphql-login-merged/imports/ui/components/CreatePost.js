@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class CreatePost extends React.Component {
@@ -225,6 +225,12 @@ const userQuery = gql`
 	}
 `
 
-export default graphql(createPost)(
-	graphql(userQuery, { options: { forceFetch: true }} )(withRouter(CreatePost))
-)
+export default compose(
+  graphql(createPost),
+  graphql(userQuery, { options: { forceFetch: true }} )
+)(withRouter(CreatePost))
+
+
+// export default graphql(createPost)(
+// 	graphql(userQuery, { options: { forceFetch: true }} )(withRouter(CreatePost))
+// )
