@@ -1,7 +1,8 @@
-import React from 'react'
-import { withRouter } from 'react-router'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import React from 'react';
+import { withRouter } from 'react-router';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
+import {Button} from 'reactstrap';
 
 class CreatePost extends React.Component {
 
@@ -19,6 +20,7 @@ class CreatePost extends React.Component {
 		file: null,
 		postedFileId: '',
 		isDraggingFile: false,
+		dragMightEnded: false,
 		isLoadingFile: false,
 		userId: ''
 	}
@@ -30,6 +32,7 @@ class CreatePost extends React.Component {
 	onDrop(event) {
 		event.stopPropagation();
 		event.preventDefault();
+		this.setState({'dragMightEnded': false});
 		this.setState({'isDraggingFile': false});
 		var file = null;
 		if(event.dataTransfer.files.length >= 1) {
@@ -42,58 +45,67 @@ class CreatePost extends React.Component {
 		event.stopPropagation();
 		event.preventDefault();
 		event.dataTransfer.dropEffect = 'copy';
+		this.setState({'dragMightEnded': false});
 		this.setState({'isDraggingFile': true});
 		return false;
 	}
 	onDragEnter(event) {
-		if(event.currentTarget == window) {
+		if(event.target == document) {
 			event.stopPropagation();
 			event.preventDefault();
 			return false;
 		}
 	}
 	onDragLeave(event) {
-		if(event.currentTarget == window) {
+		if(event.target == document.body || event.target == document.body.parentElement) {
 			event.stopPropagation();
 			event.preventDefault();
 			this.setState({'isDraggingFile': false});
 			return false;
+		} else {
+			this.setState({'dragMightEnded': true});
+			window.setTimeout(() => {
+				if(this.state.dragMightEnded) {
+					this.setState({'dragMightEnded': false});
+					this.setState({'isDraggingFile': false});
+				}
+			}, 0);
 		}
 	}
-	onDragEnd(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		this.setState({'isDraggingFile': false});
-		return false;
+	onMouseLeftWindow(event) {
+		if(event.target == document) {
+			//console.log("stop dragging!");
+			//this.setState({'isDraggingFile': false});
+		}
 	}
 	dropHandler = null;
 	dragOverHandler = null;
 	dragEnterHandler = null;
 	dragLeaveHandler = null;
-	dragEndHandler = null;
+	mouseLeftWindowHandler = null;
 	componentDidMount() {
 		this.dropHandler = (event) => {return this.onDrop(event);};
-		window.addEventListener('drop', this.dropHandler);
+		document.addEventListener('drop', this.dropHandler);
 		this.dragOverHandler = (event) => {return this.onDragOver(event);};
-		window.addEventListener('dragover', this.dragOverHandler);
+		document.addEventListener('dragover', this.dragOverHandler);
 		this.dragEnterHandler = (event) => {return this.onDragEnter(event);};
-		window.addEventListener('dragenter', this.dragEnterHandler);
+		document.addEventListener('dragenter', this.dragEnterHandler);
 		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
-		window.addEventListener('dragleave', this.dragLeaveHandler);
-		this.dragEndHandler = (event) => {return this.onDragEnd(event);};
-		window.addEventListener('dragend', this.dragEndHandler);
+		document.addEventListener('dragleave', this.dragLeaveHandler);
+		this.mouseLeftWindowHandler = (event) => {return this.onMouseLeftWindow(event);};
+		document.addEventListener('mouseleave', this.mouseLeftWindowHandler, true);
 	}
 	componentWillUnmount() {
-		window.removeEventListener('drop', this.dropHandler);
+		document.removeEventListener('drop', this.dropHandler);
 		this.dropHandler = null;
-		window.removeEventListener('dragover', this.dragOverHandler);
+		document.removeEventListener('dragover', this.dragOverHandler);
 		this.dragOverHandler = null;
-		window.removeEventListener('dragenter', this.dragEnterHandler);
+		document.removeEventListener('dragenter', this.dragEnterHandler);
 		this.dragEnterHandler = null;
-		window.removeEventListener('dragleave', this.dragLeaveHandler);
+		document.removeEventListener('dragleave', this.dragLeaveHandler);
 		this.dragLeaveHandler = null;
-		window.removeEventListener('dragend', this.dragEndHandler);
-		this.dragEndHandler = null;
+		document.removeEventListener('mouseleave', this.mouseLeftWindowHandler);
+		this.mouseLeftWindowHandler = null;
 	}
 
 	render () {
@@ -129,19 +141,31 @@ class CreatePost extends React.Component {
 							event.target.value = null;
 						}}
 					/>
-					{ this.state.isDraggingFile &&
-						<div className='w-100 dropToUpload'>Drop to Upload</div>
-					}
-					{ (this.state.imageUrl || !this.state.isDraggingFile) &&
-						<div className='imegaPreview w-100'>
-							{this.state.imageUrl &&
-								<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
-							}
-							{!this.state.imageUrl && !this.state.isLoadingFile &&
+					{ !this.state.imageUrl &&
+						<div className='w-100 dropzone mv3'>
+							{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
 								<span>Kein Bild ausgewählt.</span>
 							}
-							{!this.state.imageUrl && this.state.isLoadingFile &&
+							{ this.state.isLoadingFile &&
 								<span>Processing File...</span>
+							}
+							{ this.state.isDraggingFile &&
+								<span>Drop to Upload</span>
+							}
+					</div>
+					}
+					{ this.state.imageUrl &&
+						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
+							<img src={this.state.imageUrl} role='presentation' className='w-100 imagePreview' />
+							{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
+								<div className='w-100 dropzone'>
+									{ this.state.isDraggingFile &&
+										<span>Drop to Upload</span>
+									}
+									{ this.state.isLoadingFile &&
+										<span>Processing File...</span>
+									}
+								</div>
 							}
 						</div>
 					}
