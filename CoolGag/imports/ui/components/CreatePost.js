@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
+import ContentEditable from 'react-contenteditable';
 
 class CreatePost extends React.Component {
 
@@ -23,7 +24,9 @@ class CreatePost extends React.Component {
 		isValidType: true,
 		dragMightEnded: false,
 		isLoadingFile: false,
-		userId: ''
+		userId: '',
+		upperImageText: 'Create',
+		lowerImageText: 'a MEME'
 	}
 
 	isSubmittable() {
@@ -142,7 +145,9 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<label className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</button>
+					&nbsp;
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
 					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
 						onChange={this.onFileSelected.bind(this)}
 						onClick={(event)=> {
@@ -167,7 +172,17 @@ class CreatePost extends React.Component {
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-							<img src={this.state.imageUrl} role='presentation' className='w-100 imagePreview' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+							<div className='imagePreview'>
+								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+								<ContentEditable
+									className="outlined upper imageText"
+									html={this.state.upperImageText}
+									onChange={this.onUpperImageTextChanged.bind(this)}></ContentEditable>
+								<ContentEditable
+									className="outlined lower imageText"
+									html={this.state.lowerImageText}
+									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
+							</div>
 							{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
 								<div className='w-100 dropzone'>
 									{ this.state.isDraggingFile && this.state.isValidType &&
@@ -255,6 +270,56 @@ class CreatePost extends React.Component {
 		} else {
 			this.setState({imageUrl: ''});
 		}
+	}
+	
+	onSelectMeme(event) {
+		console.log('TODO: implement select of predefined image');
+		window.alert('This feature is currently not available.');
+	}
+	
+	
+	// ContentEditable: https://github.com/lovasoa/react-contenteditable
+	onUpperImageTextChanged(event) {
+		this.onImageTextChanged('upperImageText', event);
+	}
+	onLowerImageTextChanged(event) {
+		this.onImageTextChanged('lowerImageText', event);
+	}
+	onImageTextChanged(stateName, event) {
+		console.log(stateName);
+		if(event.nativeEvent && event.nativeEvent.srcElement) {
+			event.nativeEvent.srcElement.setAttribute('spellcheck', false);
+			if(typeof event.nativeEvent.srcElement.innerText == "string") {
+				tmp = {};
+				tmp[stateName] = event.nativeEvent.srcElement.innerText;
+				this.setState(tmp);
+			}
+		}
+	}
+	
+	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
+	
+	// used to create submittable content from an image url
+	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
+	dataURItoBlob(dataURI) {
+		// convert base64/URLEncoded data component to raw binary data held in a string
+		var byteString;
+		var parts = dataURI.split(',');
+		if (parts[0].indexOf('base64') >= 0)
+			byteString = atob(parts[1]);
+		else
+			byteString = unescape(parts[1]);
+
+		// separate out the mime component
+		var mimeString = parts[0].split(':')[1].split(';')[0];
+
+		// write the bytes of the string to a typed array
+		var ia = new Uint8Array(byteString.length);
+		for (var i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+		}
+
+		return new Blob([ia], {type:mimeString});
 	}
 }
 
