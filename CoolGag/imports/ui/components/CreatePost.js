@@ -1,7 +1,9 @@
-import React from 'react'
-import { withRouter } from 'react-router'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import React from 'react';
+import { withRouter } from 'react-router';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
+import {Button} from 'reactstrap';
+import ContentEditable from 'react-contenteditable';
 
 class CreatePost extends React.Component {
 
@@ -19,8 +21,12 @@ class CreatePost extends React.Component {
 		file: null,
 		postedFileId: '',
 		isDraggingFile: false,
+		isValidType: true,
+		dragMightEnded: false,
 		isLoadingFile: false,
-		userId: ''
+		userId: '',
+		upperImageText: 'Create',
+		lowerImageText: 'a MEME'
 	}
 
 	isSubmittable() {
@@ -30,6 +36,7 @@ class CreatePost extends React.Component {
 	onDrop(event) {
 		event.stopPropagation();
 		event.preventDefault();
+		this.setState({'dragMightEnded': false});
 		this.setState({'isDraggingFile': false});
 		var file = null;
 		if(event.dataTransfer.files.length >= 1) {
@@ -41,59 +48,75 @@ class CreatePost extends React.Component {
 	onDragOver(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		event.dataTransfer.dropEffect = 'copy';
-		this.setState({'isDraggingFile': true});
+		var validType;
+		if(event.dataTransfer.types.length == 1 && event.dataTransfer.types[0] == 'Files') {
+			event.dataTransfer.dropEffect = 'copy';
+			validType = true;
+		} else {
+			event.dataTransfer.dropEffect = 'none';
+			console.log("false");
+			validType = false;
+		}
+		this.setState({'dragMightEnded': false, 'isValidType': validType, 'isDraggingFile': true});
 		return false;
 	}
 	onDragEnter(event) {
-		if(event.currentTarget == window) {
+		if(event.target == document) {
 			event.stopPropagation();
 			event.preventDefault();
 			return false;
 		}
 	}
 	onDragLeave(event) {
-		if(event.currentTarget == window) {
+		if(event.target == document.body || event.target == document.body.parentElement) {
 			event.stopPropagation();
 			event.preventDefault();
 			this.setState({'isDraggingFile': false});
 			return false;
+		} else {
+			this.setState({'dragMightEnded': true});
+			window.setTimeout(() => {
+				if(this.state.dragMightEnded) {
+					this.setState({'dragMightEnded': false});
+					this.setState({'isDraggingFile': false});
+				}
+			}, 0);
 		}
 	}
-	onDragEnd(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		this.setState({'isDraggingFile': false});
-		return false;
+	onMouseLeftWindow(event) {
+		if(event.target == document) {
+			//console.log("stop dragging!");
+			//this.setState({'isDraggingFile': false});
+		}
 	}
 	dropHandler = null;
 	dragOverHandler = null;
 	dragEnterHandler = null;
 	dragLeaveHandler = null;
-	dragEndHandler = null;
+	mouseLeftWindowHandler = null;
 	componentDidMount() {
 		this.dropHandler = (event) => {return this.onDrop(event);};
-		window.addEventListener('drop', this.dropHandler);
+		document.addEventListener('drop', this.dropHandler);
 		this.dragOverHandler = (event) => {return this.onDragOver(event);};
-		window.addEventListener('dragover', this.dragOverHandler);
+		document.addEventListener('dragover', this.dragOverHandler);
 		this.dragEnterHandler = (event) => {return this.onDragEnter(event);};
-		window.addEventListener('dragenter', this.dragEnterHandler);
+		document.addEventListener('dragenter', this.dragEnterHandler);
 		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
-		window.addEventListener('dragleave', this.dragLeaveHandler);
-		this.dragEndHandler = (event) => {return this.onDragEnd(event);};
-		window.addEventListener('dragend', this.dragEndHandler);
+		document.addEventListener('dragleave', this.dragLeaveHandler);
+		this.mouseLeftWindowHandler = (event) => {return this.onMouseLeftWindow(event);};
+		document.addEventListener('mouseleave', this.mouseLeftWindowHandler, true);
 	}
 	componentWillUnmount() {
-		window.removeEventListener('drop', this.dropHandler);
+		document.removeEventListener('drop', this.dropHandler);
 		this.dropHandler = null;
-		window.removeEventListener('dragover', this.dragOverHandler);
+		document.removeEventListener('dragover', this.dragOverHandler);
 		this.dragOverHandler = null;
-		window.removeEventListener('dragenter', this.dragEnterHandler);
+		document.removeEventListener('dragenter', this.dragEnterHandler);
 		this.dragEnterHandler = null;
-		window.removeEventListener('dragleave', this.dragLeaveHandler);
+		document.removeEventListener('dragleave', this.dragLeaveHandler);
 		this.dragLeaveHandler = null;
-		window.removeEventListener('dragend', this.dragEndHandler);
-		this.dragEndHandler = null;
+		document.removeEventListener('mouseleave', this.mouseLeftWindowHandler);
+		this.mouseLeftWindowHandler = null;
 	}
 
 	render () {
@@ -109,7 +132,7 @@ class CreatePost extends React.Component {
 
 		return (
 			<div className='w-100 pa4 flex justify-center'>
-				<div style={{ maxWidth: 400 }} className=''>
+				<form style={{ maxWidth: 400 }} className='' onSubmit={(event) => {this.handlePost(event)}}>
 					<input
 						className='w-100 pa3 mv2'
 						value={this.state.description}
@@ -122,36 +145,67 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<label className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</label>
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</button>
+					&nbsp;
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
 					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
 						onChange={this.onFileSelected.bind(this)}
 						onClick={(event)=> {
 							event.target.value = null;
 						}}
 					/>
-					{ this.state.isDraggingFile &&
-						<div className='w-100 dropToUpload'>Drop to Upload</div>
-					}
-					{ (this.state.imageUrl || !this.state.isDraggingFile) &&
-						<div className='imegaPreview w-100'>
-							{this.state.imageUrl &&
-								<img src={this.state.imageUrl} role='presentation' className='w-100 mv3' />
-							}
-							{!this.state.imageUrl && !this.state.isLoadingFile &&
+					{ !this.state.imageUrl &&
+						<div className='w-100 dropzone mv3'>
+							{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
 								<span>Kein Bild ausgewählt.</span>
 							}
-							{!this.state.imageUrl && this.state.isLoadingFile &&
+							{ this.state.isLoadingFile &&
 								<span>Processing File...</span>
+							}
+							{ this.state.isDraggingFile && this.state.isValidType &&
+								<span>Drop to Upload</span>
+							}
+							{ this.state.isDraggingFile && !this.state.isValidType &&
+								<span>Invalid File</span>
+							}
+					</div>
+					}
+					{ this.state.imageUrl &&
+						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
+							<div className='imagePreview'>
+								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+								<ContentEditable
+									className="outlined upper imageText"
+									html={this.state.upperImageText}
+									onChange={this.onUpperImageTextChanged.bind(this)}></ContentEditable>
+								<ContentEditable
+									className="outlined lower imageText"
+									html={this.state.lowerImageText}
+									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
+							</div>
+							{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
+								<div className='w-100 dropzone'>
+									{ this.state.isDraggingFile && this.state.isValidType &&
+										<span>Drop to Upload</span>
+									}
+									{ this.state.isDraggingFile && !this.state.isValidType &&
+										<span>Invalid File</span>
+									}
+									{ this.state.isLoadingFile &&
+										<span>Processing File...</span>
+									}
+								</div>
 							}
 						</div>
 					}
-					<button disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.handlePost}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
-				</div>
+					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
+				</form>
 			</div>
 		)
 	}
 
-	handlePost = () => {
+	handlePost = (event) => {
+		event.preventDefault();
 		this.setState({'isSubmitting': true});
 
 		let data = new FormData();
@@ -165,7 +219,10 @@ class CreatePost extends React.Component {
 				//self.setState({imageUrl: result.url});
 				this.setState({postedFileId: result.id});
 				this.setState({userId: this.props.data.user.id});
-				const {description, category, postedFileId, userId} = this.state
+				var {description, category, postedFileId, userId} = this.state
+				if(category == "") {
+					category = null;
+				}
 				this.props.mutate({variables: {description, postedFileId, category, userId}})
 					.then(() => {
 						this.props.router.replace('/')
@@ -176,6 +233,18 @@ class CreatePost extends React.Component {
 			console.log('error uploading the file!');
 			this.setState({'isSubmitting': false});
 		});
+		
+		return false;
+	}
+	
+	onImageLoadError(event) {
+		console.log('error');
+		this.setState({'imageUrl': ''});
+		this.setState({'file': null});
+	}
+	
+	onImageLoaded(event) {
+		console.log('loaded');
 	}
 
 	onFileSelected(event) {
@@ -202,10 +271,60 @@ class CreatePost extends React.Component {
 			this.setState({imageUrl: ''});
 		}
 	}
+	
+	onSelectMeme(event) {
+		console.log('TODO: implement select of predefined image');
+		window.alert('This feature is currently not available.');
+	}
+	
+	
+	// ContentEditable: https://github.com/lovasoa/react-contenteditable
+	onUpperImageTextChanged(event) {
+		this.onImageTextChanged('upperImageText', event);
+	}
+	onLowerImageTextChanged(event) {
+		this.onImageTextChanged('lowerImageText', event);
+	}
+	onImageTextChanged(stateName, event) {
+		console.log(stateName);
+		if(event.nativeEvent && event.nativeEvent.srcElement) {
+			event.nativeEvent.srcElement.setAttribute('spellcheck', false);
+			if(typeof event.nativeEvent.srcElement.innerText == "string") {
+				tmp = {};
+				tmp[stateName] = event.nativeEvent.srcElement.innerText;
+				this.setState(tmp);
+			}
+		}
+	}
+	
+	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
+	
+	// used to create submittable content from an image url
+	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
+	dataURItoBlob(dataURI) {
+		// convert base64/URLEncoded data component to raw binary data held in a string
+		var byteString;
+		var parts = dataURI.split(',');
+		if (parts[0].indexOf('base64') >= 0)
+			byteString = atob(parts[1]);
+		else
+			byteString = unescape(parts[1]);
+
+		// separate out the mime component
+		var mimeString = parts[0].split(':')[1].split(';')[0];
+
+		// write the bytes of the string to a typed array
+		var ia = new Uint8Array(byteString.length);
+		for (var i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+		}
+
+		return new Blob([ia], {type:mimeString});
+	}
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!, $userId: ID!) {
+	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!) {
 		createPost(
 			description: $description,
 			postedFileId: $postedFileId,
