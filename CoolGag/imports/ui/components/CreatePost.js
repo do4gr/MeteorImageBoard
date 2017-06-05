@@ -20,6 +20,7 @@ class CreatePost extends React.Component {
 		file: null,
 		postedFileId: '',
 		isDraggingFile: false,
+		isValidType: true,
 		dragMightEnded: false,
 		isLoadingFile: false,
 		userId: ''
@@ -44,9 +45,16 @@ class CreatePost extends React.Component {
 	onDragOver(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		event.dataTransfer.dropEffect = 'copy';
-		this.setState({'dragMightEnded': false});
-		this.setState({'isDraggingFile': true});
+		var validType;
+		if(event.dataTransfer.types.length == 1 && event.dataTransfer.types[0] == 'Files') {
+			event.dataTransfer.dropEffect = 'copy';
+			validType = true;
+		} else {
+			event.dataTransfer.dropEffect = 'none';
+			console.log("false");
+			validType = false;
+		}
+		this.setState({'dragMightEnded': false, 'isValidType': validType, 'isDraggingFile': true});
 		return false;
 	}
 	onDragEnter(event) {
@@ -149,18 +157,24 @@ class CreatePost extends React.Component {
 							{ this.state.isLoadingFile &&
 								<span>Processing File...</span>
 							}
-							{ this.state.isDraggingFile &&
+							{ this.state.isDraggingFile && this.state.isValidType &&
 								<span>Drop to Upload</span>
+							}
+							{ this.state.isDraggingFile && !this.state.isValidType &&
+								<span>Invalid File</span>
 							}
 					</div>
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-							<img src={this.state.imageUrl} role='presentation' className='w-100 imagePreview' />
+							<img src={this.state.imageUrl} role='presentation' className='w-100 imagePreview' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 							{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
 								<div className='w-100 dropzone'>
-									{ this.state.isDraggingFile &&
+									{ this.state.isDraggingFile && this.state.isValidType &&
 										<span>Drop to Upload</span>
+									}
+									{ this.state.isDraggingFile && !this.state.isValidType &&
+										<span>Invalid File</span>
 									}
 									{ this.state.isLoadingFile &&
 										<span>Processing File...</span>
@@ -200,6 +214,16 @@ class CreatePost extends React.Component {
 			console.log('error uploading the file!');
 			this.setState({'isSubmitting': false});
 		});
+	}
+	
+	onImageLoadError(event) {
+		console.log('error');
+		this.setState({'imageUrl': ''});
+		this.setState({'file': null});
+	}
+	
+	onImageLoaded(event) {
+		console.log('loaded');
 	}
 
 	onFileSelected(event) {
