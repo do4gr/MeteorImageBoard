@@ -129,7 +129,7 @@ class CreatePost extends React.Component {
 
 		return (
 			<div className='w-100 pa4 flex justify-center'>
-				<div style={{ maxWidth: 400 }} className=''>
+				<form style={{ maxWidth: 400 }} className='' onSubmit={(event) => {this.handlePost(event)}}>
 					<input
 						className='w-100 pa3 mv2'
 						value={this.state.description}
@@ -183,13 +183,14 @@ class CreatePost extends React.Component {
 							}
 						</div>
 					}
-					<button disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.handlePost}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
-				</div>
+					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
+				</form>
 			</div>
 		)
 	}
 
-	handlePost = () => {
+	handlePost = (event) => {
+		event.preventDefault();
 		this.setState({'isSubmitting': true});
 
 		let data = new FormData();
@@ -203,7 +204,10 @@ class CreatePost extends React.Component {
 				//self.setState({imageUrl: result.url});
 				this.setState({postedFileId: result.id});
 				this.setState({userId: this.props.data.user.id});
-				const {description, category, postedFileId, userId} = this.state
+				var {description, category, postedFileId, userId} = this.state
+				if(category == "") {
+					category = null;
+				}
 				this.props.mutate({variables: {description, postedFileId, category, userId}})
 					.then(() => {
 						this.props.router.replace('/')
@@ -214,6 +218,8 @@ class CreatePost extends React.Component {
 			console.log('error uploading the file!');
 			this.setState({'isSubmitting': false});
 		});
+		
+		return false;
 	}
 	
 	onImageLoadError(event) {
@@ -253,7 +259,7 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY!, $postedFileId: ID!, $userId: ID!) {
+	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!) {
 		createPost(
 			description: $description,
 			postedFileId: $postedFileId,
