@@ -67,8 +67,6 @@ ReactDOM.render((
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
         <Route path='showpost' component={detailPost} />
-
-
         <Route component={ProfilePage} >
           <Route path='mygroups' component={MyGroups} />
           <Route path='myposts' component={MyPosts} />

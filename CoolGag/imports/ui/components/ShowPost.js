@@ -3,12 +3,13 @@ import Post from './Post'
 import DetailPost from './DetailPost'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
 
 
 export default class ShowPost extends React.Component {
 
   static propTypes = {
-    data: React.PropTypes.object,
+    data: PropTypes.object,
   }
 
   render () {

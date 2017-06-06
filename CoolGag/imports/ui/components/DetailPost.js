@@ -1,10 +1,11 @@
 import React from 'react'
 import { Button } from 'reactstrap';
+import PropTypes from 'prop-types'
 
 export default class DetailPost extends React.Component {
 
   static propTypes = {
-    post: React.PropTypes.object,
+    post: PropTypes.object,
   }
 
   render () {

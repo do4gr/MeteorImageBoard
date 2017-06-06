@@ -4,11 +4,12 @@ import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownTo
 import {Container, Row, Col} from 'reactstrap';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
 
 
 class Example extends React.Component {
   static propTypes = {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
   }
 
 	constructor(props) {
@@ -57,7 +58,7 @@ class Example extends React.Component {
       return this.renderLoggedIn()
     } else {
       return this.renderLoggedOut()
-    }    
+    }
   }
 
   renderLoggedOut() {
@@ -107,7 +108,7 @@ class Example extends React.Component {
                           <DropdownItem>Work</DropdownItem>
                           <DropdownItem>Politics</DropdownItem>
                     </DropdownMenu>
-                </Dropdown>   
+                </Dropdown>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -121,12 +122,12 @@ class Example extends React.Component {
                           <DropdownItem divider />
                           <DropdownItem>Settings</DropdownItem>
                     </DropdownMenu>
-                </Dropdown>   
+                </Dropdown>
                 </NavLink>
               </NavItem>
-              <NavItem > 
+              <NavItem >
                 <NavLink href="/"  onClick={this._logout}>
-                  <Button color="danger"  outline >Logout</Button>{''}    
+                  <Button color="danger"  outline >Logout</Button>{''}
                 </NavLink>
 							</NavItem>
 						</Nav>
@@ -150,4 +151,3 @@ const userQuery = gql`
 `
 
 export default graphql(userQuery, { options: {forceFetch: true }})(Example)
-

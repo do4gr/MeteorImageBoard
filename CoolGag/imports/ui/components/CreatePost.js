@@ -4,13 +4,14 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
+import PropTypes from 'prop-types'
 
 class CreatePost extends React.Component {
 
 	static propTypes = {
-		router: React.PropTypes.object,
-		mutate: React.PropTypes.func,
-		data: React.PropTypes.object
+		router: PropTypes.object,
+		mutate: PropTypes.func,
+		data: PropTypes.object
 	}
 
 	state = {
@@ -233,16 +234,16 @@ class CreatePost extends React.Component {
 			console.log('error uploading the file!');
 			this.setState({'isSubmitting': false});
 		});
-		
+
 		return false;
 	}
-	
+
 	onImageLoadError(event) {
 		console.log('error');
 		this.setState({'imageUrl': ''});
 		this.setState({'file': null});
 	}
-	
+
 	onImageLoaded(event) {
 		console.log('loaded');
 	}
@@ -271,13 +272,13 @@ class CreatePost extends React.Component {
 			this.setState({imageUrl: ''});
 		}
 	}
-	
+
 	onSelectMeme(event) {
 		console.log('TODO: implement select of predefined image');
 		window.alert('This feature is currently not available.');
 	}
-	
-	
+
+
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
 	onUpperImageTextChanged(event) {
 		this.onImageTextChanged('upperImageText', event);
@@ -296,9 +297,9 @@ class CreatePost extends React.Component {
 			}
 		}
 	}
-	
+
 	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
-	
+
 	// used to create submittable content from an image url
 	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
 	dataURItoBlob(dataURI) {
