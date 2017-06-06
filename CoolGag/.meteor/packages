@@ -18,4 +18,3 @@ shell-server@0.2.3            # Server-side component of the `meteor shell` comm
 
 static-html
 react-meteor-data
-bundle-visualizer
