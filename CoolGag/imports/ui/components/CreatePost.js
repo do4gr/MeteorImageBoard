@@ -18,6 +18,7 @@ class CreatePost extends React.Component {
 		description: '',
 		category: '',   //this is an enum, options need to be loaded from enum properties
 		imageUrl: '',
+		imageSize: {width: 0, height: 0},
 		isSubmitting: false,
 		file: null,
 		postedFileId: '',
@@ -33,6 +34,7 @@ class CreatePost extends React.Component {
 	}
 	
 	static fontSizePercentage = 0.09;
+	static textStyle = {};
 
 	isSubmittable() {
 		return this.state.description && this.state.file && !this.state.isSubmitting;
@@ -205,6 +207,8 @@ class CreatePost extends React.Component {
 			</div>
 		)
 	}
+				//<button type="button" onClick={this.generateImage.bind(this)}>Test Image Generation</button>
+				//<canvas id="generationTest" width="400" height="300" />
 	
 	recalcImageFontSize(element) {
 		if(!element) {
@@ -258,6 +262,8 @@ class CreatePost extends React.Component {
 	onImageLoaded(event) {
 		this.recalcImageFontSize(event.nativeEvent.srcElement);
 		$('.uncheckedSpelling').attr('spellcheck', 'false');
+		var imageElement = event.nativeEvent.srcElement;
+		this.setState({imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight}});
 	}
 
 	onFileSelected(event) {
@@ -310,6 +316,42 @@ class CreatePost extends React.Component {
 	}
 	
 	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
+	generateImage() {
+		//var canvas = document.createElement('canvas');
+		var canvas = document.getElementById('generationTest');
+		var ctx = canvas.getContext('2d');
+		
+		canvas.width = this.state.imageSize.width;
+		canvas.height = this.state.imageSize.height;
+		canvas.style = 'width: ' + canvas.width + 'px; height: ' + canvas.height + 'px';
+		var fontSize = this.state.imageSize.width * CreatePost.fontSizePercentage;
+		
+		var data =
+			'<svg xmlns="http://www.w3.org/2000/svg" width="' + canvas.width + '" height="' + canvas.height + '">' +
+				'<foreignObject width="100%" height="100%">' +
+					'<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:' + fontSize + 'px">' +
+						'<img src="' + this.state.imageUrl + '" />' +
+						'<em>I</em> like ' + 
+						'<span style="color:white; text-shadow:0 0 2px blue;">' +
+						'cheese</span>' +
+					'</div>' +
+				'</foreignObject>' +
+			'</svg>';
+
+		var DOMURL = window.URL || window.webkitURL || window;
+		
+		var img = new Image();
+		var svg = new Blob([data], {type: 'image/svg+xml'});
+		var url = DOMURL.createObjectURL(svg);
+		
+		img.onload = function () {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(img, 0, 0);
+			DOMURL.revokeObjectURL(url);
+		}
+		
+		img.src = url;
+	}
 	
 	// used to create submittable content from an image url
 	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
