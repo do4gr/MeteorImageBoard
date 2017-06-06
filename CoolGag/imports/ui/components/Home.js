@@ -5,14 +5,15 @@ import gql from 'graphql-tag'
 import ListPage from '../containers/ListPage'
 import Nav from './Nav'
 import {Container, Row, Col } from 'reactstrap'
+import PropTypes from 'prop-types'
 
 class Home extends React.Component {
   static propTypes = {
-    router: React.PropTypes.object.isRequired,
-    data: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
   }
 
-  
+
 
   _showLogin = () => {
     this.props.router.push('/login')
@@ -59,24 +60,24 @@ class Home extends React.Component {
       </Row>
       <Row>
         <Col className='pv3'>
-          
+
             <span
               onClick={this._showLogin}
               className='dib pa3 white bg-blue dim pointer btn-login'>
-              Login 
+              Login
             </span>
-          
+
            </Col>
         </Row>
          <Row>
         <Col className='pv3'>
-          
+
             <span
               onClick={this._showSignup}
               className='dib pa3 white bg-blue dim pointer btn-singup'>
               Signup
             </span>
-          
+
 
           </Col>
         </Row>

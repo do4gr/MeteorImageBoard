@@ -2,14 +2,15 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
 
 class CreateUser extends React.Component {
 
   static propTypes = {
-    router: React.PropTypes.object.isRequired,
-    createUser: React.PropTypes.func.isRequired,
-    signinUser: React.PropTypes.func.isRequired,
-    data: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    createUser: PropTypes.func.isRequired,
+    signinUser: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
   }
 
   state = {
@@ -71,13 +72,13 @@ class CreateUser extends React.Component {
             </span>
           </div>
           <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</button>
-          
+
           </form>
         </div>
       </div>
     )
   }
-  // <input className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.createUser} type="submit" value="Login"/> 
+  // <input className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.createUser} type="submit" value="Login"/>
 
   createUser = () => {
     const {email, password, name, emailSubscription} = this.state
