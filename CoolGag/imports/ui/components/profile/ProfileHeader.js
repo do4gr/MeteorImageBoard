@@ -15,7 +15,7 @@ class ProfileHeader extends React.Component {
 		this.canvas = <canvas id="myCanvas" onClick={this.editProfilePicture} width="250" height="300" style={{ border:"1px solid #000000" }} />;
 		// TODO: Suchanfragen für die folgenden Variablen formulieren.
 		this.state = {
-			name: "Herbert",
+			name: "",
 			editor: <AvatarEditor
 						ref={this.setEditorRef}
 						image="http://coolwildlife.com/wp-content/uploads/galleries/post-3004/Fox%20Picture%20003.jpg"
@@ -26,15 +26,17 @@ class ProfileHeader extends React.Component {
 						scale={1.2}
 					/>,
 			createdAt: "",
-			karma: "100"
+			karma: null,
+			imageUrl: '',
+			isLoadingFile: false
 		};
-		console.log(this.props)
+		//console.log(this.props)
 		this.loadData()
 	}
 
 	// den Editor zum Upload und Bearbeiten eines Profilbildes mache ich (Hendrik) noch fertig.
 	onClickUpload () {
-		//TODO
+		$('#imageUpload').trigger('click');
 	}
 
 	onClickSave () {
@@ -43,9 +45,14 @@ class ProfileHeader extends React.Component {
 		//this.state.canvas = this.state.editor.getImage();
 
 		// If you want the image resized to the canvas size (also a HTMLCanvasElement)
+		var oldCanvas = document.getElementById("myCanvas");
+		var parent = oldCanvas.parentNode;
+		parent.removeChild(oldCanvas);
 		this.canvas = this.editor.getImageScaledToCanvas();
+		console.log(this.canvas);
 		this.canvas.setAttribute("id", "myCanvas");
 		this.canvas.setAttribute("onClick", "{this.editProfilePicture}");
+		parent.insertBefore(this.canvas, parent.firstChild);
 
 		document.getElementById("save-button").setAttribute("hidden", null);
 		document.getElementById("profile-picture-editor").setAttribute("hidden", null);
@@ -70,29 +77,69 @@ class ProfileHeader extends React.Component {
 						id
 						name
 						createdAt
+						karma
 					}
 				}
 			`
 		})
-		console.log(result)
+		//console.log(result)
 		this.setState({ name: result.data.user.name ,
-			 							createdAt: result.data.user.createdAt})
+			 			createdAt: result.data.user.createdAt.split("T")[0].split("-") , 
+			 			karma: result.data.user.karma })
 	}
 
+	displayKarma() {
+		if(this.state.karma == null || this.state.karma == 0) {
+			return "none";
+		} else {
+			return "inherit";
+		}
+	}
+
+
+	onFileSelected(event) {
+		if(event.target.files.length >= 1) {
+			var file = event.target.files[0];
+			this.handleFileSelect(file);
+		}
+	}
+	handleFileSelect(file) {
+		this.setState({'file': file});
+		if(file != null) {
+			var reader = new FileReader();
+
+			this.setState({imageUrl: ""});
+			this.setState({isLoadingFile: true});
+			// TODO: handle errors
+			reader.addEventListener("load", () => {
+				this.setState({imageUrl: reader.result});
+				this.setState({isLoadingFile: false});
+			}, false);
+
+			reader.readAsDataURL(file);
+		} else {
+			this.setState({imageUrl: ''});
+		}
+	}
 
 	render() {
 		return (
 			<div className="center-text">
-				<h1>{this.state.name}</h1>
 				{this.canvas}
 				<div hidden id="profile-picture-editor">
 					{this.state.editor}
 				</div>
 				<div hidden id="save-button">
 					<ButtonGroup>
+					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
+						onChange={this.onFileSelected.bind(this)}
+						onClick={(event)=> {
+							event.target.value = null;
+						}}
+					/>
 						<Button
 							className='dib bg-primary text-white white pointer dim'
-							onClick={this.onClickUpload}>
+							onClick={$('#imageUpload').trigger('click')}>
 							Upload
 						</Button>
 						<Button
@@ -102,11 +149,12 @@ class ProfileHeader extends React.Component {
 						</Button>
 					</ButtonGroup>
 				</div>
+				<h1>{this.state.name}</h1>
 				<div>
-					Member since {this.state.createdAt}.
+					Member since {this.state.createdAt[2]}.{this.state.createdAt[1]}.{this.state.createdAt[0]}.
 				</div>
-				<div>
-					Karma: {this.state.karma}
+				<div id="karma">
+					Coolness: {this.state.karma}
 				</div>
 				<div>
 					<NavPersonalLists />
