@@ -12,7 +12,7 @@ export default class NavPersonalLists extends React.Component {
 		super(props);
 		this.toggleNavBar = this.toggleNavBar.bind(this);
 		this.state = {
-			isNavBarOpen: false
+			isNavBarOpen: true
 		};
 	}
 
