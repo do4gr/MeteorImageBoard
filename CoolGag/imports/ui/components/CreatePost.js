@@ -25,9 +25,11 @@ class CreatePost extends React.Component {
 		isValidType: true,
 		dragMightEnded: false,
 		isLoadingFile: false,
+		isTextEntered: false,
+		isPredefinedMeme: false,
 		userId: '',
-		upperImageText: 'Create',
-		lowerImageText: 'a MEME'
+		upperImageText: 'Enter',
+		lowerImageText: 'Text'
 	}
 	
 	static fontSizePercentage = 0.09;
@@ -171,15 +173,15 @@ class CreatePost extends React.Component {
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-							<div className='imagePreview'>
+							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
 								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
-									className="outlined upper imageText uncheckedSpelling"
+									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.upperImageText}
-									onChange={this.onUpperImageTextChanged.bind(this)}></ContentEditable>
+									onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
 								<ContentEditable
-									onLoad={(event)=>{console.log('loaded');}}
-									className="outlined lower imageText uncheckedSpelling"
+									onFocus={(event)=>{console.log('onFocus');}}
+									className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.lowerImageText}
 									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
 							</div>
@@ -217,7 +219,7 @@ class CreatePost extends React.Component {
 	handlePost = (event) => {
 		event.preventDefault();
 		this.setState({'isSubmitting': true});
-
+		
 		let data = new FormData();
 		data.append('data', this.state.file);
 
@@ -273,8 +275,11 @@ class CreatePost extends React.Component {
 			this.setState({isLoadingFile: true});
 			// TODO: handle errors
 			reader.addEventListener("load", () => {
-				this.setState({imageUrl: reader.result});
-				this.setState({isLoadingFile: false});
+				this.setState({
+					imageUrl: reader.result,
+					isLoadingFile: false,
+					isPredefinedMeme: false
+				});
 			}, false);
 
 			reader.readAsDataURL(file);
@@ -290,18 +295,16 @@ class CreatePost extends React.Component {
 	
 	
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
-	onUpperImageTextChanged(event) {
-		this.onImageTextChanged('upperImageText', event);
-	}
-	onLowerImageTextChanged(event) {
-		this.onImageTextChanged('lowerImageText', event);
-	}
 	onImageTextChanged(stateName, event) {
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
 			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
-				tmp = {};
-				tmp[stateName] = event.nativeEvent.srcElement.innerHTML;
-				this.setState(tmp);
+				var value = event.nativeEvent.srcElement.innerHTML;
+				var previousValue = this.state[stateName];
+				if(value != previousValue) {
+					tmp = {isTextEntered: true};
+					tmp[stateName] = event.nativeEvent.srcElement.innerHTML;
+					this.setState(tmp);
+				}
 			}
 		}
 	}

@@ -105,12 +105,23 @@ nav .navbar-toggable-md{
 }
 
 
-.imageText {
+.imagePreview .imageText {
 	text-align: center;
 	font-family: impact;
 	color: white;
 	position: absolute;
 	width: 100%;
+	opacity: 0;
+	transition: opacity 0.1875s;
+}
+.imagePreview:hover .imageText,
+.imagePreview .imageText:focus {
+	opacity: .5;
+}
+.textEntered .imageText,
+.textEntered .imageText:focus,
+.textEntered:hover .imageText {
+	opacity: 1;
 }
 .upper.imageText {
 	top: 0;
