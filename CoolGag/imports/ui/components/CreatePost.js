@@ -4,6 +4,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
+import ReactDOM from 'react-dom';
 
 class CreatePost extends React.Component {
 
@@ -28,6 +29,8 @@ class CreatePost extends React.Component {
 		upperImageText: 'Create',
 		lowerImageText: 'a MEME'
 	}
+	
+	static fontSizePercentage = 0.09;
 
 	isSubmittable() {
 		return this.state.description && this.state.file && !this.state.isSubmitting;
@@ -54,7 +57,6 @@ class CreatePost extends React.Component {
 			validType = true;
 		} else {
 			event.dataTransfer.dropEffect = 'none';
-			console.log("false");
 			validType = false;
 		}
 		this.setState({'dragMightEnded': false, 'isValidType': validType, 'isDraggingFile': true});
@@ -83,18 +85,15 @@ class CreatePost extends React.Component {
 			}, 0);
 		}
 	}
-	onMouseLeftWindow(event) {
-		if(event.target == document) {
-			//console.log("stop dragging!");
-			//this.setState({'isDraggingFile': false});
-		}
+	onWindowResize(event) {
+		this.recalcImageFontSize();
 	}
 	dropHandler = null;
 	dragOverHandler = null;
 	dragEnterHandler = null;
 	dragLeaveHandler = null;
-	mouseLeftWindowHandler = null;
-	componentDidMount() {
+	onWindowResizeHandler = null;
+	componentDidMount(a,b,c,d) {
 		this.dropHandler = (event) => {return this.onDrop(event);};
 		document.addEventListener('drop', this.dropHandler);
 		this.dragOverHandler = (event) => {return this.onDragOver(event);};
@@ -103,8 +102,8 @@ class CreatePost extends React.Component {
 		document.addEventListener('dragenter', this.dragEnterHandler);
 		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
 		document.addEventListener('dragleave', this.dragLeaveHandler);
-		this.mouseLeftWindowHandler = (event) => {return this.onMouseLeftWindow(event);};
-		document.addEventListener('mouseleave', this.mouseLeftWindowHandler, true);
+		this.onWindowResizeHandler = (event) => {return this.onWindowResize(event);};
+		window.addEventListener('resize', this.onWindowResizeHandler);
 	}
 	componentWillUnmount() {
 		document.removeEventListener('drop', this.dropHandler);
@@ -115,8 +114,8 @@ class CreatePost extends React.Component {
 		this.dragEnterHandler = null;
 		document.removeEventListener('dragleave', this.dragLeaveHandler);
 		this.dragLeaveHandler = null;
-		document.removeEventListener('mouseleave', this.mouseLeftWindowHandler);
-		this.mouseLeftWindowHandler = null;
+		window.removeEventListener('resize', this.onWindowResizeHandler);
+		this.onWindowResizeHandler = null;
 	}
 
 	render () {
@@ -175,11 +174,12 @@ class CreatePost extends React.Component {
 							<div className='imagePreview'>
 								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
-									className="outlined upper imageText"
+									className="outlined upper imageText uncheckedSpelling"
 									html={this.state.upperImageText}
 									onChange={this.onUpperImageTextChanged.bind(this)}></ContentEditable>
 								<ContentEditable
-									className="outlined lower imageText"
+									onLoad={(event)=>{console.log('loaded');}}
+									className="outlined lower imageText uncheckedSpelling"
 									html={this.state.lowerImageText}
 									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
 							</div>
@@ -202,6 +202,16 @@ class CreatePost extends React.Component {
 				</form>
 			</div>
 		)
+	}
+	
+	recalcImageFontSize(element) {
+		if(!element) {
+			$('.imagePreview').each((i, e)=>{
+				this.recalcImageFontSize(e);
+			});
+		} else {
+			$(element).css({'font-size': $(element).width() * CreatePost.fontSizePercentage + "px"});
+		}
 	}
 
 	handlePost = (event) => {
@@ -244,7 +254,8 @@ class CreatePost extends React.Component {
 	}
 	
 	onImageLoaded(event) {
-		console.log('loaded');
+		this.recalcImageFontSize(event.nativeEvent.srcElement);
+		$('.uncheckedSpelling').attr('spellcheck', 'false');
 	}
 
 	onFileSelected(event) {
@@ -286,12 +297,10 @@ class CreatePost extends React.Component {
 		this.onImageTextChanged('lowerImageText', event);
 	}
 	onImageTextChanged(stateName, event) {
-		console.log(stateName);
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
-			event.nativeEvent.srcElement.setAttribute('spellcheck', false);
-			if(typeof event.nativeEvent.srcElement.innerText == "string") {
+			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
 				tmp = {};
-				tmp[stateName] = event.nativeEvent.srcElement.innerText;
+				tmp[stateName] = event.nativeEvent.srcElement.innerHTML;
 				this.setState(tmp);
 			}
 		}
