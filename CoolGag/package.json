@@ -24,6 +24,7 @@
     "react-avatar-editor": "^9.1.1",
     "react-contenteditable": "^2.0.2",
     "react-dom": "^15.5.4",
+    "react-popup": "^0.8.0",
     "react-router": "^2.8.1",
     "react-strap": "0.0.1",
     "react-transition-group": "^1.1.3",

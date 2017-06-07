@@ -4,9 +4,11 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
+import Popup from 'react-popup';
+import PredefinedMemeSelect from './PredefinedMemeSelect';
 
 class CreatePost extends React.Component {
 
@@ -53,7 +55,7 @@ class CreatePost extends React.Component {
 	};
 
 	isSubmittable() {
-		return this.state.description && this.state.file && !this.state.isSubmitting;
+		return this.state.description && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
 	}
 
 	onDrop(event) {
@@ -187,12 +189,12 @@ class CreatePost extends React.Component {
 							{ this.state.isDraggingFile && !this.state.isValidType &&
 								<span>Invalid File</span>
 							}
-					</div>
+						</div>
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
 							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+								<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
 									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.upperImageText}
@@ -221,7 +223,15 @@ class CreatePost extends React.Component {
 					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 						{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
 					</button>
-					<canvas id="testCanvas" style={{'width': '0px', 'height': '0px', 'position': 'absolute', 'margin': '0', 'padding': '0'}}></canvas>
+					<Popup
+						className = "popup"
+						btnClass = "popup__btn"
+						closeBtn = {true}
+						closeHtml = {null}
+						defaultOk = "Ok"
+						defaultCancel = "Cancel"
+						wildClasses = {false}
+						closeOnOutsideClick = {true} />
 				</form>
 			</div>
 		)
@@ -290,9 +300,9 @@ class CreatePost extends React.Component {
 	}
 
 	onImageLoaded(event) {
-		this.recalcImageFontSize(event.nativeEvent.srcElement);
-		$('.uncheckedSpelling').attr('spellcheck', 'false');
 		var imageElement = event.nativeEvent.srcElement;
+		this.recalcImageFontSize(imageElement);
+		$('.uncheckedSpelling').attr('spellcheck', 'false');
 		this.setState({imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight}});
 	}
 
@@ -317,7 +327,7 @@ class CreatePost extends React.Component {
 					isPredefinedMeme: false
 				});
 			}, false);
-
+			
 			reader.readAsDataURL(file);
 		} else {
 			this.setState({imageUrl: ''});
@@ -325,8 +335,26 @@ class CreatePost extends React.Component {
 	}
 
 	onSelectMeme(event) {
-		console.log('TODO: implement select of predefined image');
-		window.alert('This feature is currently not available.');
+		var onSelect = (meme) => {
+			// Either:
+			//   Proxy the images: https://medium.com/@satyavh/creating-an-image-proxy-with-meteor-part-1-286eebf36370
+			// Or:
+			//   Allow CORS: https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+			this.setState({
+				'isPredefinedMeme': true,
+				'isLoadingFile': true,
+				'imageUrl': meme.url
+			});
+			Popup.close(popupId);
+		};
+		var popupId = Popup.create({
+			title: null,
+			content: (<PredefinedMemeSelect onSelect={onSelect} />),
+			className: 'alert',
+			buttons: {
+				right: ['ok']
+			}
+		});
 	}
 
 
