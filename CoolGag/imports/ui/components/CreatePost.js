@@ -4,15 +4,16 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 
 class CreatePost extends React.Component {
 
 	static propTypes = {
-		router: React.PropTypes.object,
-		mutate: React.PropTypes.func,
-		data: React.PropTypes.object
+		router: PropTypes.object,
+		mutate: PropTypes.func,
+		data: PropTypes.object
 	}
 
 	state = {
@@ -278,16 +279,16 @@ class CreatePost extends React.Component {
 			data.append('data', this.state.file);
 			continueUpload();
 		}
-		
+    
 		return false;
 	}
-	
+
 	onImageLoadError(event) {
 		console.log('error');
 		this.setState({'imageUrl': ''});
 		this.setState({'file': null});
 	}
-	
+
 	onImageLoaded(event) {
 		this.recalcImageFontSize(event.nativeEvent.srcElement);
 		$('.uncheckedSpelling').attr('spellcheck', 'false');
@@ -322,13 +323,13 @@ class CreatePost extends React.Component {
 			this.setState({imageUrl: ''});
 		}
 	}
-	
+
 	onSelectMeme(event) {
 		console.log('TODO: implement select of predefined image');
 		window.alert('This feature is currently not available.');
 	}
-	
-	
+
+
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
 	onImageTextChanged(stateName, event) {
 		if(event.nativeEvent && event.nativeEvent.srcElement) {

@@ -2,11 +2,12 @@ import React from 'react'
 import Post from '../components/Post'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
 
 export default class ListPage extends React.Component {
 
   static propTypes = {
-    data: React.PropTypes.object,
+    data: PropTypes.object,
   }
 
   render () {
