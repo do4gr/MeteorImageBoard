@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom';
+import html2canvas from 'html2canvas';
 
 class CreatePost extends React.Component {
 
@@ -18,17 +20,37 @@ class CreatePost extends React.Component {
 		description: '',
 		category: '',   //this is an enum, options need to be loaded from enum properties
 		imageUrl: '',
+		imageSize: {width: 0, height: 0},
 		isSubmitting: false,
+		isRendering: false,
 		file: null,
 		postedFileId: '',
 		isDraggingFile: false,
 		isValidType: true,
 		dragMightEnded: false,
 		isLoadingFile: false,
+		isTextEntered: false,
+		isPredefinedMeme: false,
 		userId: '',
-		upperImageText: 'Create',
-		lowerImageText: 'a MEME'
+		upperImageText: 'Enter',
+		lowerImageText: 'Text'
 	}
+	
+	static fontSizePercentage = 0.09;
+	static textStyle = {
+		'text-align': 'center',
+		'font-family': 'impact',
+		'color': 'white',
+		'position': 'absolute',
+		'width': '100%'
+		//'text-shadow': '-0.0625em -0.0625em 0 #000, 0.0625em -0.0625em 0 #000,-0.0625em  0.0625em 0 #000,0.0625em  0.0625em 0 #000,-0.0625em  0em 0 #000,0.0625em  0em 0 #000, 0em 0.0625em 0 #000, 0em -0.0625em 0 #000'
+	};
+	static upperTextStyle = {
+		'top': '0'
+	};
+	static lowerTextStyle = {
+		'bottom': '.25em' // not 0, since thas caused the text to have no gap towards the bottom at all
+	};
 
 	isSubmittable() {
 		return this.state.description && this.state.file && !this.state.isSubmitting;
@@ -55,7 +77,6 @@ class CreatePost extends React.Component {
 			validType = true;
 		} else {
 			event.dataTransfer.dropEffect = 'none';
-			console.log("false");
 			validType = false;
 		}
 		this.setState({'dragMightEnded': false, 'isValidType': validType, 'isDraggingFile': true});
@@ -84,18 +105,15 @@ class CreatePost extends React.Component {
 			}, 0);
 		}
 	}
-	onMouseLeftWindow(event) {
-		if(event.target == document) {
-			//console.log("stop dragging!");
-			//this.setState({'isDraggingFile': false});
-		}
+	onWindowResize(event) {
+		this.recalcImageFontSize();
 	}
 	dropHandler = null;
 	dragOverHandler = null;
 	dragEnterHandler = null;
 	dragLeaveHandler = null;
-	mouseLeftWindowHandler = null;
-	componentDidMount() {
+	onWindowResizeHandler = null;
+	componentDidMount(a,b,c,d) {
 		this.dropHandler = (event) => {return this.onDrop(event);};
 		document.addEventListener('drop', this.dropHandler);
 		this.dragOverHandler = (event) => {return this.onDragOver(event);};
@@ -104,8 +122,8 @@ class CreatePost extends React.Component {
 		document.addEventListener('dragenter', this.dragEnterHandler);
 		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
 		document.addEventListener('dragleave', this.dragLeaveHandler);
-		this.mouseLeftWindowHandler = (event) => {return this.onMouseLeftWindow(event);};
-		document.addEventListener('mouseleave', this.mouseLeftWindowHandler, true);
+		this.onWindowResizeHandler = (event) => {return this.onWindowResize(event);};
+		window.addEventListener('resize', this.onWindowResizeHandler);
 	}
 	componentWillUnmount() {
 		document.removeEventListener('drop', this.dropHandler);
@@ -116,8 +134,8 @@ class CreatePost extends React.Component {
 		this.dragEnterHandler = null;
 		document.removeEventListener('dragleave', this.dragLeaveHandler);
 		this.dragLeaveHandler = null;
-		document.removeEventListener('mouseleave', this.mouseLeftWindowHandler);
-		this.mouseLeftWindowHandler = null;
+		window.removeEventListener('resize', this.onWindowResizeHandler);
+		this.onWindowResizeHandler = null;
 	}
 
 	render () {
@@ -173,14 +191,15 @@ class CreatePost extends React.Component {
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-							<div className='imagePreview'>
+							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
 								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
-									className="outlined upper imageText"
+									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.upperImageText}
-									onChange={this.onUpperImageTextChanged.bind(this)}></ContentEditable>
+									onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
 								<ContentEditable
-									className="outlined lower imageText"
+									onFocus={(event)=>{console.log('onFocus');}}
+									className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.lowerImageText}
 									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
 							</div>
@@ -199,42 +218,68 @@ class CreatePost extends React.Component {
 							}
 						</div>
 					}
-					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>{this.state.isSubmitting ? 'Submitting ...' : 'Post'}</button>
+					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+						{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
+					</button>
+					<canvas id="testCanvas" style={{'width': '0px', 'height': '0px', 'position': 'absolute', 'margin': '0', 'padding': '0'}}></canvas>
 				</form>
 			</div>
 		)
+	}
+	
+	recalcImageFontSize(element) {
+		if(!element) {
+			$('.imagePreview').each((i, e)=>{
+				this.recalcImageFontSize(e);
+			});
+		} else {
+			$(element).css({'font-size': $(element).width() * CreatePost.fontSizePercentage + "px"});
+		}
 	}
 
 	handlePost = (event) => {
 		event.preventDefault();
 		this.setState({'isSubmitting': true});
-
-		let data = new FormData();
-		data.append('data', this.state.file);
-
-		fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
-			body: data,
-			method: 'POST'
-		}).then((response) => {
-			response.json().then(result => {
-				//self.setState({imageUrl: result.url});
-				this.setState({postedFileId: result.id});
-				this.setState({userId: this.props.data.user.id});
-				var {description, category, postedFileId, userId} = this.state
-				if(category == "") {
-					category = null;
-				}
-				this.props.mutate({variables: {description, postedFileId, category, userId}})
-					.then(() => {
-						this.props.router.replace('/')
-					});
+		
+		var continueUpload = () => {
+			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
+				body: data,
+				method: 'POST'
+			}).then((response) => {
+				response.json().then(result => {
+					//self.setState({imageUrl: result.url});
+					this.setState({postedFileId: result.id});
+					this.setState({userId: this.props.data.user.id});
+					var {description, category, postedFileId, userId} = this.state
+					if(category == "") {
+						category = null;
+					}
+					this.props.mutate({variables: {description, postedFileId, category, userId}})
+						.then(() => {
+							this.props.router.replace('/')
+						});
+				});
+			}).catch((exception) => {
+				// TODO: handle upload error
+				console.log('error uploading the file!');
+				this.setState({'isSubmitting': false});
 			});
-		}).catch((exception) => {
-			// TODO: handle upload error
-			console.log('error uploading the file!');
-			this.setState({'isSubmitting': false});
-		});
-
+		};
+		
+		let data = new FormData();
+		if(this.state.isTextEntered) {
+			this.generateImage({
+				callback: (dataUrl) => {
+					var blob = this.dataURItoBlob(dataUrl);
+					data.append('data', blob);
+					continueUpload();
+				}
+			});
+		} else {
+			data.append('data', this.state.file);
+			continueUpload();
+		}
+    
 		return false;
 	}
 
@@ -245,7 +290,10 @@ class CreatePost extends React.Component {
 	}
 
 	onImageLoaded(event) {
-		console.log('loaded');
+		this.recalcImageFontSize(event.nativeEvent.srcElement);
+		$('.uncheckedSpelling').attr('spellcheck', 'false');
+		var imageElement = event.nativeEvent.srcElement;
+		this.setState({imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight}});
 	}
 
 	onFileSelected(event) {
@@ -263,8 +311,11 @@ class CreatePost extends React.Component {
 			this.setState({isLoadingFile: true});
 			// TODO: handle errors
 			reader.addEventListener("load", () => {
-				this.setState({imageUrl: reader.result});
-				this.setState({isLoadingFile: false});
+				this.setState({
+					imageUrl: reader.result,
+					isLoadingFile: false,
+					isPredefinedMeme: false
+				});
 			}, false);
 
 			reader.readAsDataURL(file);
@@ -280,29 +331,165 @@ class CreatePost extends React.Component {
 
 
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
-	onUpperImageTextChanged(event) {
-		this.onImageTextChanged('upperImageText', event);
-	}
-	onLowerImageTextChanged(event) {
-		this.onImageTextChanged('lowerImageText', event);
-	}
 	onImageTextChanged(stateName, event) {
-		console.log(stateName);
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
-			event.nativeEvent.srcElement.setAttribute('spellcheck', false);
-			if(typeof event.nativeEvent.srcElement.innerText == "string") {
-				tmp = {};
-				tmp[stateName] = event.nativeEvent.srcElement.innerText;
-				this.setState(tmp);
+			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
+				var value = event.nativeEvent.srcElement.innerHTML;
+				var previousValue = this.state[stateName];
+				if(value != previousValue) {
+					tmp = {isTextEntered: true};
+					tmp[stateName] = event.nativeEvent.srcElement.innerHTML;
+					this.setState(tmp);
+				}
 			}
 		}
 	}
-
+	styleObjectToString() {
+		result = "";
+		for(var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			for(var key in arg) {
+				result += key + ':' + arg[key] + ';';
+			}
+		}
+		return result;
+	}
+	
 	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
-
+	generateImage(options) {
+		this.setState({'isRendering': true});
+		var img = new Image();
+		
+		img.onload = () => {
+			var width = this.state.imageSize.width;
+			var height = this.state.imageSize.height;
+			var canvas = document.createElement('canvas');
+			//var canvas = document.getElementById('generationTest');
+			var ctx = canvas.getContext('2d');
+			canvas.width = width;
+			canvas.height = height;
+			canvas.style = 'width: ' + 400 + 'px;';
+			var fontSize = width * CreatePost.fontSizePercentage;
+			
+			var blackUpperText;
+			var whiteUpperText;
+			var blackLowerText;
+			var whiteLowerText;
+			
+			this.drawText({
+				html: this.state.upperImageText,
+				fontSize: fontSize,
+				width: width,
+				height: height,
+				color: 'black'
+			}).then((result)=>{
+				blackUpperText = result;
+				this.drawText({
+					html: this.state.upperImageText,
+					fontSize: fontSize,
+					width: width,
+					height: height,
+					color: 'white'
+				}).then((result)=>{
+					whiteUpperText = result;
+					this.drawText({
+						html: this.state.lowerImageText,
+						fontSize: fontSize,
+						width: width,
+						height: height,
+						color: 'black'
+					}).then((result)=>{
+						blackLowerText = result;
+						this.drawText({
+							html: this.state.lowerImageText,
+							fontSize: fontSize,
+							width: width,
+							height: height,
+							color: 'white'
+						}).then((result)=>{
+							whiteLowerText = result;
+							
+							//ctx.drawImage(blackUpperText, -5, fontSize / 5-5);
+							ctx.clearRect(0, 0, canvas.width, canvas.height);
+							ctx.drawImage(img, 0, 0);
+							var offset = fontSize / 16;
+							ctx.drawImage(blackUpperText, -offset, fontSize / 16 - offset);
+							ctx.drawImage(blackUpperText, -offset, fontSize / 16);
+							ctx.drawImage(blackUpperText, -offset, fontSize / 16 + offset);
+							ctx.drawImage(blackUpperText, 0, fontSize / 16 - offset);
+							ctx.drawImage(blackUpperText, 0, fontSize / 16 + offset);
+							ctx.drawImage(blackUpperText, offset, fontSize / 16 - offset);
+							ctx.drawImage(blackUpperText, offset, fontSize / 16);
+							ctx.drawImage(blackUpperText, offset, fontSize / 16 + offset);
+							ctx.drawImage(whiteUpperText, 0, fontSize / 16);
+							
+							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height - offset);
+							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height);
+							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height + offset);
+							ctx.drawImage(blackLowerText, 0, height - blackLowerText.height - offset);
+							ctx.drawImage(blackLowerText, 0, height - blackLowerText.height + offset);
+							ctx.drawImage(blackLowerText, offset, height - blackLowerText.height - offset);
+							ctx.drawImage(blackLowerText, offset, height - blackLowerText.height);
+							ctx.drawImage(blackLowerText, offset, height - blackLowerText.height + offset);
+							ctx.drawImage(whiteLowerText, 0, height - whiteLowerText.height);
+							
+							var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+							
+							this.setState({'isRendering': false});
+							if(options && typeof options.callback == 'function') {
+								options.callback(dataUrl);
+							}
+						});
+					});
+				});
+			});
+		}
+		
+		img.src = this.state.imageUrl;
+	}
+	
+	drawText(options) {
+		var color = options && options.color ? options.color : 'black';
+		var html = options && options.html ? options.html : '';
+		var width = options && options.width ? options.width : 400;
+		var height = options && options.height ? options.height : 400;
+		var fontSize = options && options.fontSize ? options.fontSize : 36;
+		var callback = null;
+		
+		var frame = document.createElement('iframe');
+		frame.setAttribute('style', 'position:absolute;top:0;left:0;width:0;height:0;');
+		frame.setAttribute('frameBorder','0');
+		frame.onload = () => {
+			var divContainer = $('<div style="width:' + width +'px; height: ' + height +'px;"></div>')[0];
+			var upperStyle = this.styleObjectToString(CreatePost.textStyle, {'font-size': fontSize + 'px', width: width + 'px;', color: color, position: 'relative'});
+			var lowerStyle = this.styleObjectToString(CreatePost.textStyle, {'font-size': fontSize + 'px', width: width + 'px;', color: color, position: 'relative'});
+			var div = $('<div style="' + upperStyle + '">' + html + '</div>')[0];
+			divContainer.appendChild(div);
+			frame.contentDocument.body.appendChild(divContainer);
+			html2canvas(div, {
+				width: width,
+				onrendered: (canvas) => {
+					frame.contentDocument.body.removeChild(divContainer);
+					document.body.removeChild(frame);
+					if(callback) {
+						callback(canvas);
+					}
+				}
+			});
+		};
+		
+		document.body.appendChild(frame);
+		
+		return {
+			then: (c)=> {
+				callback = c;
+			}
+		};
+	}
+	
 	// used to create submittable content from an image url
 	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
-	dataURItoBlob(dataURI) {
+	dataURItoBlob(dataURI, options) {
 		// convert base64/URLEncoded data component to raw binary data held in a string
 		var byteString;
 		var parts = dataURI.split(',');
@@ -319,7 +506,7 @@ class CreatePost extends React.Component {
 		for (var i = 0; i < byteString.length; i++) {
 			ia[i] = byteString.charCodeAt(i);
 		}
-
+		console.log('type:', mimeString);
 		return new Blob([ia], {type:mimeString});
 	}
 }
