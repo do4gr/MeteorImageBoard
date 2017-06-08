@@ -232,7 +232,7 @@ class CreatePost extends React.Component {
 						{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
 					</button>
 					<Popup
-						className = "popup"
+						className = "memeSelectPopup"
 						btnClass = "popup__btn"
 						closeBtn = {true}
 						closeHtml = {null}
@@ -247,7 +247,7 @@ class CreatePost extends React.Component {
 	
 	recalcImageFontSize(element) {
 		if(!element) {
-			$('.imagePreview').each((i, e)=>{
+			$(ReactDOM.findDOMNode(this)).find('.imagePreview').each((i, e)=>{
 				this.recalcImageFontSize(e);
 			});
 		} else {
@@ -289,7 +289,7 @@ class CreatePost extends React.Component {
 			this.generateImage({
 				callback: (dataUrl) => {
 					var blob = this.dataURItoBlob(dataUrl);
-					data.append('data', blob);
+					data.append('data', blob, 'generated.jpeg');
 					continueUpload();
 				}
 			});
@@ -309,7 +309,7 @@ class CreatePost extends React.Component {
 
 	onImageLoaded(event) {
 		var imageElement = event.nativeEvent.srcElement;
-		this.recalcImageFontSize(imageElement);
+		this.recalcImageFontSize();
 		$('.uncheckedSpelling').attr('spellcheck', 'false');
 		this.setState({
 			imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight},
@@ -359,8 +359,7 @@ class CreatePost extends React.Component {
 			content: (<PredefinedMemeSelect onSelect={onSelect} />),
 			className: 'alert',
 			buttons: {
-				right: ['cancel'],
-				left: ['ok']
+				right: ['cancel']
 			}
 		});
 	}

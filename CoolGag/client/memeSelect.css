@@ -1,9 +1,15 @@
-.memeSelect {
+.memeSelect .memeList {
 	display: flex;
-	flex-content: flex-start;
+	align-items: flex-start;
 	align-content: flex-start;
+	justify-content: flex-start;
 	flex-wrap: wrap;
 	padding: .25em;
+}
+.memeSelectPopup .memeSelectPopup__box .memeSelect {
+	overflow: auto;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .memeSelect .meme {
@@ -11,9 +17,15 @@
 	cursor: pointer;
 	transition: transform cubic-bezier(0, 0, 0, 1) .125s;
 }
-.memeSelect .meme:hover {
-	transform: scale(1.125);
-}
+
 .memeSelect .meme:active {
-	transform: scale(1.0625);
+	transform: scale(0.9375);
+}
+@media (pointer: fine) {
+	.memeSelect .meme:hover {
+		transform: scale(1.125);
+	}
+	.memeSelect .meme:active {
+		transform: scale(1.0625);
+	}
 }
