@@ -9,7 +9,7 @@
 .memeSelect .meme {
 	margin: .25em;
 	cursor: pointer;
-	transition: transform .25s;
+	transition: transform cubic-bezier(0, 0, 0, 1) .125s;
 }
 .memeSelect .meme:hover {
 	transform: scale(1.125);

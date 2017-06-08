@@ -350,7 +350,7 @@ class CreatePost extends React.Component {
 			this.setState({
 				'isPredefinedMeme': true,
 				'isLoadingFile': true,
-				'imageUrl': 'http://localhost:3000/imageProxy?imageSecret=' + meme.file.secret
+				'imageUrl': '/imageProxy?imageSecret=' + meme.file.secret
 			});
 			Popup.close(popupId);
 		};
@@ -359,7 +359,8 @@ class CreatePost extends React.Component {
 			content: (<PredefinedMemeSelect onSelect={onSelect} />),
 			className: 'alert',
 			buttons: {
-				right: ['ok']
+				right: ['cancel'],
+				left: ['ok']
 			}
 		});
 	}
