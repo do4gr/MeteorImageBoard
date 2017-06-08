@@ -303,7 +303,10 @@ class CreatePost extends React.Component {
 		var imageElement = event.nativeEvent.srcElement;
 		this.recalcImageFontSize(imageElement);
 		$('.uncheckedSpelling').attr('spellcheck', 'false');
-		this.setState({imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight}});
+		this.setState({
+			imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight},
+			isLoadingFile: false
+		});
 	}
 
 	onFileSelected(event) {
@@ -336,14 +339,10 @@ class CreatePost extends React.Component {
 
 	onSelectMeme(event) {
 		var onSelect = (meme) => {
-			// Either:
-			//   Proxy the images: https://medium.com/@satyavh/creating-an-image-proxy-with-meteor-part-1-286eebf36370
-			// Or:
-			//   Allow CORS: https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
 			this.setState({
 				'isPredefinedMeme': true,
 				'isLoadingFile': true,
-				'imageUrl': meme.url
+				'imageUrl': 'http://localhost:3000/imageProxy?imageSecret=' + meme.file.secret
 			});
 			Popup.close(popupId);
 		};

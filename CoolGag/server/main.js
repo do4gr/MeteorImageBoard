@@ -18,7 +18,7 @@ WebApp.connectHandlers.use((req, res, next) => {
 			//u = Meteor.users.findOne _id: userId
 			//return next() unless u?
 			// pipe request to client
-			var x = request('https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/cj3n0ez69003x0111i23pxafm/' + imageSecret);
+			var x = request('https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/' + imageSecret);
 			req.pipe(x).pipe(res);
 		} else {
 			return next()
