@@ -1,0 +1,19 @@
+.memeSelect {
+	display: flex;
+	flex-content: flex-start;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	padding: .25em;
+}
+
+.memeSelect .meme {
+	margin: .25em;
+	cursor: pointer;
+	transition: transform .25s;
+}
+.memeSelect .meme:hover {
+	transform: scale(1.125);
+}
+.memeSelect .meme:active {
+	transform: scale(1.0625);
+}

@@ -6,6 +6,7 @@ export default class PredefinedMemeSelect extends React.Component {
 	static propTypes = {
 		router: PropTypes.object,
 		mutate: PropTypes.func,
+		onSelect: PropTypes.func,
 		data: PropTypes.object
 	}
 	
@@ -31,9 +32,9 @@ export default class PredefinedMemeSelect extends React.Component {
 		console.log(this.state.data.predefinedMemes,this.state.data.predefinedMemes.length);
 		
 		return (
-			<div>
+			<div className='memeSelect'>
 				{this.state.data.predefinedMemes.map((meme)=>
-					<div style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
+					<div className='meme' style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
 				)}
 			</div>
 		);

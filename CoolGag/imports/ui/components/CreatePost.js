@@ -17,6 +17,11 @@ class CreatePost extends React.Component {
 		mutate: PropTypes.func,
 		data: PropTypes.object
 	}
+	
+	static placeholders = {
+		upper: 'Enter',
+		lower: 'Text'
+	}
 
 	state = {
 		description: '',
@@ -34,8 +39,8 @@ class CreatePost extends React.Component {
 		isTextEntered: false,
 		isPredefinedMeme: false,
 		userId: '',
-		upperImageText: 'Enter',
-		lowerImageText: 'Text'
+		upperImageText: CreatePost.placeholders.upper,
+		lowerImageText: CreatePost.placeholders.lower
 	}
 	
 	static fontSizePercentage = 0.09;
@@ -196,11 +201,14 @@ class CreatePost extends React.Component {
 							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
 								<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
+									onFocus={this.onImageTextFocused.bind(this)}
+									onBlur={this.onImageTextBlured.bind(this)}
 									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.upperImageText}
 									onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
 								<ContentEditable
-									onFocus={(event)=>{console.log('onFocus');}}
+									onFocus={this.onImageTextFocused.bind(this)}
+									onBlur={this.onImageTextBlured.bind(this)}
 									className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.lowerImageText}
 									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
@@ -358,9 +366,18 @@ class CreatePost extends React.Component {
 
 
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
+	onImageTextFocused() {
+		if(!this.state.isTextEntered) {
+			this.setState({
+				upperImageText: '',
+				lowerImageText: ''
+			});
+		}
+	}
 	onImageTextChanged(stateName, event) {
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
 			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
+				console.log('onChange');
 				var value = event.nativeEvent.srcElement.innerHTML;
 				var previousValue = this.state[stateName];
 				if(value != previousValue) {
@@ -369,6 +386,15 @@ class CreatePost extends React.Component {
 					this.setState(tmp);
 				}
 			}
+		}
+	}
+	onImageTextBlured() {
+		if(!this.state.upperImageText && !this.state.lowerImageText) {
+			this.setState({
+				isTextEntered: false,
+				upperImageText: CreatePost.placeholders.upper,
+				lowerImageText: CreatePost.placeholders.lower
+			});
 		}
 	}
 	styleObjectToString() {
