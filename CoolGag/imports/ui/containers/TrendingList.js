@@ -7,6 +7,7 @@ const TrendingQuery = gql`query {
     id
 	postedFile { url }
     description
+	category
   }
 }`
 

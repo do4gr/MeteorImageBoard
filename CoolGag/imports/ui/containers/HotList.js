@@ -7,6 +7,7 @@ const HotQuery = gql`query {
     id
 	postedFile { url }
     description
+	category
   }
 }`
 
