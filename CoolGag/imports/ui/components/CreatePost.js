@@ -4,9 +4,11 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
+import Popup from 'react-popup';
+import PredefinedMemeSelect from './PredefinedMemeSelect';
 
 class CreatePost extends React.Component {
 
@@ -14,6 +16,11 @@ class CreatePost extends React.Component {
 		router: PropTypes.object,
 		mutate: PropTypes.func,
 		data: PropTypes.object
+	}
+	
+	static placeholders = {
+		upper: 'Enter',
+		lower: 'Text'
 	}
 
 	state = {
@@ -32,8 +39,8 @@ class CreatePost extends React.Component {
 		isTextEntered: false,
 		isPredefinedMeme: false,
 		userId: '',
-		upperImageText: 'Enter',
-		lowerImageText: 'Text'
+		upperImageText: CreatePost.placeholders.upper,
+		lowerImageText: CreatePost.placeholders.lower
 	}
 	
 	static fontSizePercentage = 0.09;
@@ -53,7 +60,7 @@ class CreatePost extends React.Component {
 	};
 
 	isSubmittable() {
-		return this.state.description && this.state.file && !this.state.isSubmitting;
+		return this.state.description && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
 	}
 
 	onDrop(event) {
@@ -187,18 +194,21 @@ class CreatePost extends React.Component {
 							{ this.state.isDraggingFile && !this.state.isValidType &&
 								<span>Invalid File</span>
 							}
-					</div>
+						</div>
 					}
 					{ this.state.imageUrl &&
 						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
 							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-								<img src={this.state.imageUrl} role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+								<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
 								<ContentEditable
+									onFocus={this.onImageTextFocused.bind(this)}
+									onBlur={this.onImageTextBlured.bind(this)}
 									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.upperImageText}
 									onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
 								<ContentEditable
-									onFocus={(event)=>{console.log('onFocus');}}
+									onFocus={this.onImageTextFocused.bind(this)}
+									onBlur={this.onImageTextBlured.bind(this)}
 									className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
 									html={this.state.lowerImageText}
 									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
@@ -221,7 +231,15 @@ class CreatePost extends React.Component {
 					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 						{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
 					</button>
-					<canvas id="testCanvas" style={{'width': '0px', 'height': '0px', 'position': 'absolute', 'margin': '0', 'padding': '0'}}></canvas>
+					<Popup
+						className = "memeSelectPopup"
+						btnClass = "popup__btn"
+						closeBtn = {true}
+						closeHtml = {null}
+						defaultOk = "Ok"
+						defaultCancel = "Cancel"
+						wildClasses = {false}
+						closeOnOutsideClick = {true} />
 				</form>
 			</div>
 		)
@@ -229,7 +247,7 @@ class CreatePost extends React.Component {
 	
 	recalcImageFontSize(element) {
 		if(!element) {
-			$('.imagePreview').each((i, e)=>{
+			$(ReactDOM.findDOMNode(this)).find('.imagePreview').each((i, e)=>{
 				this.recalcImageFontSize(e);
 			});
 		} else {
@@ -271,7 +289,7 @@ class CreatePost extends React.Component {
 			this.generateImage({
 				callback: (dataUrl) => {
 					var blob = this.dataURItoBlob(dataUrl);
-					data.append('data', blob);
+					data.append('data', blob, 'generated.jpeg');
 					continueUpload();
 				}
 			});
@@ -290,10 +308,13 @@ class CreatePost extends React.Component {
 	}
 
 	onImageLoaded(event) {
-		this.recalcImageFontSize(event.nativeEvent.srcElement);
-		$('.uncheckedSpelling').attr('spellcheck', 'false');
 		var imageElement = event.nativeEvent.srcElement;
-		this.setState({imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight}});
+		this.recalcImageFontSize();
+		$('.uncheckedSpelling').attr('spellcheck', 'false');
+		this.setState({
+			imageSize: {width: imageElement.naturalWidth, height: imageElement.naturalHeight},
+			isLoadingFile: false
+		});
 	}
 
 	onFileSelected(event) {
@@ -317,7 +338,7 @@ class CreatePost extends React.Component {
 					isPredefinedMeme: false
 				});
 			}, false);
-
+			
 			reader.readAsDataURL(file);
 		} else {
 			this.setState({imageUrl: ''});
@@ -325,15 +346,38 @@ class CreatePost extends React.Component {
 	}
 
 	onSelectMeme(event) {
-		console.log('TODO: implement select of predefined image');
-		window.alert('This feature is currently not available.');
+		var onSelect = (meme) => {
+			this.setState({
+				'isPredefinedMeme': true,
+				'isLoadingFile': true,
+				'imageUrl': '/imageProxy?imageSecret=' + meme.file.secret
+			});
+			Popup.close(popupId);
+		};
+		var popupId = Popup.create({
+			title: null,
+			content: (<PredefinedMemeSelect onSelect={onSelect} />),
+			className: 'alert',
+			buttons: {
+				right: ['cancel']
+			}
+		});
 	}
 
 
 	// ContentEditable: https://github.com/lovasoa/react-contenteditable
+	onImageTextFocused() {
+		if(!this.state.isTextEntered) {
+			this.setState({
+				upperImageText: '',
+				lowerImageText: ''
+			});
+		}
+	}
 	onImageTextChanged(stateName, event) {
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
 			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
+				console.log('onChange');
 				var value = event.nativeEvent.srcElement.innerHTML;
 				var previousValue = this.state[stateName];
 				if(value != previousValue) {
@@ -342,6 +386,15 @@ class CreatePost extends React.Component {
 					this.setState(tmp);
 				}
 			}
+		}
+	}
+	onImageTextBlured() {
+		if(!this.state.upperImageText && !this.state.lowerImageText) {
+			this.setState({
+				isTextEntered: false,
+				upperImageText: CreatePost.placeholders.upper,
+				lowerImageText: CreatePost.placeholders.lower
+			});
 		}
 	}
 	styleObjectToString() {
