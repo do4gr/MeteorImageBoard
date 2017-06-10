@@ -6,6 +6,8 @@ import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import 'tachyons'
 import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap-theme.css'
+
 
 
 import App from '../imports/ui/containers/App'
@@ -15,6 +17,7 @@ import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
 import ShowPost from '../imports/ui/components/ShowPost'
+import FormError from '../imports/ui/components/FormErrors'
 
 
 import HotList from '../imports/ui/containers/HotList'

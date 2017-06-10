@@ -75,7 +75,7 @@ class Home extends React.Component {
             <span
               onClick={this._showSignup}
               className='dib pa3 white bg-blue dim pointer btn-singup'>
-              Signup
+              Sign up
             </span>
 
 
