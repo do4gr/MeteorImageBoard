@@ -221,7 +221,7 @@ class CreatePost extends React.Component {
 		if(this.state.isTextEntered) {
 			this.generateImage({
 				callback: (dataUrl) => {
-					var blob = this.dataURItoBlob(dataUrl);
+					var blob = FileHandling.dataURItoBlob(dataUrl);
 					data.append('data', blob, 'generated.jpeg');
 					continueUpload();
 				}
