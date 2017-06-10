@@ -258,7 +258,7 @@ class CreatePost extends React.Component {
 	}
 
 	onImageLoaded(event) {
-		var imageElement = event.nativeEvent.srcElement;
+		var imageElement = event.nativeEvent.srcElement || event.nativeEvent.originalTarget;
 		this.recalcImageFontSize();
 		$('.uncheckedSpelling').attr('spellcheck', 'false');
 		this.setState({
@@ -315,13 +315,14 @@ class CreatePost extends React.Component {
 		}
 	}
 	onImageTextChanged(stateName, event) {
-		if(event.nativeEvent && event.nativeEvent.srcElement) {
-			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
-				var value = event.nativeEvent.srcElement.innerHTML;
+		if(event.nativeEvent && (event.nativeEvent.srcElement || event.nativeEvent.originalTarget)) {
+			var element = event.nativeEvent.srcElement || event.nativeEvent.originalTarget;
+			if(typeof element.innerHTML == "string") {
+				var value = element.innerHTML;
 				var previousValue = this.state[stateName];
 				if(value != previousValue) {
 					tmp = {isTextEntered: true};
-					tmp[stateName] = event.nativeEvent.srcElement.innerHTML;
+					tmp[stateName] = value;
 					this.setState(tmp);
 				}
 			}
