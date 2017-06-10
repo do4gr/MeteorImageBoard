@@ -60,7 +60,7 @@ class PredefinedMemeSelect extends React.Component {
 				{ this.state.memesLoaded &&
 					<div className='memeList'>
 						{this.state.memes.map((meme)=>
-							<div className='meme' style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
+							<div key={meme.file.secret} className='meme' style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
 						)}
 					</div>
 				}

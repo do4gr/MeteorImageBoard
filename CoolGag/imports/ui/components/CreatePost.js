@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
+import FileSelectButton from './FileHandling/FileSelectButton';
+import WindowDropZone from './FileHandling/WindowDropZone';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
 
 class CreatePost extends React.Component {
@@ -34,7 +36,6 @@ class CreatePost extends React.Component {
 		postedFileId: '',
 		isDraggingFile: false,
 		isValidType: true,
-		dragMightEnded: false,
 		isLoadingFile: false,
 		isTextEntered: false,
 		isPredefinedMeme: false,
@@ -62,88 +63,20 @@ class CreatePost extends React.Component {
 	isSubmittable() {
 		return this.state.description && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
 	}
-
-	onDrop(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		this.setState({'dragMightEnded': false});
-		this.setState({'isDraggingFile': false});
-		var file = null;
-		if(event.dataTransfer.files.length >= 1) {
-			file = event.dataTransfer.files[0];
-		}
-		this.handleFileSelect(file);
-		return false;
-	}
-	onDragOver(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		var validType;
-		if(event.dataTransfer.types.length == 1 && event.dataTransfer.types[0] == 'Files') {
-			event.dataTransfer.dropEffect = 'copy';
-			validType = true;
-		} else {
-			event.dataTransfer.dropEffect = 'none';
-			validType = false;
-		}
-		this.setState({'dragMightEnded': false, 'isValidType': validType, 'isDraggingFile': true});
-		return false;
-	}
-	onDragEnter(event) {
-		if(event.target == document) {
-			event.stopPropagation();
-			event.preventDefault();
-			return false;
-		}
-	}
-	onDragLeave(event) {
-		if(event.target == document.body || event.target == document.body.parentElement) {
-			event.stopPropagation();
-			event.preventDefault();
-			this.setState({'isDraggingFile': false});
-			return false;
-		} else {
-			this.setState({'dragMightEnded': true});
-			window.setTimeout(() => {
-				if(this.state.dragMightEnded) {
-					this.setState({'dragMightEnded': false});
-					this.setState({'isDraggingFile': false});
-				}
-			}, 0);
-		}
-	}
+	
 	onWindowResize(event) {
 		this.recalcImageFontSize();
 	}
-	dropHandler = null;
-	dragOverHandler = null;
-	dragEnterHandler = null;
-	dragLeaveHandler = null;
 	onWindowResizeHandler = null;
 	componentDidMount(a,b,c,d) {
-		this.dropHandler = (event) => {return this.onDrop(event);};
-		document.addEventListener('drop', this.dropHandler);
-		this.dragOverHandler = (event) => {return this.onDragOver(event);};
-		document.addEventListener('dragover', this.dragOverHandler);
-		this.dragEnterHandler = (event) => {return this.onDragEnter(event);};
-		document.addEventListener('dragenter', this.dragEnterHandler);
-		this.dragLeaveHandler = (event) => {return this.onDragLeave(event);};
-		document.addEventListener('dragleave', this.dragLeaveHandler);
 		this.onWindowResizeHandler = (event) => {return this.onWindowResize(event);};
 		window.addEventListener('resize', this.onWindowResizeHandler);
 	}
 	componentWillUnmount() {
-		document.removeEventListener('drop', this.dropHandler);
-		this.dropHandler = null;
-		document.removeEventListener('dragover', this.dragOverHandler);
-		this.dragOverHandler = null;
-		document.removeEventListener('dragenter', this.dragEnterHandler);
-		this.dragEnterHandler = null;
-		document.removeEventListener('dragleave', this.dragLeaveHandler);
-		this.dragLeaveHandler = null;
 		window.removeEventListener('resize', this.onWindowResizeHandler);
 		this.onWindowResizeHandler = null;
 	}
+
 
 	render () {
 		if (this.props.data.loading) {
@@ -171,15 +104,14 @@ class CreatePost extends React.Component {
 						placeholder='Category -> Try KITTENS or WTF'
 						onChange={(e) => this.setState({category: e.target.value})}
 					/>
-					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</button>
-					&nbsp;
-					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
-					<input type='file' name='imageFile' className='w-100 pa3 mv2' style={{display: 'none'}} accept="image/*"
-						onChange={this.onFileSelected.bind(this)}
-						onClick={(event)=> {
-							event.target.value = null;
-						}}
+					<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
+					<WindowDropZone
+						onDragStart={this.onDragStart.bind(this)}
+						onDragEnd={this.onDragEnd.bind(this)}
+						onDrop={this.onDropFiles.bind(this)}
 					/>
+					&nbsp;
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</button>
 					{ !this.state.imageUrl &&
 						<div className='w-100 dropzone mv3'>
 							{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
@@ -300,6 +232,23 @@ class CreatePost extends React.Component {
     
 		return false;
 	}
+	
+	onDragStart(validType) {
+		this.setState({
+			isDraggingFile: true,
+			isValidType: validType
+		});
+	}
+	onDragEnd() {
+		this.setState({
+			isDraggingFile: false
+		});
+	}
+	onDropFiles(files) {
+		if(files.length >= 1) {
+			this.handleFileSelect(files[0]);
+		}
+	}
 
 	onImageLoadError(event) {
 		console.log('error');
@@ -316,16 +265,10 @@ class CreatePost extends React.Component {
 			isLoadingFile: false
 		});
 	}
-
-	onFileSelected(event) {
-		if(event.target.files.length >= 1) {
-			var file = event.target.files[0];
-			this.handleFileSelect(file);
-		}
-	}
+	
 	handleFileSelect(file) {
-		this.setState({'file': file});
 		if(file != null) {
+			this.setState({'file': file});
 			var reader = new FileReader();
 
 			this.setState({imageUrl: ""});
@@ -340,8 +283,6 @@ class CreatePost extends React.Component {
 			}, false);
 			
 			reader.readAsDataURL(file);
-		} else {
-			this.setState({imageUrl: ''});
 		}
 	}
 
