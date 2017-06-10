@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
 import FileSelectButton from './FileHandling/FileSelectButton';
 import WindowDropZone from './FileHandling/WindowDropZone';
+import FileHandling from './FileHandling/FileHandling';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
 
 class CreatePost extends React.Component {
@@ -111,7 +112,7 @@ class CreatePost extends React.Component {
 						onDrop={this.onDropFiles.bind(this)}
 					/>
 					&nbsp;
-					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$('[name="imageFile"]').click();}}>Select File</button>
+					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
 					{ !this.state.imageUrl &&
 						<div className='w-100 dropzone mv3'>
 							{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
@@ -268,21 +269,19 @@ class CreatePost extends React.Component {
 	
 	handleFileSelect(file) {
 		if(file != null) {
-			this.setState({'file': file});
-			var reader = new FileReader();
-
-			this.setState({imageUrl: ""});
-			this.setState({isLoadingFile: true});
-			// TODO: handle errors
-			reader.addEventListener("load", () => {
+			this.setState({
+				file: null,
+				imageUrl: '',
+				isLoadingFile: true,
+				isPredefinedMeme: false
+			});
+			FileHandling.getDataUrl(file, (result) => {
 				this.setState({
-					imageUrl: reader.result,
-					isLoadingFile: false,
-					isPredefinedMeme: false
+					file: file,
+					imageUrl: result,
+					isLoadingFile: false
 				});
-			}, false);
-			
-			reader.readAsDataURL(file);
+			});
 		}
 	}
 
@@ -318,7 +317,6 @@ class CreatePost extends React.Component {
 	onImageTextChanged(stateName, event) {
 		if(event.nativeEvent && event.nativeEvent.srcElement) {
 			if(typeof event.nativeEvent.srcElement.innerHTML == "string") {
-				console.log('onChange');
 				var value = event.nativeEvent.srcElement.innerHTML;
 				var previousValue = this.state[stateName];
 				if(value != previousValue) {
@@ -479,29 +477,6 @@ class CreatePost extends React.Component {
 				callback = c;
 			}
 		};
-	}
-	
-	// used to create submittable content from an image url
-	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
-	dataURItoBlob(dataURI, options) {
-		// convert base64/URLEncoded data component to raw binary data held in a string
-		var byteString;
-		var parts = dataURI.split(',');
-		if (parts[0].indexOf('base64') >= 0)
-			byteString = atob(parts[1]);
-		else
-			byteString = unescape(parts[1]);
-
-		// separate out the mime component
-		var mimeString = parts[0].split(':')[1].split(';')[0];
-
-		// write the bytes of the string to a typed array
-		var ia = new Uint8Array(byteString.length);
-		for (var i = 0; i < byteString.length; i++) {
-			ia[i] = byteString.charCodeAt(i);
-		}
-		console.log('type:', mimeString);
-		return new Blob([ia], {type:mimeString});
 	}
 }
 
