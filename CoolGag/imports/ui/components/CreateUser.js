@@ -24,7 +24,7 @@ class CreateUser extends LinkedComponent {
         password: '',
         name: '',
         emailSubscription: false,
-        inputTouched:false
+       
         
     }
 
@@ -32,7 +32,10 @@ class CreateUser extends LinkedComponent {
       const name = e.target.name;
       const value = e.target.value;
       this.setState({[name]: value});
-          
+    }
+
+    handleBlur(){
+      this.setState({ validating:true });
     }
 
     handleSubmit(event) {
@@ -51,14 +54,14 @@ class CreateUser extends LinkedComponent {
       const FormInput = ({ label, ...props }) => (
         <span className="form-group" >
           <Label className='form-label'> { label } </Label>
-            <Input className='from-control' onBlur={() => this.setState({titleTouched: true})} { ...props } />
+            <Input className='from-control' { ...props } />
             <div className="error-placeholder">
               { props.valueLink.error || '' }
             </div>
         </span>
       );
 
-    const linked = this.linkAll(); //wrap all state members in links
+    
 
     const nameLink=Link.state(this, 'name')
       .check( x => x.length >= 2, 'You forgot to type a name')
@@ -71,7 +74,7 @@ class CreateUser extends LinkedComponent {
 
     const passwordLink=Link.state(this, 'password')
       .check( x => x.length >= 6, 'Your password should be min 6 characters long')
-      .check( x => x.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/), 'Your Password should contain at least one letter and one special character');
+      .check( x => x.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/), 'Your Password should contain at least one digit');
 
 
       if (this.props.data.loading) {
