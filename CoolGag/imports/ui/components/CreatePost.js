@@ -82,7 +82,8 @@ class CreatePost extends React.Component {
 
 	render () {
 		if (this.props.data.loading) {
-			console.log(TagUtils.findTagsAndRefs("#HELLO #hällo #world #test @me sdf sjdfh skdjfh sdk").tags.textList);
+			var test = (<div></div>);
+			console.log(typeof test, test);
 			return (<div>Loading</div>)
 		}
 
@@ -101,6 +102,16 @@ class CreatePost extends React.Component {
 						placeholder='Description'
 						onChange={(e) => this.setState({description: e.target.value})}
 					/>
+					{/*TagUtils.splitByTagsAndRefs("@wepner: see my #hashtag #lol #yolo").map((element, index)=>{
+						if (element.type == 'tag') {
+							return (<a href="#" key={index}>#{element.text}</a>);
+						} else if(element.type == 'ref') {
+							return (<a href="#" key={index}>@{element.text}</a>);
+						} else {
+							return element.text;
+							//return (<span key={index}>{element.text}</span>)
+						}
+					})*/}
 					<input
 						className='w-100 pa3 mv2'
 						value={this.state.category}
