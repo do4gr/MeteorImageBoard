@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
@@ -13,6 +13,7 @@ import WindowDropZone from './FileHandling/WindowDropZone';
 import FileHandling from './FileHandling/FileHandling';
 import TagUtils from './TagUtils';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
+import PostUtils from './Posts/PostUtils';
 
 class CreatePost extends React.Component {
 
@@ -83,7 +84,13 @@ class CreatePost extends React.Component {
 	render () {
 		if (this.props.data.loading) {
 			var test = (<div></div>);
-			console.log(typeof test, test);
+			PostUtils.requestTags({
+				client: this.props.client,
+				tags: ['hashtag'],
+				callback: (tags) => {
+					console.log('tag results:', tags);
+				}
+			});
 			return (<div>Loading</div>)
 		}
 
@@ -306,7 +313,7 @@ class CreatePost extends React.Component {
 		}
 	}
 
-	onSelectMeme(event) {
+	onSelectMeme() {
 		var onSelect = (meme) => {
 			this.setState({
 				'isPredefinedMeme': true,
@@ -528,7 +535,7 @@ const userQuery = gql`
 export default compose(
   graphql(createPost),
   graphql(userQuery, { options: { forceFetch: true }} )
-)(withRouter(CreatePost))
+)(withApollo(withRouter(CreatePost)))
 
 
 // export default graphql(createPost)(
