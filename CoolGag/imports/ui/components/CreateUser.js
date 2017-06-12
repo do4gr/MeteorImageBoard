@@ -22,6 +22,9 @@ class CreateUser extends React.Component {
         password: '',
         name: '',
         emailSubscription: false,
+        emailError:'',
+        pwdError:'',
+        nameError:'',
         formErrors: {email: '', password: '', name: ''},
         emailValid: false,
         nameValid: false,
@@ -42,13 +45,51 @@ class CreateUser extends React.Component {
         return this.state.email && this.state.password && this.state.name;
     }
 
+    validateField(fieldName, value) {
+      let fieldValidationErrors = this.state.formErrors;
+      let emailValid = this.state.emailValid;
+      let passwordValid = this.state.passwordValid;
+      let nameValid= this.state.nameValid;
+
+      switch(fieldName) {
+        case 'email':
+          emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+          break;
+        case 'password':
+          passwordValid = value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/);
+          fieldValidationErrors.password = passwordValid ? '': ' must be at least 6 characters long';
+          break;
+        case 'name':
+          nameValid = value.length >= 2 && value.indexOf(' ') < 0;
+          fieldValidationErrors.name = nameValid ? '': ' should be at least 2 characters and without spaces';
+          break;
+        default:
+          break;
+      }
+
+      this.setState({formErrors: fieldValidationErrors,
+                      emailValid: emailValid,
+                      passwordValid: passwordValid,
+                      nameValid: nameValid
+                    }, this.validateForm);
+    }
+
+    validateForm() {
+      this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid });
+    }
+
+    errorClass(error) {
+     return(error.length === 0 ? '' : 'has-error');
+    }
+
     render() {
-       const FormErrors = ({formErrors}) =>
+       const FormErrors = ({formErrors, name}) =>
           <div className='formErrors'>
-            {Object.keys(formErrors).map((fieldName, i) => {
-              if(formErrors[fieldName].length > 0){
+            {Object.keys(formErrors).map((name, i) => {
+              if(formErrors[name].length > 0){
                 return (
-                  <p key={i}>{fieldName} {formErrors[fieldName]}</p>
+                  <p key={i}> Your {name} {formErrors[name]}</p>
                 )        
               } else {
                 return '';
@@ -75,12 +116,15 @@ class CreateUser extends React.Component {
             <form onSubmit={this.handleSubmit}>
             
               <div>
-                <div className={'form-group ${this.errorClass(this.state.formErrors.name)}'}>
-                  <label htmlFor="name">Username</label>
+                <div className={(this.state.formErrors.name.length ===0) ? 'form-group' : 'form-group has-danger'}>
+                  <label htmlFor="name" className="form-label">Username</label>
                   <input type="name" required className='w-100 pa3 mv2' name="name"
                     placeholder="name"
                     value={this.state.name}
                     onChange={this.handleUserInput}  />
+                    <div className="error-validation">
+                      <FormErrors formErrors={this.state.formErrors} name="name" />
+                    </div>
                 </div>
                 <div className={'form-group ${this.errorClass(this.state.formErrors.email)}'}>
                   <label htmlFor="email">Email address</label>
@@ -88,6 +132,9 @@ class CreateUser extends React.Component {
                     placeholder="Email"
                     value={this.state.email}
                     onChange={this.handleUserInput}  />
+                    <div className="error-validation">
+                      <FormErrors formErrors={this.state.formErrors} name="email" />
+                    </div>
                 </div>
                 <div className={'form-group ${this.errorClass(this.state.formErrors.password)}'}>
                   <label htmlFor="password">Password</label>
@@ -95,6 +142,9 @@ class CreateUser extends React.Component {
                     placeholder="password"
                     value={this.state.password}
                     onChange={this.handleUserInput}  />
+                    <div className="error-validation">
+                      <FormErrors formErrors={this.state.formErrors} name="password" />
+                    </div>
                 </div>
               {/*
                  <input
@@ -125,43 +175,9 @@ class CreateUser extends React.Component {
     )
   }
 
-errorClass(error) {
-   return(error.length === 0 ? '' : 'has-error');
-}
 
-validateField(fieldName, value) {
-  let fieldValidationErrors = this.state.formErrors;
-  let emailValid = this.state.emailValid;
-  let passwordValid = this.state.passwordValid;
-  let nameValid= this.state.nameValid;
 
-  switch(fieldName) {
-    case 'email':
-      emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-      fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-      break;
-    case 'password':
-      passwordValid = value.length >= 6;
-      fieldValidationErrors.password = passwordValid ? '': ' is too short';
-      break;
-    case 'name':
-      nameValid = value.length >= 2;
-      fieldValidationErrors.name = nameValid ? '': ' is too short';
-      break;
-    default:
-      break;
-  }
 
-  this.setState({formErrors: fieldValidationErrors,
-                  emailValid: emailValid,
-                  passwordValid: passwordValid,
-                  nameValid: nameValid
-                }, this.validateForm);
-}
-
-validateForm() {
-  this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid });
-}
 
 createUser = () => {
   const { email, password, name, emailSubscription } = this.state

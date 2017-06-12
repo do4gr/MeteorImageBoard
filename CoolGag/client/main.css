@@ -145,3 +145,19 @@ nav .navbar-toggable-md{
      0em       0.0625em 0 #000,
      0em      -0.0625em 0 #000;
 }
+
+.has-danger 
+	input {
+	border-color: #c5315a;
+}
+
+.error-validation{
+	color: #c5315a;
+	font-style: italic;;
+	font-size: 15px;
+}
+
+.has-danger 
+	label {
+		color: #c5315a;
+	}
