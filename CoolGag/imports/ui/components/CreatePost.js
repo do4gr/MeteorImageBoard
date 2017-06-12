@@ -11,6 +11,7 @@ import Popup from 'react-popup';
 import FileSelectButton from './FileHandling/FileSelectButton';
 import WindowDropZone from './FileHandling/WindowDropZone';
 import FileHandling from './FileHandling/FileHandling';
+import TagUtils from './TagUtils';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
 
 class CreatePost extends React.Component {
@@ -81,6 +82,7 @@ class CreatePost extends React.Component {
 
 	render () {
 		if (this.props.data.loading) {
+			console.log(TagUtils.findTagsAndRefs("#HELLO #hällo #world #test @me sdf sjdfh skdjfh sdk").tags.textList);
 			return (<div>Loading</div>)
 		}
 
@@ -202,13 +204,21 @@ class CreatePost extends React.Component {
 					this.setState({postedFileId: result.id});
 					this.setState({userId: this.props.data.user.id});
 					var {description, category, postedFileId, userId} = this.state
+					var tags = TagUtils.findTags(description).textList;
 					if(category == "") {
 						category = null;
 					}
-					this.props.mutate({variables: {description, postedFileId, category, userId}})
-						.then(() => {
-							this.props.router.replace('/')
-						});
+					this.props.mutate({
+						variables: {
+							description: description,
+							postedFileId: postedFileId,
+							category: category,
+							userId: userId,
+							tags: tags
+						}
+					}).then(() => {
+						this.props.router.replace('/');
+					});
 				});
 			}).catch((exception) => {
 				// TODO: handle upload error
@@ -482,12 +492,14 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!) {
+	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!, $tags: [String!]) {
 		createPost(
 			description: $description,
 			postedFileId: $postedFileId,
 			category: $category,
-			userId: $userId) {
+			userId: $userId,
+			tags: $tags)
+		{
 			id
 			postedFile { id }
 		}

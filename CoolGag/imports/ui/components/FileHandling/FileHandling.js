@@ -15,7 +15,7 @@ export default class FileHandling {
 	
 	// used to create submittable content from an image url
 	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
-	dataURItoBlob(dataURI, options) {
+	static dataURItoBlob(dataURI, options) {
 		// convert base64/URLEncoded data component to raw binary data held in a string
 		var byteString;
 		var parts = dataURI.split(',');
