@@ -1,0 +1,13 @@
+.form-control .required{
+	border-color: : #ec5840;
+	background-color: rgba(236, 88, 64, 0.1);
+}
+.invalid .required :not(:focus) {
+    background-color: rgba(236, 88, 64, 0.1);
+    border-color: #ec5840;
+}
+
+.error-placeholder{
+	color: red;
+	font-size: 15px;
+}

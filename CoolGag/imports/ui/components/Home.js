@@ -50,7 +50,7 @@ class Home extends React.Component {
 
   renderLoggedOut() {
     return (
-      <div className="center-text">
+      <div className="w-100 pa4 flex justify-center'">
       <Container fluid>
       <Row>
         <Col className="greet-title">
@@ -58,12 +58,12 @@ class Home extends React.Component {
           <h3>Please Login or Signin.</h3>
         </Col>
       </Row>
+      <div className='center' style={{ maxWidth: 200 }}>
       <Row>
-        <Col className='pv3'>
-
+        <Col className='pv3' >
             <span
               onClick={this._showLogin}
-              className='dib pa3 white bg-blue dim pointer btn-login'>
+              className='w-100 dib pa3 white bg-blue dim pointer btn-login '>
               Login
             </span>
 
@@ -74,13 +74,14 @@ class Home extends React.Component {
 
             <span
               onClick={this._showSignup}
-              className='dib pa3 white bg-blue dim pointer btn-singup'>
-              Sign up
+              className='w-100 dib pa3 white bg-blue dim pointer btn-singup '>
+              Signup
             </span>
 
 
           </Col>
         </Row>
+        </div>
         </Container>
       </div>
     )

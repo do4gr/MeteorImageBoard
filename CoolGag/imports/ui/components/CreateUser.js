@@ -3,12 +3,14 @@ import { withRouter } from 'react-router'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import Validation from 'react-validation';
-import { Alert } from 'reactstrap';
+import { Alert, Label } from 'reactstrap';
+import Link, { LinkedComponent } from 'valuelink'
+import { Input, TextArea, Checkbox } from 'valuelink/tags'
 
 
 
-class CreateUser extends React.Component {
+
+class CreateUser extends LinkedComponent {
 
     static propTypes = {
         router: PropTypes.object.isRequired,
@@ -22,17 +24,15 @@ class CreateUser extends React.Component {
         password: '',
         name: '',
         emailSubscription: false,
-        formErrors: {email: '', password: '', name: ''},
-        emailValid: false,
-        nameValid: false,
-        passwordValid: false,
-        formValid: false
+        inputTouched:false
+        
     }
 
     handleUserInput = (e) =>{
       const name = e.target.name;
       const value = e.target.value;
-      this.setState({[name]: value}, () => { this.validateField(name, value) });
+      this.setState({[name]: value});
+          
     }
 
     handleSubmit(event) {
@@ -42,19 +42,37 @@ class CreateUser extends React.Component {
         return this.state.email && this.state.password && this.state.name;
     }
 
+    // hasError(error){
+    //   return(error.length === 0 ? 'has-success' : 'has-danger');
+
+    // }
+
     render() {
-       const FormErrors = ({formErrors}) =>
-          <div className='formErrors'>
-            {Object.keys(formErrors).map((fieldName, i) => {
-              if(formErrors[fieldName].length > 0){
-                return (
-                  <p key={i}>{fieldName} {formErrors[fieldName]}</p>
-                )        
-              } else {
-                return '';
-              }
-            })}
-          </div>
+      const FormInput = ({ label, ...props }) => (
+        <span className="form-group" >
+          <Label className='form-label'> { label } </Label>
+            <Input className='from-control' onBlur={() => this.setState({titleTouched: true})} { ...props } />
+            <div className="error-placeholder">
+              { props.valueLink.error || '' }
+            </div>
+        </span>
+      );
+
+    const linked = this.linkAll(); //wrap all state members in links
+
+    const nameLink=Link.state(this, 'name')
+      .check( x => x.length >= 2, 'You forgot to type a name')
+      .check( x => x.indexOf( ' ' ) < 0, "The name you choose shouldn't contain spaces");
+
+    const emailRegexPattern = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+    const emailLink=Link.state(this, 'email')
+      .check( x => x, 'You forgot to enter your email')
+      .check( x => x.match(emailRegexPattern), "Please enter a valid email adress");
+
+    const passwordLink=Link.state(this, 'password')
+      .check( x => x.length >= 6, 'Your password should be min 6 characters long')
+      .check( x => x.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/), 'Your Password should contain at least one letter and one special character');
+
 
       if (this.props.data.loading) {
         return (<div>Loading</div>)
@@ -69,34 +87,32 @@ class CreateUser extends React.Component {
       return (
         <div className='w-100 pa4 flex justify-center'>
           <div style={{ maxWidth: 400 }} className=''>
-            <Alert color="danger" className='panel panel-default'>
-              <FormErrors formErrors={this.state.formErrors} />
-            </Alert>
             <form onSubmit={this.handleSubmit}>
             
               <div>
-                <div className={'form-group ${this.errorClass(this.state.formErrors.name)}'}>
-                  <label htmlFor="name">Username</label>
-                  <input type="name" required className='w-100 pa3 mv2' name="name"
-                    placeholder="name"
-                    value={this.state.name}
-                    onChange={this.handleUserInput}  />
-                </div>
-                <div className={'form-group ${this.errorClass(this.state.formErrors.email)}'}>
+                <div>
+                  <FormInput  label="Name" className="w-100 pa3 name-from" type="text" placeholder="name" valueLink={ nameLink } />
+
+                  <FormInput  label="Email" className="w-100 pa3 email-from" type="email" placeholder="name@mail.com" valueLink={ emailLink } />
+
+                  <FormInput  label="Password" className="w-100 pa3 pwd-from" type="password" placeholder="password" valueLink={ passwordLink } />
+ 
+                    {/*
+                <div >
                   <label htmlFor="email">Email address</label>
                   <input type="email" required className='w-100 pa3 mv2' name="email"
                     placeholder="Email"
                     value={this.state.email}
                     onChange={this.handleUserInput}  />
                 </div>
-                <div className={'form-group ${this.errorClass(this.state.formErrors.password)}'}>
+                <div >
                   <label htmlFor="password">Password</label>
                   <input type="password" required className='w-100 pa3 mv2' name="password"
                     placeholder="password"
                     value={this.state.password}
                     onChange={this.handleUserInput}  />
                 </div>
-              {/*
+              
                  <input
                   className='w-100 pa3 mv2'
                   type='password'
@@ -115,53 +131,58 @@ class CreateUser extends React.Component {
                 <span>
                   Subscribe to email notifications?
                 </span>
-            </div>
-            <button type="submit" disabled={(this.state.formValid ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.state.formValid ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Sign up</button>
-            {//<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Sign up</button>
+              </div>
+            {//<button type="submit" disabled={(this.state.formValid ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.state.formValid ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Sign up</button>
             }
+            <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Sign up</button>
+            </div>
+
           </form>
         </div>
       </div>
     )
+
+
   }
 
-errorClass(error) {
-   return(error.length === 0 ? '' : 'has-error');
-}
 
-validateField(fieldName, value) {
-  let fieldValidationErrors = this.state.formErrors;
-  let emailValid = this.state.emailValid;
-  let passwordValid = this.state.passwordValid;
-  let nameValid= this.state.nameValid;
+// errorClass(error) {
+//    return(error.length === 0 ? '' : 'has-error');
+// }
 
-  switch(fieldName) {
-    case 'email':
-      emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-      fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-      break;
-    case 'password':
-      passwordValid = value.length >= 6;
-      fieldValidationErrors.password = passwordValid ? '': ' is too short';
-      break;
-    case 'name':
-      nameValid = value.length >= 2;
-      fieldValidationErrors.name = nameValid ? '': ' is too short';
-      break;
-    default:
-      break;
-  }
+// validateField(fieldName, value) {
+//   let fieldValidationErrors = this.state.formErrors;
+//   let emailValid = this.state.emailValid;
+//   let passwordValid = this.state.passwordValid;
+//   let nameValid= this.state.nameValid;
 
-  this.setState({formErrors: fieldValidationErrors,
-                  emailValid: emailValid,
-                  passwordValid: passwordValid,
-                  nameValid: nameValid
-                }, this.validateForm);
-}
+//   switch(fieldName) {
+//     case 'email':
+//       emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+//       fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+//       break;
+//     case 'password':
+//       passwordValid = value.length >= 6;
+//       fieldValidationErrors.password = passwordValid ? '': ' is too short';
+//       break;
+//     case 'name':
+//       nameValid = value.length >= 2;
+//       fieldValidationErrors.name = nameValid ? '': ' is too short';
+//       break;
+//     default:
+//       break;
+//   }
 
-validateForm() {
-  this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid });
-}
+//   this.setState({formErrors: fieldValidationErrors,
+//                   emailValid: emailValid,
+//                   passwordValid: passwordValid,
+//                   nameValid: nameValid
+//                 }, this.validateForm);
+// }
+
+// validateForm() {
+//   this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid });
+// }
 
 createUser = () => {
   const { email, password, name, emailSubscription } = this.state
@@ -182,7 +203,7 @@ createUser = () => {
       })
   }
 
- 
+  
 
 }
 

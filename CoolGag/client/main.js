@@ -17,7 +17,7 @@ import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
 import ShowPost from '../imports/ui/components/ShowPost'
-import FormError from '../imports/ui/components/FormErrors'
+
 
 
 import HotList from '../imports/ui/containers/HotList'
