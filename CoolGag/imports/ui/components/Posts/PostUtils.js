@@ -42,7 +42,30 @@ export default class PostUtils {
 		});
 	}
 	
-	static async 
+	static async addExistingTag(options) {
+		if(options && options.client) {
+			if(options.postId) {
+				if(options.tagId) {
+					return options.client.mutate({
+						mutation: addTagToPost,
+						variables: {
+							postId: options.postId,
+							tagId: options.tagId
+						}
+					});
+				} else {
+					console.warn('there was no tag id available in the options');
+					return undefined;
+				}
+			} else {
+				console.warn('there was no post id available in the options');
+				return undefined;
+			}
+		} else {
+			console.warn('there was no client available in the options');
+			return undefined;
+		}
+	}
 }
 
 const allTagsQuery = gql`
@@ -70,4 +93,13 @@ const createTag = gql`
 			text
 		}
 	}
+`
+const addTagToPost = gql`
+	mutation ($postId: ID!, $tagId: ID!) {
+	addToPostOnTag(tagsTagId: $tagId, postsPostId: $postId){
+		tagsTag {
+			id
+		}
+	}
+}
 `
