@@ -14,8 +14,6 @@ class PredefinedMemeSelect extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		
-		console.log('props:', this.props);
 		this.loadMemes();
 	}
 	
@@ -25,7 +23,7 @@ class PredefinedMemeSelect extends React.Component {
 	}
 	
 	
-  async loadMemes() {
+	async loadMemes() {
 		const result = await this.props.client.query({
 			query: gql`
 				query predefinedMemeQuery {
@@ -39,7 +37,6 @@ class PredefinedMemeSelect extends React.Component {
 				}
 			`
 		});
-		console.log('result:', result)
 		// apply result
 		this.setState({
 			memes: result.data.allPredefinedMemes,
@@ -60,7 +57,7 @@ class PredefinedMemeSelect extends React.Component {
 				{ this.state.memesLoaded &&
 					<div className='memeList'>
 						{this.state.memes.map((meme)=>
-							<div className='meme' style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
+							<div key={meme.file.secret} className='meme' style={{'backgroundImage': 'url(' + meme.file.url + ')', backgroundPosition: 'center', backgroundSize: 'cover', width: '128px', height: '128px'}} onClick={this.memeSelected.bind(this, meme)}></div>
 						)}
 					</div>
 				}
