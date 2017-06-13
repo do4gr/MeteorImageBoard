@@ -7,7 +7,6 @@ import React from 'react'
  import PropTypes from 'prop-types';
 
 
-
  class DetailPost extends React.Component {
 
    static propTypes = {
@@ -20,7 +19,6 @@ import React from 'react'
      text: 'pls enter text'
    }
 
-
    handleComment = () => {
      const userId = this.props.data.user.id
      const postId = this.props.post.id
@@ -32,6 +30,8 @@ import React from 'react'
    }
 
    render () {
+     console.log(this.props);
+
      const comments = this.props.post.comments;
      return (
        <div className="pa1 bg-black-05 ma3">
