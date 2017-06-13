@@ -29,9 +29,19 @@ import {FormGroup, Input, Button} from 'reactstrap'
      }).then(result => console.log(result))
    }
 
-   handleSubmit=(event)=>{
-  
+   handleUpvote = (event) => {
+    const userId = this.props.data.user.id
+    const postId = this.props.post.id
+    const username = this.props.data.user.name
+    this.props.mutate({
+      variables: { postId, userId }
+    }).then(result => console.log(result))
    }
+
+   handleSubmit=(event)=>{
+      
+   }
+
    render () {
      console.log(this.props);
 
@@ -47,10 +57,10 @@ import {FormGroup, Input, Button} from 'reactstrap'
         
 
         <span>
-          <Button className="upvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
+          <Button className="upvote-btn"  onClick={this.handleUpvote}><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
         </span>
         <span>
-          <Button className="downvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
+          <Button className="downvote-btn"  onClick={this.handelDwonvote}><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
         </span>
          <span className='author-tag'>
            Author: {this.props.post.user ? this.props.post.user.name: "unknown user"}&nbsp;
@@ -85,7 +95,25 @@ import {FormGroup, Input, Button} from 'reactstrap'
    }
  }
 
+const downvotePost = gql`
+ mutation c($userId: ID!, $postId: ID!) {
+  addToUserDownvotedPost(userWhoDownvotedUserId: $userId, downvotedPostPostId: $postId) {
+    usersWhoUpvotedUser {
+      name
+    }
+  }
+}
+`
 
+const upvotePost = gql`
+ mutation c($userId: ID!, $postId: ID!) {
+  addToUserUpvotedPost(userWhoUpvotedUserId: $userId, upvotedPostPostId: $postId) {
+    usersWhoUpvotedUser {
+      name
+    }
+  }
+}
+`
  const createComment = gql`
  mutation ($userId: ID!, $postId: ID!, $text: String!) {
    createComment(
@@ -96,6 +124,36 @@ import {FormGroup, Input, Button} from 'reactstrap'
      }
  }
  `
+const postUpvotesQuery = gql`
+ query {
+  allPosts {
+    id
+     _usersWhoUpvoted{
+      count
+    }
+  }
+}
+`
+const postDownvotesQuery = gql`
+ query {
+  allPosts {
+    id
+     _usersWhoDownvoted{
+      count
+    }
+  }
+}
+`
+const commentQuery = gql`
+  query {
+    allPosts {
+      id
+       _userWhoCommented{
+        count
+      }
+    }
+  }
+`
 
  const userQuery = gql`
  	query {
@@ -105,4 +163,12 @@ import {FormGroup, Input, Button} from 'reactstrap'
  	}
  `
 
- export default compose(graphql(createComment),graphql(userQuery))(DetailPost)
+
+ export default compose(
+    graphql(createComment),
+    graphql(upvotePost),
+    graphql(downvotePost),
+    graphql(userQuery),
+    graphql(postUpvotesQuery),
+    graphql(postDownvotesQuery),
+    graphql(commentQuery))(DetailPost)
