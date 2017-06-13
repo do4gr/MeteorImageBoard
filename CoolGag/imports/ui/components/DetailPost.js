@@ -35,27 +35,32 @@ import React from 'react'
      const comments = this.props.post.comments;
      return (
        <div className="pa1 bg-black-05 ma3">
+        <center>
          <div
-         className='w-100'
+         className='w-80 '
                     style={{
                       backgroundImage: `url(${this.props.post.postedFile.url})`,
           			      backgroundPosition: 'center center',
-                      backgroundSize: 'cover',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
                       paddingBottom: '100%',
                     }}
          />
+         </center>
          <div className='pt3'>
-           {"Author: " +  this.props.post.user.name}&nbsp;
-         </div>
-         <div className='pt3'>
-           {"Description: " +  this.props.post.description}&nbsp;
-         </div>
-         <div className='pt3'>
-         {"Category: " + this.props.post.category}&nbsp;
-        </div>
-        <div className='pt3'>
-           {"Votes: " +  this.props.post.upvotes}&nbsp;
-         </div>
+                   Author: {this.props.post.user ? this.props.post.user.name: "Unbekannter Nutzer"}&nbsp;
+                 </div>
+                 <div className='pt3'>
+                   Description: {this.props.post.description ? this.props.post.description: "-" }&nbsp;
+                 </div>
+
+                 <div className='pt3'>
+                   Category: {this.props.post.category ? this.props.post.category: "Keine"}&nbsp;
+                 </div>
+
+                 <div className='pt3'>
+                   Votes: {this.props.post.upvotes ? this.props.post.upvotes: "0"}&nbsp;
+                 </div>
          <div className='pt3'>
            <p><b>Comments: </b></p>
              <div className='commentList'>
