@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from '../Post'
+import Post from '../PostPreview'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'

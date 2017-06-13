@@ -13,7 +13,7 @@ import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
-import ShowPost from '../imports/ui/components/ShowPost'
+import PostPage from '../imports/ui/components/PostPage'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
@@ -62,7 +62,7 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
-        <Route path='showpost/:id' component={ShowPost} />
+        <Route path='view/:postId' component={PostPage} />
         <Route component={ProfilePage} >
           <Route path='mygroups' component={MyGroups} />
           <Route path='myposts' component={MyPosts} />
