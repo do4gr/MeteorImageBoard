@@ -13,7 +13,7 @@ import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
-import PostPage from '../imports/ui/components/PostPage'
+import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'

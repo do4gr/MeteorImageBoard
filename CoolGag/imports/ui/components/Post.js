@@ -12,7 +12,7 @@ export default class Post extends React.Component {
 	
 	render () {
 		return (
-			<div className='pa2 bg-black-05 ma2'>
+			<div className='list-container'>
 				<div className='pb3'>
 					{TagUtils.splitByTagsAndRefs(this.props.post.description).map((element, index)=>{
 						if (element.type == 'tag') {
@@ -36,6 +36,12 @@ export default class Post extends React.Component {
 						{this.props.post.category}&nbsp;
 					</div>
 				}
+				  <span>
+          <Button className="upvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
+        </span>
+        <span>
+          <Button className="downvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
+        </span>
 			</div>
 		)
 	}
