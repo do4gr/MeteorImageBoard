@@ -7,6 +7,7 @@ const FeedQuery = gql`query {
     id
 	postedFile { url }
     description
+	category
   }
 }`
 

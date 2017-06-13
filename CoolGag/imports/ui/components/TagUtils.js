@@ -87,8 +87,6 @@ export default class TagUtils {
 		createSections(tagsRefs.tags, 'tag');
 		createSections(tagsRefs.refs, 'ref');
 		
-		console.log('sections:', sections);
-		
 		var result = [];
 		if(sections.length > 0) {
 			for(var i = 0; i < sections.length; i++) {

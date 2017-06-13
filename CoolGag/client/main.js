@@ -9,23 +9,20 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap/dist/css/bootstrap-theme.css'
 
 
-
 import App from '../imports/ui/containers/App'
 import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
-import ShowPost from '../imports/ui/components/ShowPost'
-
+import PostPage from '../imports/ui/components/PostPage'
 
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
-import detailPost from '../imports/ui/containers/detailPost'
-
+import ListWithTag from '../imports/ui/containers/ListWithTag';
 
 import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
 import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
@@ -69,7 +66,8 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
-        <Route path='showpost' component={detailPost} />
+        <Route path='tag/:tagText' component={ListWithTag} />
+        <Route path='view/:postId' component={PostPage} />
         <Route component={ProfilePage} >
           <Route path='mygroups' component={MyGroups} />
           <Route path='myposts' component={MyPosts} />

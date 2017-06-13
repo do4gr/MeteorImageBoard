@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router';
 import TagUtils from './TagUtils';
 
 
-export default class Post extends React.Component {
+export default class PostPreview extends React.Component {
 	
 	static propTypes = {
 		post: PropTypes.object,

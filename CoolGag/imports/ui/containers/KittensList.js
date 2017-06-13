@@ -8,6 +8,7 @@ const KittenQuery = gql`query {
     id
 	postedFile { url }
     description
+	category
   }
 }`
 
