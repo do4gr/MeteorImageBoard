@@ -19,6 +19,7 @@ import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
+import ListWithTag from '../imports/ui/containers/ListWithTag';
 
 import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
 import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
@@ -62,6 +63,7 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList} />
         <Route path='trendinglist' component={FreshList} />
         <Route path='freshlist' component={TrendingList} />
+        <Route path='tag/:tagText' component={ListWithTag} />
         <Route path='view/:postId' component={PostPage} />
         <Route component={ProfilePage} >
           <Route path='mygroups' component={MyGroups} />
