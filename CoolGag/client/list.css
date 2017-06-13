@@ -1,0 +1,14 @@
+.list-container{
+  overflow: auto;
+  border-radius: 10px;
+  background: rgba(204, 204, 204, 0.03);
+  padding: 10px;
+  display: block;
+  margin-top: 10px;
+
+}
+
+.comments-points{
+	color: grey;
+	margin-bottom: 10px;
+}
