@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import TagUtils from './TagUtils';
-
+import PostTitle from './Posts/PostTitle';
 
 export default class Post extends React.Component {
 	
@@ -14,18 +13,7 @@ export default class Post extends React.Component {
 		return (
 			<div className='list-container'>
 				<div className='pb3'>
-					{TagUtils.splitByTagsAndRefs(this.props.post.description).map((element, index)=>{
-						if (element.type == 'tag') {
-							return (
-								<Link key={index} to={`/tag/${element.text}`}>#{element.text}</Link>
-							);
-						} else if(element.type == 'ref') {
-							return (<a href="javascript:void();" key={index}>@{element.text}</a>);
-						} else {
-							return element.text;
-							//return (<span key={index}>{element.text}</span>)
-						}
-					})}
+					<PostTitle title={this.props.post.description} />
 					&nbsp;
 				</div>
 				<Link to={`/view/${this.props.post.id}`}>
@@ -36,12 +24,12 @@ export default class Post extends React.Component {
 						{this.props.post.category}&nbsp;
 					</div>
 				}
-				  <span>
-          <Button className="upvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
-        </span>
-        <span>
-          <Button className="downvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
-        </span>
+				<span>
+					<Button className="upvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
+				</span>
+				<span>
+					<Button className="downvote-btn"  onClick=""><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
+				</span>
 			</div>
 		)
 	}
