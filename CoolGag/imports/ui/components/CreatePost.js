@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
@@ -13,6 +13,7 @@ import WindowDropZone from './FileHandling/WindowDropZone';
 import FileHandling from './FileHandling/FileHandling';
 import TagUtils from './TagUtils';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
+import PostUtils from './Posts/PostUtils';
 
 class CreatePost extends React.Component {
 
@@ -82,8 +83,6 @@ class CreatePost extends React.Component {
 
 	render () {
 		if (this.props.data.loading) {
-			var test = (<div></div>);
-			console.log(typeof test, test);
 			return (<div>Loading</div>)
 		}
 
@@ -95,7 +94,7 @@ class CreatePost extends React.Component {
 
 		return (
 			<div className='w-100 pa4 flex justify-center'>
-				<form style={{ maxWidth: 400 }} className='' onSubmit={(event) => {this.handlePost(event)}}>
+				<form style={{ maxWidth: 400 }} className='' onSubmit={this.handlePost.bind(this)}>
 					<input
 						className='w-100 pa3 mv2'
 						value={this.state.description}
@@ -201,9 +200,11 @@ class CreatePost extends React.Component {
 		}
 	}
 
-	handlePost = (event) => {
+	async handlePost(event) {
 		event.preventDefault();
 		this.setState({'isSubmitting': true});
+		
+		// TODO(rw): clean up
 		
 		var continueUpload = () => {
 			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
@@ -215,20 +216,54 @@ class CreatePost extends React.Component {
 					this.setState({postedFileId: result.id});
 					this.setState({userId: this.props.data.user.id});
 					var {description, category, postedFileId, userId} = this.state
-					var tags = TagUtils.findTags(description).textList;
+					var tagsTextList = TagUtils.findTags(description).textList;
+					var tags = tagsTextList.map((element) => {
+						return {text: element};
+					});
 					if(category == "") {
 						category = null;
 					}
-					this.props.mutate({
-						variables: {
-							description: description,
-							postedFileId: postedFileId,
-							category: category,
-							userId: userId,
-							tags: tags
+					//var tags2 = '42';
+					PostUtils.requestTags({
+						client: this.props.client,
+						tags: tagsTextList,
+						callback: (actualTags) => {
+							var existingTagIds = [];
+							for(var i = 0; i < actualTags.length; i++) {
+								var actual = actualTags[i];
+								for(var j = 0; j < tags.length; j++) {
+									if(tags[j].text == actual.text) {
+										tags[j].id = actual.id;
+										tags.splice(j,1);
+										existingTagIds.push(actual.id);
+										j -= 1;
+									}
+								}
+							}
+							this.props.mutate({
+								variables: {
+									description: description,
+									postedFileId: postedFileId,
+									category: category,
+									userId: userId,
+									tags: tags
+								}
+							}).then((result) => {
+								var promisses = [];
+								for(var i = 0; i < existingTagIds.length; i++) {
+									promisses.push(PostUtils.addExistingTag({
+										client: this.props.client,
+										postId: result.data.createPost.id,
+										tagId: existingTagIds[i]
+									}));
+								}
+								// TODO(rw): check, if the reference adding worked
+								//for(var i = 0; i < promisses.length; i++) {
+								//	await promisses[i];
+								//}
+								this.props.router.replace('/');
+							});
 						}
-					}).then(() => {
-						this.props.router.replace('/');
 					});
 				});
 			}).catch((exception) => {
@@ -306,7 +341,7 @@ class CreatePost extends React.Component {
 		}
 	}
 
-	onSelectMeme(event) {
+	onSelectMeme() {
 		var onSelect = (meme) => {
 			this.setState({
 				'isPredefinedMeme': true,
@@ -503,7 +538,7 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!, $tags: [String!]) {
+	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!, $tags: [PosttagsTag!]) {
 		createPost(
 			description: $description,
 			postedFileId: $postedFileId,
@@ -528,7 +563,7 @@ const userQuery = gql`
 export default compose(
   graphql(createPost),
   graphql(userQuery, { options: { forceFetch: true }} )
-)(withRouter(CreatePost))
+)(withApollo(withRouter(CreatePost)))
 
 
 // export default graphql(createPost)(
