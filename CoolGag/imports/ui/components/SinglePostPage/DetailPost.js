@@ -52,7 +52,7 @@ import {FormGroup, Input, Button} from 'reactstrap'
            Description: {this.props.post.description ? this.props.post.description: "-" }&nbsp;
          </div>
          <div >
-          <img src={`${this.props.post.postedFile.url}`} className="post-img" />
+          <img src={`${this.props.post.postedFile.url}`} className="post-img w-100" />
         </div>
         
 

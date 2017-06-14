@@ -16,13 +16,17 @@ export default class ListPage extends React.Component {
       return (<div>Loading</div>)
     }
     return (
-      <div className="list-container">
+      <div>
       <Container>
             <Row> 
-              <Col>      
+              <Col>  
+                <div className="feed-container">  
                 {this.props.data.allPosts.map((post) =>
                   <PostPreview key={post.id} post={post} />
                 )}
+                
+                </div> 
+
               </Col>
             </Row>
       </Container>
