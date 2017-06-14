@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from '../PostPreview'
+import PostPreview from '../PostPreview'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -18,7 +18,7 @@ export default class ProfilePostListPage extends React.Component {
       <div className='w-100 flex justify-center'>
         <div className='w-100' style={{ maxWidth: 400 }}>
           {this.props.data.user.posts.map((post) =>
-            <Post key={post.id} post={post} />
+            <PostPreview key={post.id} post={post} />
           )}
         </div>
       </div>
