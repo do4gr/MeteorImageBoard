@@ -1,5 +1,4 @@
 import React from 'react'
-import Post from './Post'
 import DetailPost from './DetailPost'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
