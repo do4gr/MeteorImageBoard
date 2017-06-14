@@ -1,0 +1,39 @@
+.defaultImage {
+	position: relative;
+}
+
+.defaultImage:hover svg {
+	opacity:0.5;
+}
+
+.defaultImage span > span {
+	position:absolute;
+	z-index: 2;
+	display:none;
+	text-align: center;
+}
+
+.defaultImage input {
+	background-color:rgba( 211, 211, 211, 1 );
+}
+
+.defaultImage:hover span > span {
+	display:block;
+}
+
+.profilePic {
+	max-width: 400px;
+	max-height: 500px;
+}
+
+.profilePic:hover {
+	opacity:0.5;
+}
+
+
+
+/*
+.editNote {
+	left:calc(50% - 57px);
+}
+*/
