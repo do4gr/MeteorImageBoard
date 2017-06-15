@@ -7,6 +7,23 @@ import { Alert, Label } from 'reactstrap';
 import Link from 'valuelink'
 import { Input, TextArea, Checkbox } from 'valuelink/tags'
 
+
+class FormInput extends React.Component {
+	
+	render() {
+		return (
+			<span className={ 'form-group' + (!this.props.valueLink.error ? '' : ' has-danger')} >
+				<Label className='form-label'> { this.props.label } </Label>
+				<Input className='form-control' { ...this.props } />
+				<div className="error-placeholder">
+					{ this.props.valueLink.error || '' }
+				</div>
+			</span>
+		)
+	}
+}
+
+
 class CreateUser extends React.Component {
 
   static propTypes = {
@@ -59,15 +76,15 @@ class CreateUser extends React.Component {
 
     console.log('props: ' + this.props);
   
-    const FormInput = ({ label, ...props }) => (
-      <span className={ !props.valueLink.error ? 'form-group' : 'form-group has-danger'} >
-        <Label className='form-label'> { label } </Label>
-          <Input className='from-control' { ...props } onBlur={this.handleBlur}/>
-          <div className="error-placeholder">
-            { props.valueLink.error || '' }
-          </div>
-      </span>
-    );
+    //const FormInput = ({ label, ...props }) => (
+    //  <span className={ !props.valueLink.error ? 'form-group' : 'form-group has-danger'} >
+    //    <Label className='form-label'> { label } </Label>
+    //      <Input className='from-control' { ...props } onBlur={this.handleBlur}/>
+    //      <div className="error-placeholder">
+    //        { props.valueLink.error || '' }
+    //      </div>
+    //  </span>
+    //);
 
     const nameLink=Link.state(this, 'name')
       .check( x => x.length >= 2, 'You forgot to type a name')
