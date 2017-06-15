@@ -20,11 +20,8 @@
 }
 
 .changePicture span {
-	display: none;
-}
-
-.changePicture:hover span {
 	display: block;
+	padding-top: 20px;
 }
 
 .profilePic {
@@ -34,4 +31,17 @@
 
 .editProfilePic:hover {
 	opacity:0.5;
+}
+
+.profileName {
+	padding-top: 20px;
+}
+
+.topPadding30 {
+	padding-top: 30px;
+}
+
+.profileForm {
+	margin: 0 auto;
+	maxWidth: 400;
 }
