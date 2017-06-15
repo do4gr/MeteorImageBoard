@@ -52,7 +52,7 @@ const PostQuery = gql`query PostQuery($id: ID!){
     id
     category
     upvotes
-    comments{
+    comments(orderBy: createdAt_DESC){
       id
       text
       user{

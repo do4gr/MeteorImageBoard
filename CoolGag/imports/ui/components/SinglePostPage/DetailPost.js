@@ -25,24 +25,38 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
   state = {
      userId: '',
      postId: '',
-     text: 'pls enter text',
+     text: ' ',
   }
 
 
    handleComment = () => {
      const userId = this.props.user.id
-     const postId = this.props.Post.id
-     const text = "test comment"
+     const postId = this.props.post.id
+     const { text } = this.state
 
      this.props.createCommentMutation({
       mutation: createComment,
-      variables: { postId, text, userId}
-     }).then(result => console.log(result))
+      variables: { userId, postId, text}
+     }).then(({ data }) => {
+        this.setState({ 'update': true });
+          console.log('got data', data);
+        }).catch((error) => {
+          console.log('there was an error sending the query', error);
+        });
    }
 
    handleSubmit=(event)=>{
-      
+      //event.preventDefault();
    }
+
+  isSubmittable() {
+    if (this.state.text != ''){
+      return true;
+    }else{
+      return false;      
+    }
+  }
+
 
    render () {
     console.log(this.props);
@@ -79,10 +93,10 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
          <hr className="hr-comment"/> 
             <form onSubmit={this.handleSubmit}>
               <FormGroup>
-                  <Input type="textarea" placeholder="write comments..." name="text" id="comment-form" className="w-100"/>
+                  <Input type="textarea" value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} placeholder="write comments..." name="text" id="comment-form" className="w-100"/>
               </FormGroup>
               <div>
-               <button type="submit" onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
+               <button type="submit"  disabled={this.isSubmittable() ? '' : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
             </div>
           </form>
 

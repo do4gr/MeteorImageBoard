@@ -4,6 +4,7 @@ import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {FormGroup, Input, Button, } from 'reactstrap'
+import update from 'immutability-helper';
 
 class VotingSystemPost extends React.Component{
 	static propTypes = {
@@ -24,8 +25,26 @@ class VotingSystemPost extends React.Component{
 	    const userId = this.props.user.id
 	    const postId = this.props.post.id
 	    this.props.upvotePostMutation({
-	      mutation: upvotePost,
-	      variables: { postId, userId }
+	      	mutation: upvotePost,
+	      	variables: { postId, userId },
+	       	optimisticResponse: {
+	          	__typename: 'Mutation',
+	          	addToUserUpvotedPost: {
+	          	usersWhoUpvotedUser:{
+	            	id: userId,
+	            	name: this.props.user.name,
+	            	__typename: 'User',
+          			},
+          		},
+        	},
+        	update: (store, { data: { upvotePost } }) => {
+            // Read the data from our cache for this query.
+            const data = store.readQuery({ query: countQuery });
+            // Add our comment from the mutation to the end.
+            data.comments.push( upvotePost );
+            // Write our data back to the cache.
+            store.writeQuery({ query: countQuery, data });
+          },
 	    }).then(({ data }) => {
 	    	this.setState({ 'update': true });
 	        console.log('got data', data);
@@ -136,10 +155,11 @@ export default compose(
     graphql(upvotePost, {name : 'upvotePostMutation'}),
     graphql(downvotePost,{ name : 'downvotePostMutation'}),
     graphql(countQuery, {
-      options: (ownProps) => ({
-          variables: {
-            id: ownProps.post.id,
-          }
-        })
+      	options: (ownProps) => ({
+          	variables: {
+            	id: ownProps.post.id,
+          	},
+        }),
+      
       })
     )(VotingSystemPost)
