@@ -21,20 +21,29 @@ import { Glyphicon } from 'react-bootstrap';
   state = {
      userId: '',
      postId: '',
-     text: 'pls enter text',
+     text: '',
      points: 0,
   }
 
 
-   handleComment = () => {
-     const userId = this.props.user.id
-     const postId = this.props.post.id
-     const text = "test comment"
+    handleComment = () => {
+      const userId = this.props.user
+      const postId = this.props.post.id
+      const text = this.state.text
 
      this.props.createCommentMutation({
       mutation: createComment,
-      variables: { postId, text, userId}
+      variables: { userId, postId, text}
      }).then(result => console.log(result))
+   }
+
+   isSubmittable() {
+    if (this.state.text != ''){
+      return true;
+    }else{
+      return false;      
+    }
+    
    }
 
    handleUpvote = () => {
@@ -64,11 +73,11 @@ import { Glyphicon } from 'react-bootstrap';
    }
 
    handleSubmit=(event)=>{
-      
+      console.log('handleSubmit')  
    }
 
    render () {
-    console.log(this.props);
+    //console.log('Das sind die Props in der DetailPost',this.props);
 
     if (this.props.data.loading) {
       return (<div>Loading</div>)
@@ -113,10 +122,10 @@ import { Glyphicon } from 'react-bootstrap';
              
             <form onSubmit={this.handleSubmit}>
               <FormGroup>
-                  <Input type="textarea" placeholder="write comments..." name="text" id="comment-form" className="w-100"/>
+                  <Input type="textarea" placeholder="write comments..." name="text" id="comment-form" className="w-100" onChange={(e) => this.setState({text: e.target.value})}/>
               </FormGroup>
               <div>
-               <button type="submit" onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
+               <button type="submit"  disabled={this.isSubmittable() ? '' : 'disabled'}onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
             </div>
           </form>
 
@@ -132,6 +141,8 @@ import { Glyphicon } from 'react-bootstrap';
      )   
    }
  }
+
+ //disabled={(this.isSubmittable() ? "" : "disabled")}
 
 
 // Mutations
