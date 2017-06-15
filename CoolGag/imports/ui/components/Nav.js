@@ -120,7 +120,7 @@ class Example extends React.Component {
                         <DropdownMenu className="dropdown-menu-left">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>
                           <DropdownItem divider />
-                          <DropdownItem>Settings</DropdownItem>
+                          <DropdownItem href="/settings/">Settings</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 </NavLink>
