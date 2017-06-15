@@ -8,7 +8,11 @@ const MyCommentsQuery = gql`query {
         comments{
             id
             createdAt
-            post
+            post{
+                id
+            	postedFile { url }
+                description
+            }
             text
             updatedAt
         }

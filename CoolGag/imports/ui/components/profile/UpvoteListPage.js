@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 
-export default class CommentListPage extends React.Component {
+export default class UpvoteListPage extends React.Component {
 
   static propTypes = {
     data: PropTypes.object,
@@ -17,12 +17,9 @@ export default class CommentListPage extends React.Component {
     return (
       <div className='w-100 flex justify-center'>
         <div className='w-100' style={{ maxWidth: 400 }}>
-            {this.props.data.user.comments.map((comment) =>
-                <span>
-                <span> <h4>Am: {comment.createdAt}</h4></span>
-                <PostPreview key={comment.post.id} post={comment.post} />
-                </span>
-            )}
+          {this.props.data.user.upvotedPosts.map((post) =>
+            <PostPreview key={post.id} post={post} />
+          )}
         </div>
       </div>
     )

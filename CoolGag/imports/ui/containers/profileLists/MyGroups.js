@@ -15,6 +15,11 @@ const MyGroupsQuery = gql`query {
                 id
                 name
             }
+            posts{
+                id
+            	postedFile { url }
+                description
+            }
         }
     }
 }`
