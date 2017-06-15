@@ -1,14 +1,17 @@
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import ListPage from '../../components/ListPage';
+import DownvoteListPage from '../../components/profile/DownvoteListPage';
+
 
 //TODO
-const DownvotedQuery = gql`query {
-  allPosts(orderBy: createdAt_DESC) {
-    id
-	postedFile { url }
-    description
-  }
+const DownvotePostsQuery = gql`query {
+    user{
+        downvotedPosts(orderBy: createdAt_DESC) {
+            id
+        	postedFile { url }
+            description
+        }
+    }
 }`
 
-export default graphql(DownvotedQuery)(ListPage);
+export default graphql(DownvotePostsQuery)(DownvoteListPage);
