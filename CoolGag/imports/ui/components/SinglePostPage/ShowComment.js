@@ -24,8 +24,7 @@ export default class ShowComment extends React.Component {
 		           	<span className="profile-comment-link">
 		        		<Link to={`/myposts/`} className="profile-comment-link">
 							<h6 className="commentAuthor" >
-
-				             {this.props.comment.user.name}
+				             	{this.props.comment.user.name}
 				           </h6>
 						</Link>
 	        		</span>
