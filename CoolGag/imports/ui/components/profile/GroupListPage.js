@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 export default class GroupListPage extends React.Component {
 
-  Profile  static propTypes = {
+  static propTypes = {
     data: PropTypes.object,
   }
 
