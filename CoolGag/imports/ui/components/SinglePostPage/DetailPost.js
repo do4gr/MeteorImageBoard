@@ -25,7 +25,7 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
   state = {
      userId: '',
      postId: '',
-     text: ' ',
+     text: '',
   }
 
 
