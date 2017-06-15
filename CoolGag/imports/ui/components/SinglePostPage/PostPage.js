@@ -33,7 +33,7 @@ class PostPage extends React.Component {
           <Row>
             <Col>
               <div className="singlepost-container">
-                <DetailPost post={this.props.data.Post} handleCancel={this.goBack}/>
+                <DetailPost post={this.props.data.Post} user={this.props.data.user.id} handleCancel={this.goBack}/>
               </div>
             </Col>
           </Row>
@@ -58,21 +58,17 @@ const PostQuery = gql`query PostQuery($id: ID!){
       user{
         id
         name
-        profilePic {
-          url
-        }
+        profilePic { url }
       }
     }
-  postedFile { url }
-    description
-    user{
+    postedFile { url }
+      description
+      user{ name }
+    }
+    user {
+      id
       name
     }
-  }
-  user {
-    id
-    name
-  }
 }`
 
 

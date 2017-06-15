@@ -29,3 +29,29 @@
 .comment-form {
 	margin-bottom: 10px;
 }
+
+.comment-container{
+  display: block;
+  margin: 10px auto 5px auto;
+  border-radius: 10px;
+}
+
+.commentAuthor{
+  display: inline-block;
+  padding: 1rem;
+}
+
+form .form-group {
+  margin-bottom: 0.5rem;
+}
+
+hr .hr-comment {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.comment-submit-btn{
+  /*float: right;*/
+ background-color: #89a4e0;
+
+}
