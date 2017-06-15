@@ -3,6 +3,7 @@ import PostPreview from '../components/PostPreview'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
+import {Container, Row, Col} from 'reactstrap';
 
 export default class ListPage extends React.Component {
 
@@ -15,12 +16,20 @@ export default class ListPage extends React.Component {
       return (<div>Loading</div>)
     }
     return (
-      <div className='w-100 flex justify-center'>
-        <div className='w-100' style={{ maxWidth: 400 }}>
-          {this.props.data.allPosts.map((post) =>
-            <PostPreview key={post.id} post={post} />
-          )}
-        </div>
+      <div>
+      <Container>
+            <Row> 
+              <Col>  
+                <div className="feed-container">  
+                {this.props.data.allPosts.map((post) =>
+                  <PostPreview key={post.id} post={post} />
+                )}
+                
+                </div> 
+
+              </Col>
+            </Row>
+      </Container>
       </div>
     )
   }

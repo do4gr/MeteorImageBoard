@@ -1,0 +1,31 @@
+
+.author-tag{
+	float: right;
+}
+
+.detailPost-view{
+  overflow: auto;
+  border-radius: 10px;
+
+  background: rgba(204, 204, 204, 0.03);
+  padding: 10px;
+  display: block;
+  margin: 10px auto;
+  width: 80%;
+
+}
+
+.post-img {
+	display: block;
+ 	margin: 10px auto 10px auto;
+  width: 80%;
+}
+
+.singlepost-container{
+	display: block;
+	margin: 0 auto;
+}
+
+.comment-form {
+	margin-bottom: 10px;
+}
