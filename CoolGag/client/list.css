@@ -13,8 +13,9 @@
   	width: 100%;
 }
 
-.comments-points{
+.points-post{
 	color: grey;
+	margin-top: 5px;
 	margin-bottom: 10px;
 }
 
@@ -23,4 +24,11 @@
 	margin: 0 auto;
 	width: 80%;
 
+}
+.button-wrapper{
+	overflow: hidden;
+}
+.comment-btn-link{
+	float: left;
+	margin-right: 5px;
 }

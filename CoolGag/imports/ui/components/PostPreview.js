@@ -5,6 +5,7 @@ import { Button } from 'reactstrap';
 import gql from 'graphql-tag'
 import PostTitle from './Posts/PostTitle'
 import { graphql, compose } from 'react-apollo'
+import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 
 
 class PostPreview extends React.Component {
@@ -31,31 +32,20 @@ class PostPreview extends React.Component {
 							{this.props.post.category}&nbsp;
 						</div>
 					}
-
-
 				<span className='author-tag'>
-		           Author: {this.props.post.user ? this.props.post.user.name: "unknown user"}&nbsp;
-	        </span>
-				<div className="comments-points">
-			        <span>
-			         	points: {this.props.post.upvotes ? this.props.post.upvotes: "0"}&nbsp;
-			        </span>
-			        <span> | </span>
-			        <span>
-			         	comments: {this.props.post.upvotes ? this.props.post.upvotes: "0"}&nbsp;
-			        </span>
-	         	</div>
-				<span>
-          		<Button className="upvote-btn"  onClick= {()=>{}}><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
-	        	</span>
-	        	<span>
-         	 	<Button className="downvote-btn"  onClick= {()=>{}}><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>{' '}
-	        	</span>
-	        	<span>
+            		Author:
+            		<Link to={`/myposts/`} className="profile-post-link">
+               			{this.props.post.user ? this.props.post.user.name: "unknown user"}&nbsp;
+           			</Link>
+         		</span>
+	        	<div className="button-wrapper">
+	        	<div className="comment-btn-link">
 	        		<Link to={`/view/${this.props.post.id}`}>
 						<Button className="comment-btn"  onClick= {()=>{}}><span className="glyphicon glyphicon-thumbs-down"></span>COMMENT</Button>
-				</Link>
-	        	</span>
+					</Link>
+	        	</div>
+	        	<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
+	        	</div>
 			</div>
 			<hr/>
 		</div>
