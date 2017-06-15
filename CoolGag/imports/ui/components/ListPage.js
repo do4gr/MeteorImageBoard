@@ -24,9 +24,7 @@ export default class ListPage extends React.Component {
                 {this.props.data.allPosts.map((post) =>
                   <PostPreview key={post.id} post={post} />
                 )}
-                
                 </div> 
-
               </Col>
             </Row>
       </Container>

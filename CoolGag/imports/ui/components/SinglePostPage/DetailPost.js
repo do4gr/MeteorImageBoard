@@ -4,38 +4,63 @@ import CommentList from 'react-uikit-comment-list'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types';
-import {FormGroup, Input, Button} from 'reactstrap'
+import {FormGroup, Input, Button, } from 'reactstrap'
+import { Glyphicon } from 'react-bootstrap';
 
 
  class DetailPost extends React.Component {
 
-   static propTypes = {
-     data: PropTypes.object,
-   }
+  static propTypes = {
+    data: PropTypes.shape({
+        loading: React.PropTypes.bool,
+        error: React.PropTypes.object,
+        Post: React.PropTypes.object,
+     }),
+  }
 
-   state = {
+  state = {
      userId: '',
      postId: '',
-     text: 'pls enter text'
-   }
+     text: 'pls enter text',
+     points: 0,
+  }
+
 
    handleComment = () => {
-     const userId = this.props.data.user.id
+     const userId = this.props.user.id
      const postId = this.props.post.id
      const text = "test comment"
 
-     this.props.mutate({
-       variables: {postId,text,userId}
+     this.props.createCommentMutation({
+      mutation: createComment,
+      variables: { postId, text, userId}
      }).then(result => console.log(result))
    }
 
-   handleUpvote = (event) => {
-    const userId = this.props.data.user.id
+   handleUpvote = () => {
+    const userId = this.props.user
     const postId = this.props.post.id
-    const username = this.props.data.user.name
-    this.props.mutate({
+    this.props.upvotePostMutation({
+      mutation: upvotePost,
       variables: { postId, userId }
-    }).then(result => console.log(result))
+    }).then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+   }
+
+  handleDownvote = () => {
+    const userId = this.props.user
+    const postId = this.props.post.id
+    this.props.downvotePostMutation({
+      mutation: downvotePost,
+      variables: { postId, userId }
+    }).then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
    }
 
    handleSubmit=(event)=>{
@@ -43,9 +68,22 @@ import {FormGroup, Input, Button} from 'reactstrap'
    }
 
    render () {
-     console.log(this.props);
+    console.log(this.props);
+
+    if (this.props.data.loading) {
+      return (<div>Loading</div>)
+    }
+
+    if (this.props.data.error) {
+      console.log(this.props.data.error)
+      return (<div>An unexpected error occurred</div>)
+    }
 
      const comments = this.props.post.comments;
+     const countComments = this.props.data.Post._commentsMeta.count;
+     // TODO: _usersWhoUpvotedMeta is not defined. Why? comments where defined...is it coming from parent PostPage
+     // const countUpvotes = this.props.data.Post._usersWhoUpvotedMeta.count;
+     // const countDownvotes = this.props.data.Post._usersWhoDownvotedMeta.count;
      return (
        <div className="detailPost-view">
          <div className='pt3'>
@@ -57,27 +95,28 @@ import {FormGroup, Input, Button} from 'reactstrap'
         
 
         <span>
-          <Button className="upvote-btn"  onClick={this.handleUpvote}><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
+          <Button className="upvote-btn"  onClick={this.handleUpvote}><Glyphicon glyph="align-right" />{"UP"}</Button>{' '}
         </span>
         <span>
-          <Button className="downvote-btn"  onClick={this.handelDwonvote}><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
+          <Button className="downvote-btn"  onClick={this.handleDownvote}><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>
         </span>
          <span className='author-tag'>
            Author: {this.props.post.user ? this.props.post.user.name: "unknown user"}&nbsp;
          </span>  
-
-         <div className='pt3'>
-           Points: {this.props.post.upvotes ? this.props.post.upvotes: "0"}&nbsp;
+        <div>
+           Points: {}&nbsp;
+        </div>
+           <div className='pt3'>
+         <b>{ countComments }&nbsp; Comments </b>
          </div>
-         <hr/>
-          <div className='pt3'>
-            <p><b>Comments: </b></p>  
+         <hr className="hr-comment"/>
+             
             <form onSubmit={this.handleSubmit}>
               <FormGroup>
                   <Input type="textarea" placeholder="write comments..." name="text" id="comment-form" className="w-100"/>
               </FormGroup>
               <div>
-               <button type="submit" onClick={this.handleComment} className="pa2 bn ttu dim pointer bg-black-10 ">{"Add Comment"}</button>
+               <button type="submit" onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
             </div>
           </form>
 
@@ -85,9 +124,8 @@ import {FormGroup, Input, Button} from 'reactstrap'
             {comments.map((comment) =>
               <ShowComment key={comment.id} comment={comment}/>
             )}
-            <hr/>
           </div>
-         </div>
+
         
 
        </div>
@@ -95,10 +133,13 @@ import {FormGroup, Input, Button} from 'reactstrap'
    }
  }
 
+
+// Mutations
 const downvotePost = gql`
- mutation c($userId: ID!, $postId: ID!) {
-  addToUserDownvotedPost(userWhoDownvotedUserId: $userId, downvotedPostPostId: $postId) {
-    usersWhoUpvotedUser {
+ mutation addToUserDownvotedPost($userId: ID!, $postId: ID!) {
+  addToUserDownvotedPost(usersWhoDownvotedUserId: $userId, downvotedPostPostId: $postId) {
+    usersWhoDownvotedUser {
+      id
       name
     }
   }
@@ -106,57 +147,60 @@ const downvotePost = gql`
 `
 
 const upvotePost = gql`
- mutation c($userId: ID!, $postId: ID!) {
-  addToUserUpvotedPost(userWhoUpvotedUserId: $userId, upvotedPostPostId: $postId) {
+ mutation addToUserUpvotedPost($userId: ID!, $postId: ID!) {
+  addToUserUpvotedPost(usersWhoUpvotedUserId: $userId, upvotedPostsPostId: $postId) {
     usersWhoUpvotedUser {
+      id
       name
     }
   }
 }
 `
- const createComment = gql`
- mutation ($userId: ID!, $postId: ID!, $text: String!) {
-   createComment(
-     userId: $userId,
-     postId: $postId,
+
+const createComment = gql`
+  mutation createComment($userId: ID!, $postId: ID!, $text: String!) {
+    createComment(
+      userId: $userId,
+      postId: $postId,
       text: $text) {
-     id
-     }
+        id
+      }
  }
  `
+// Queries
 const postUpvotesQuery = gql`
- query {
-  allPosts {
+ query postUpvotesQuery($id: ID!){
+  Post(id: $id) {
     id
-     _usersWhoUpvoted{
-      count
-    }
+      _usersWhoUpvotedMeta{
+        count
+      }
   }
 }
 `
 const postDownvotesQuery = gql`
- query {
-  allPosts {
-    id
-     _usersWhoDownvoted{
-      count
-    }
+ query postDownvotesQuery($id: ID!){
+  Post(id: $id){
+     id
+      _usersWhoDownvotedMeta{
+        count
+      }
   }
 }
 `
 const commentQuery = gql`
-  query {
-    allPosts {
+  query commentQuery($id: ID!){
+    Post(id: $id){
       id
-       _userWhoCommented{
-        count
+       _commentsMeta{
+        count 
       }
     }
   }
 `
 
  const userQuery = gql`
- 	query {
+ 	query userQuery{
  		user {
  			id
  		}
@@ -164,11 +208,32 @@ const commentQuery = gql`
  `
 
 
- export default compose(
-    graphql(createComment),
-    graphql(upvotePost),
-    graphql(downvotePost),
+ export default 
+ compose(
+    graphql(createComment, { name: 'createCommentMutation' }),
+    graphql(upvotePost, {name : 'upvotePostMutation'}),
+    graphql(downvotePost,{ name : 'downvotePostMutation'}),
     graphql(userQuery),
-    graphql(postUpvotesQuery),
-    graphql(postDownvotesQuery),
-    graphql(commentQuery))(DetailPost)
+    graphql(postUpvotesQuery, {
+      options: (ownProps) => ({
+          variables: {
+            id: ownProps.post.id,
+          }
+        })
+      }),
+    graphql(postDownvotesQuery, {
+      options: (ownProps) => ({
+          variables: {
+            id: ownProps.post.id,
+          }
+        })
+      }),
+    graphql(commentQuery, {
+      options: (ownProps) => ({
+          variables: {
+            id: ownProps.post.id,
+          }
+        })
+      })
+    )
+    (DetailPost)
