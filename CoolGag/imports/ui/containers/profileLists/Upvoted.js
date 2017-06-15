@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo';
 import UpvoteListPage from '../../components/profile/UpvoteListPage';
 
 
-//TODO
 const UpvotePostsQuery = gql`query {
     user{
         upvotedPosts(orderBy: createdAt_DESC) {

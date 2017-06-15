@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import DownvoteListPage from '../../components/profile/DownvoteListPage';
 
 
-//TODO
+
 const DownvotePostsQuery = gql`query {
     user{
         downvotedPosts(orderBy: createdAt_DESC) {
