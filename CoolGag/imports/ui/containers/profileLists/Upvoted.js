@@ -1,14 +1,16 @@
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import ListPage from '../../components/ListPage';
+import UpvoteListPage from '../../components/profile/UpvoteListPage';
 
-//TO DO
-const UpvotedQuery = gql`query {
-  allPosts(orderBy: createdAt_DESC) {
-    id
-	postedFile { url }
-    description
-  }
+
+const UpvotePostsQuery = gql`query {
+    user{
+        upvotedPosts(orderBy: createdAt_DESC) {
+            id
+        	postedFile { url }
+            description
+        }
+    }
 }`
 
-export default graphql(UpvotedQuery)(ListPage);
+export default graphql(UpvotePostsQuery)(UpvoteListPage);

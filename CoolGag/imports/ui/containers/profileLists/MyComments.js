@@ -2,13 +2,17 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import CommentListPage from '../../components/profile/CommentListPage';
 
-//TODO
+
 const MyCommentsQuery = gql`query {
     user{
         comments{
             id
             createdAt
-            post
+            post{
+                id
+            	postedFile { url }
+                description
+            }
             text
             updatedAt
         }
