@@ -23,6 +23,7 @@
     "react-addons-pure-render-mixin": "^15.5.2",
     "react-apollo": "^0.11.2",
     "react-avatar-editor": "^9.1.1",
+    "react-bootstrap": "^0.31.0",
     "react-contenteditable": "^2.0.2",
     "react-dom": "^15.5.4",
     "react-popup": "^0.8.0",

@@ -31,3 +31,4 @@ export default class GroupListPage extends React.Component {
     )
   }
 }
+
