@@ -13,6 +13,8 @@ import CreatePost from '../imports/ui/components/CreatePost'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
+
+import Settings from '../imports/ui/components/profile/Settings'
 import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
 
 import HotList from '../imports/ui/containers/HotList'
@@ -65,6 +67,7 @@ ReactDOM.render((
         <Route path='freshlist' component={TrendingList} />
         <Route path='tag/:tagText' component={ListWithTag} />
         <Route path='view/:postId' component={PostPage} />
+        <Route path='settings' component={Settings} />
         <Route component={ProfilePage} >
           <Route path='mygroups' component={MyGroups} />
           <Route path='myposts' component={MyPosts} />

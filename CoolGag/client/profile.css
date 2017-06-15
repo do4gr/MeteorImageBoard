@@ -1,4 +1,4 @@
-.defaultImage {
+.defaultImage, .profileImage {
 	position: relative;
 }
 
@@ -6,19 +6,25 @@
 	opacity:0.5;
 }
 
-.defaultImage span > span {
-	position:absolute;
+.defaultImage span > div {
 	z-index: 2;
 	display:none;
-	text-align: center;
 }
 
 .defaultImage input {
 	background-color:rgba( 211, 211, 211, 1 );
 }
 
-.defaultImage:hover span > span {
+.defaultImage:hover span > div {
 	display:block;
+}
+
+.changePicture span {
+	display: none;
+}
+
+.changePicture:hover span {
+	display: block;
 }
 
 .profilePic {
@@ -26,14 +32,6 @@
 	max-height: 500px;
 }
 
-.profilePic:hover {
+.editProfilePic:hover {
 	opacity:0.5;
 }
-
-
-
-/*
-.editNote {
-	left:calc(50% - 57px);
-}
-*/
