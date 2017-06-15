@@ -1,0 +1,47 @@
+.defaultImage, .profileImage {
+	position: relative;
+}
+
+.defaultImage:hover svg {
+	opacity:0.5;
+}
+
+.defaultImage span > div {
+	z-index: 2;
+	display:none;
+}
+
+.defaultImage input {
+	background-color:rgba( 211, 211, 211, 1 );
+}
+
+.defaultImage:hover span > div {
+	display:block;
+}
+
+.changePicture span {
+	display: block;
+	padding-top: 20px;
+}
+
+.profilePic {
+	max-width: 400px;
+	max-height: 500px;
+}
+
+.editProfilePic:hover {
+	opacity:0.5;
+}
+
+.profileName {
+	padding-top: 20px;
+}
+
+.topPadding30 {
+	padding-top: 30px;
+}
+
+.profileForm {
+	margin: 0 auto;
+	maxWidth: 400;
+}
