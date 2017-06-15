@@ -104,7 +104,7 @@ import { Glyphicon } from 'react-bootstrap';
            Author: {this.props.post.user ? this.props.post.user.name: "unknown user"}&nbsp;
          </span>  
         <div>
-           Points: {countDownvotes ? (countUpvotes - countDownvotes) : countUpvotes}&nbsp;
+           Points: {}&nbsp;
         </div>
            <div className='pt3'>
          <b>{ countComments }&nbsp; Comments </b>
