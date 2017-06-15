@@ -76,12 +76,10 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
       });
    }
 
-   handleSubmit=(event)=>{
-      console.log('handleSubmit')  
+   handleSubmit=(event)=>{ 
    }
 
    render () {
-    //console.log('Das sind die Props in der DetailPost',this.props);
 
     if (this.props.data.loading) {
       return (<div>Loading</div>)
@@ -131,8 +129,6 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
      )   
    }
  }
-
- //disabled={(this.isSubmittable() ? "" : "disabled")}
 
 
 // Mutations
