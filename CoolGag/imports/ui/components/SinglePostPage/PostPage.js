@@ -3,6 +3,7 @@ import { withRouter } from 'react-router'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import DetailPost from './DetailPost'
+import {Container, Row, Col} from 'reactstrap';
 
 class PostPage extends React.Component {
 
@@ -27,8 +28,16 @@ class PostPage extends React.Component {
     }
 
     return (
-      <div>
-        <DetailPost post={this.props.data.Post} handleCancel={this.goBack}/>
+      <div className=' flex justify-center'>
+        <Container>
+          <Row>
+            <Col>
+              <div className="singlepost-container">
+                <DetailPost post={this.props.data.Post} user={this.props.data.user} handleCancel={this.goBack}/>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }
@@ -43,27 +52,23 @@ const PostQuery = gql`query PostQuery($id: ID!){
     id
     category
     upvotes
-    comments{
+    comments(orderBy: createdAt_DESC){
       id
       text
       user{
         id
         name
-        profilePic {
-          url
-        }
+        profilePic { url }
       }
     }
-  postedFile { url }
-    description
-    user{
+    postedFile { url }
+      description
+      user{ name }
+    }
+    user {
+      id 
       name
     }
-  }
-  user {
-    id
-    name
-  }
 }`
 
 

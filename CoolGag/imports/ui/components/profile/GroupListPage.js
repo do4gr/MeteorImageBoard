@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 
-export default class ProfilePostListPage extends React.Component {
+export default class GroupListPage extends React.Component {
 
   static propTypes = {
     data: PropTypes.object,
@@ -17,11 +17,18 @@ export default class ProfilePostListPage extends React.Component {
     return (
       <div className='w-100 flex justify-center'>
         <div className='w-100' style={{ maxWidth: 400 }}>
-          {this.props.data.user.posts.map((post) =>
-            <PostPreview key={post.id} post={post} />
-          )}
+        {this.props.data.user.groups.map((group) =>
+         //<PostPreview key={post.id} post={post} />
+         <span>
+              <span> <h4>Group: {group.name}, with users: </h4></span>
+              <span> {group.users.map((groupUser) =>
+                  <span> {groupUser.name},  </span>
+              )} </span>
+          </span>
+        )}
         </div>
       </div>
     )
   }
 }
+

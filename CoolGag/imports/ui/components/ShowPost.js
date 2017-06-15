@@ -1,5 +1,4 @@
 import React from 'react'
-import Post from './Post'
 import DetailPost from './DetailPost'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -21,7 +20,7 @@ import PropTypes from 'prop-types';
 
     return (
       <div className='w-100 flex justify-center'>
-        <div className='w-100' style={{ maxWidth: 400 }}>
+        <div className='w-100' style={{ maxWidth: 600 }}>
         {this.props.data.allPosts.map((post) =>
           {
             if (post.id == this.props.params.id){

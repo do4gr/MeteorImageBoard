@@ -66,6 +66,12 @@ nav .navbar-toggable-md{
 
 }
 
+.logout-btn 
+	a {
+	background-color: red;
+	color: red;
+}
+
 .dropzone {
 	border: .25em dotted silver;
 	border-radius: .5em;
