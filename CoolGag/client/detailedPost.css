@@ -3,6 +3,9 @@
 	float: right;
 }
 
+
+
+
 .detailPost-view{
   overflow: auto;
   border-radius: 10px;
@@ -28,4 +31,43 @@
 
 .comment-form {
 	margin-bottom: 10px;
+}
+
+.comment-container{
+  display: block;
+  margin: 10px auto 5px auto;
+  border-radius: 10px;
+}
+
+.commentAuthor{
+  display: inline-block;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+form .form-group {
+  margin-bottom: 0.5rem;
+}
+
+hr .hr-comment {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.comment-submit-btn{
+  /*float: right;*/
+ background-color: #89a4e0;
+
+}
+
+.points-comment{
+  color: grey;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.profile-comment-link{
+  color: black;
+  text-decoration: none;
 }
