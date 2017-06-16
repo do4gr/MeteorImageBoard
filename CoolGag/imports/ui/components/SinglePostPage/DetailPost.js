@@ -23,8 +23,6 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
   }
 
   state = {
-     userId: '',
-     postId: '',
      text: '',
   }
 
@@ -37,7 +35,6 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
      this.props.createCommentMutation({
       variables: { userId, postId, text}
      }).then(({ data }) => {
-        this.setState({ 'update': true });
           console.log('got data', data);
         }).catch((error) => {
           console.log('there was an error sending the query', error);
@@ -53,8 +50,8 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
   }
 
   handleSubmit=(event)=>{
-   //event.preventDefault();
-}
+   this.props.router.replace('/view/'+ postId);
+  }
 
 
    render () {
