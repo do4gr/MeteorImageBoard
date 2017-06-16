@@ -3,6 +3,9 @@ import PostPreview from '../PostPreview'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
+import MyGroups from '/imports/ui/components/profile/MyGroups'
+import { Button,Label } from 'reactstrap'
+
 
 export default class GroupListPage extends React.Component {
 
@@ -11,21 +14,25 @@ export default class GroupListPage extends React.Component {
   }
 
   render () {
+    console.log(this.props)
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
     return (
-      <div className='w-100 flex justify-center'>
-        <div className='w-100' style={{ maxWidth: 400 }}>
-        {this.props.data.user.groups.map((group) =>
-         //<PostPreview key={post.id} post={post} />
-         <span>
-              <span> <h4>Group: {group.name}, with users: </h4></span>
-              <span> {group.users.map((groupUser) =>
-                  <span> {groupUser.name},  </span>
-              )} </span>
-          </span>
-        )}
+      <div className='group-list-container'>
+        <div >
+          <div className="group-header-wrapper">
+            <div className="groups-title">My Groups</div>  
+            <div className="create-group-btn"><Button color="info">Create Group</Button></div>
+          </div>
+          <div>
+            <hr/>
+            
+              {this.props.data.user.groups.map((group) =>
+              //<PostPreview key={post.id} post={post} />
+              <MyGroups key={group.id} group={group} />
+              )}
+          </div>
         </div>
       </div>
     )
