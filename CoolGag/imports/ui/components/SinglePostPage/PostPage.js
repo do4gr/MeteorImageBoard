@@ -76,6 +76,7 @@ const PostPageWithData = graphql(PostQuery, {
   options: (ownProps) => ({
       variables: {
         id: ownProps.params.postId
+
       }
     })
   }

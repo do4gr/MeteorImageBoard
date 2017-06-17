@@ -19,7 +19,7 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
         error: React.PropTypes.object,
         Post: React.PropTypes.object,
         user: React.PropTypes.object,
-     }),
+     }).isRequired,
   }
 
   state = {
@@ -36,9 +36,9 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 
      this.props.createCommentMutation({
       mutation: createComment,
-      variables: { userId, postId, text}
+      variables: { userId, postId, text},
+
      }).then(({ data }) => {
-        this.setState({ 'update': true });
           console.log('got data', data);
         }).catch((error) => {
           console.log('there was an error sending the query', error);
