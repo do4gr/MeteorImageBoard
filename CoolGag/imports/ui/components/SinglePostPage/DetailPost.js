@@ -19,7 +19,7 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
         error: React.PropTypes.object,
         Post: React.PropTypes.object,
         user: React.PropTypes.object,
-     }),
+     }).isRequired,
   }
 
   state = {
@@ -33,7 +33,8 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
      const text   = this.state.text
 
      this.props.createCommentMutation({
-      variables: { userId, postId, text}
+      variables: { userId, postId, text},
+
      }).then(({ data }) => {
           console.log('got data', data);
         }).catch((error) => {

@@ -10,7 +10,7 @@ import VotingSystemComment from './VotingSystemComment';
 export default class ShowComment extends React.Component {
 
 	static propTypes = {
-		comment: PropTypes.object,
+		comment: PropTypes.object.isRequired,
   }
 
   render(){

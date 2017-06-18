@@ -22,7 +22,7 @@ export default class ListPage extends React.Component {
               <Col>  
                 <div className="feed-container">  
                 {this.props.data.allPosts.map((post) =>
-                  <PostPreview key={post.id} post={post} />
+                  <PostPreview key={post.id} post={post}/>
                 )}
                 </div> 
               </Col>

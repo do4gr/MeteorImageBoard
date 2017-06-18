@@ -34,6 +34,7 @@ const networkInterface = createNetworkInterface({ uri: 'https://api.graph.cool/s
 
 networkInterface.use([{
   applyMiddleware (req, next) {
+    // setTimeout(next, 500);
     if (!req.options.headers) {
       req.options.headers = {}
     }
