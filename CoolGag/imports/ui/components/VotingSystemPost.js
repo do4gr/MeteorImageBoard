@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router";
 import { FormGroup, Input, Button } from "reactstrap";
 import update from "immutability-helper";
+import {Container, Row, Col} from 'reactstrap';
 
 class VotingSystemPost extends React.Component {
 	static propTypes = {
@@ -94,39 +95,52 @@ class VotingSystemPost extends React.Component {
 
 		return (
 			<div>
-				<div>
-					<span>
-						<Button
-							className="upvote-btn"
-							onClick={this.handleUpvote}
-						>
-							<span className="glyphicon glyphicon-thumbs-up" />UP
-						</Button>
-						{" "}
-					</span>
-					<span>
-						<Button
-							className="downvote-btn"
-							onClick={this.handleDownvote}
-						>
-							<span className="glyphicon glyphicon-thumbs-down" />DOWN
-						</Button>
-						{" "}
-					</span>
-				</div>
-				<div className="points-post">
-					<span>
-						upvotes: {countUpvotes}&nbsp;
-					</span>
-					<span> | </span>
-					<span>
-						downvotes: {countDownvotes}&nbsp;
-					</span>
-					<span> | </span>
-					<span>
-						comments: {countComments}&nbsp;
-					</span>
-				</div>
+				<Container className="nested">
+					<Row>
+						<Col sm="12">
+							<div>
+								<span>
+									<Button
+										className="upvote-btn"
+										onClick={this.handleUpvote}
+									>
+										<span className="glyphicon glyphicon-thumbs-up" />UP
+									</Button>
+									{" "}
+								</span>
+								<span>
+									<Button
+										className="downvote-btn"
+										onClick={this.handleDownvote}
+									>
+										<span className="glyphicon glyphicon-thumbs-down" />DOWN
+									</Button>
+									{" "}
+								</span>
+							</div>
+						</Col>
+					</Row>
+					<Row className="points-post">
+						<Col xs="auto" >	
+							<span>
+								upvotes: {countUpvotes}&nbsp;
+							</span>
+						
+							<span> |&nbsp; </span>
+						</Col>
+						<Col xs="auto">
+							<span>
+								downvotes: {countDownvotes}&nbsp;
+							</span>
+							<span> |&nbsp; </span>
+						</Col>
+						<Col xs="auto">
+							<span>
+								comments: {countComments}&nbsp;
+							</span>
+						</Col>	
+					</Row>
+				</Container>
 			</div>
 		);
 	}

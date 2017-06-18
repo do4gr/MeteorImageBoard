@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from '../imports/ui/containers/App'
 import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
+import CreateGroup from '../imports/ui/components/CreateGroup'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
@@ -59,7 +60,8 @@ ReactDOM.render((
     <Router history={browserHistory}>
       <Route component={App}>
         <Route path='/' component={Home} />
-        <Route path='create' component={CreatePost} />
+        <Route path='createPost' component={CreatePost} />
+        <Route path='createGoup' component={CreateGroup} />
         <Route path='login' component={LoginUser} />
         <Route path='signup' component={CreateUser} />
         <Route path='kittenslist' component={KittensList} />

@@ -9,6 +9,7 @@ import {FormGroup, Input, Button, } from 'reactstrap'
 import { Glyphicon } from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
+import { countQuery } from '/imports/ui/components/VotingSystemPost';
 
 
  class DetailPost extends React.Component {
@@ -23,24 +24,22 @@ import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
   }
 
   state = {
-     text: '',
+    text: '',
   }
 
 
-   handleComment = () => {
-     const userId = this.props.user.id
-     const postId = this.props.post.id
-     const text   = this.state.text
-
-     this.props.createCommentMutation({
+  handleComment = () => {
+    const userId = this.props.user.id
+    const postId = this.props.post.id
+    const { text } = this.state
+    this.props.createCommentMutation({
       variables: { userId, postId, text},
-
-     }).then(({ data }) => {
-          console.log('got data', data);
-        }).catch((error) => {
-          console.log('there was an error sending the query', error);
-        });
-   }
+      }).then(({ data }) => {
+      console.log('got data', data);
+      }).catch((error) => {
+      console.log('there was an error sending the query', error);
+    });
+  }
 
   isSubmittable() {
     if (this.state.text != ''){

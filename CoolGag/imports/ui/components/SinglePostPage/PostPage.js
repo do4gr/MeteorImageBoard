@@ -31,10 +31,8 @@ class PostPage extends React.Component {
       <div className=' flex justify-center'>
         <Container>
           <Row>
-            <Col>
-              <div className="singlepost-container">
+            <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }} className="singlepost-container" >
                 <DetailPost post={this.props.data.Post} user={this.props.data.user} handleCancel={this.goBack}/>
-              </div>
             </Col>
           </Row>
         </Container>

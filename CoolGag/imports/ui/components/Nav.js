@@ -91,7 +91,10 @@ class Example extends React.Component {
 								<NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
 							</NavItem>
 							<NavItem>
-								<NavLink href="/create/">Create&nbsp;Post</NavLink>
+								<NavLink href="/createPost/">+&nbsp;Post</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
               </NavItem>
                <NavItem >
                 <NavLink >
