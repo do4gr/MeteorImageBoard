@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import { Button } from 'reactstrap';
+import {Link} from 'react-router';
+import {Button} from 'reactstrap';
 import gql from 'graphql-tag'
 import PostTitle from './Posts/PostTitle'
-import { graphql, compose } from 'react-apollo'
+import {graphql, compose} from 'react-apollo'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {Container, Row, Col} from 'reactstrap';
 
 class PostPreview extends React.Component {
 
-	static propTypes = {
-		post: PropTypes.object,
-		data: PropTypes.object,
-	}
+  static propTypes = {
+    post: PropTypes.object,
+    data: PropTypes.object
+  }
 
 	render () {
 		return (
@@ -71,7 +71,7 @@ class PostPreview extends React.Component {
 	}
 }
 
- const userQuery = gql`
+const userQuery = gql `
  	query {
  		user {
  			id
@@ -79,4 +79,4 @@ class PostPreview extends React.Component {
  	}
  `
 
- export default graphql(userQuery)(PostPreview)
+export default graphql(userQuery)(PostPreview)
