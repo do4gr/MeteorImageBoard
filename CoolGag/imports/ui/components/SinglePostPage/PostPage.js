@@ -55,17 +55,14 @@ export const PostQuery = gql`query PostQuery($postId: ID!){
       user{
         id
         name
-        profilePic { url }
+        profilePic { id, url }
       }
     }
-    postedFile { url }
-      description
-      user{ name }
-    }
-    user {
-      id
-      name
-    }
+    postedFile { id, url }
+    description
+    user{ id, name }
+  }
+  user {id,name}
 }`
 
 

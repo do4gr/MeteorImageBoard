@@ -4,19 +4,17 @@ import GroupListPage from '../../components/profile/GroupListPage';
 
 const MyGroupsQuery = gql`query {
     user{
+        id
         name
         groups{
             id
-	        name
+	          name
             createdAt
             updatedAt
-            users{
-                id
-                name
-            }
+            users{id,name}
             posts{
                 id
-            	postedFile { url }
+            	  postedFile { id, url }
                 description
             }
         }

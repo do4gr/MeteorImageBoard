@@ -5,9 +5,9 @@ const KittenQuery = gql`query {
   allPosts(orderBy: createdAt_DESC
   filter: {category: KITTENS}) {
     id
-	postedFile { url }
+	  postedFile { id, url }
     description
-	category
+	  category
   }
 }`
 

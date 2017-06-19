@@ -4,9 +4,10 @@ import UpvoteListPage from '../../components/profile/UpvoteListPage';
 
 const UpvotePostsQuery = gql`query {
     user{
+        id
         upvotedPosts(orderBy: createdAt_DESC) {
             id
-        	postedFile { url }
+        	  postedFile { id, url }
             description
         }
     }

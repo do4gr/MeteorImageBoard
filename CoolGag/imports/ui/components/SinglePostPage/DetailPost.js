@@ -127,4 +127,4 @@ const userQuery = gql `
  `
 
 export default
-compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery, fetchPolicy : 'network-only'),)(DetailPost)
+compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery),)(DetailPost)

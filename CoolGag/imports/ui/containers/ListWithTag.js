@@ -4,9 +4,9 @@ import ListPage from '../components/ListPage';
 const WithTagQuery = gql`query($tagText: String!) {
   allPosts(orderBy: createdAt_DESC, filter:{tags_some: {text: $tagText}}) {
     id
-	postedFile { url }
+	  postedFile { id, url }
     description
-	category
+	  category
   }
 }`
 

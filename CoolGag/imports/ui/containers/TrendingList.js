@@ -4,7 +4,7 @@ import ListPage from '../components/ListPage';
 const TrendingQuery = gql`query {
   allPosts(orderBy: createdAt_DESC) {
     id
-	postedFile { url }
+	postedFile { id, url }
     description
 	category
   }
