@@ -7,7 +7,7 @@ import {FormGroup, Input, Button, } from 'reactstrap'
 
 class VotingSystemComment extends React.Component{
 	static propTypes = {
-	    comment: React.PropTypes.object.isRequired, 
+	    comment: React.PropTypes.object.isRequired,
 	}
 
 	handleUpvote = () => {
@@ -20,10 +20,10 @@ class VotingSystemComment extends React.Component{
 	      	refetchQueries: [{
 	      	 	query: countQuery,
 	      	 	variables: { id: commentId }
-	      	}],	
+	      	}],
 	    }).then(({ data }) => {
 	    	this.setState({ 'update': true });
-	        console.log('got data', data);
+	        //console.log('got data', data);
 	      }).catch((error) => {
 	        console.log('there was an error sending the query', error);
 	      });
@@ -40,14 +40,14 @@ class VotingSystemComment extends React.Component{
 	      	 	variables: { id: commentId }
 	      	}],
 	    }).then(({ data }) => {
-	        console.log('got data', data);
+	        //console.log('got data', data);
 	      }).catch((error) => {
 	        console.log('there was an error sending the query', error);
 	      });
 	   }
 
 	render(){
-		console.log(this.props);
+		//console.log(this.props);
 
 		if (this.props.data.loading) {
   			return (<div>Loading</div>)
@@ -80,7 +80,7 @@ class VotingSystemComment extends React.Component{
 		        	<span>
 		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>{' '}
 		        	</span>
-	        	</div>   
+	        	</div>
 			</div>
 	   		)
 	   }

@@ -13,7 +13,7 @@ export default class ShowComment extends React.Component {
   }
 
   render(){
-  	console.log(this.props)
+  	//console.log(this.props)
   	return(
 			<div className='comment-container' >
 				<Comment>

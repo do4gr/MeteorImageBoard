@@ -32,7 +32,7 @@ class DetailPost extends React.Component {
         text
       }
     }).then(({data}) => {
-      console.log('got data', data);
+      //console.log('got data', data);
     }).catch((error) => {
       console.log('there was an error sending the query', error);
     });
@@ -51,7 +51,7 @@ class DetailPost extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+  //  console.log(this.props);
 
     if (this.props.data.loading) {
       return (

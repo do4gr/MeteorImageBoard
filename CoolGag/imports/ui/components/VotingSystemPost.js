@@ -48,7 +48,7 @@ class VotingSystemPost extends React.Component {
 				// },
 			})
 			.then(({ data }) => {
-				console.log("got data", data);
+			//	console.log("got data", data);
 			})
 			.catch(error => {
 				console.log("there was an error sending the query", error);
@@ -77,7 +77,7 @@ class VotingSystemPost extends React.Component {
 	};
 
 	render() {
-		console.log(this.props);
+		//console.log(this.props);
 
 		if (this.props.data.loading) {
 			return <div>Loading</div>;
@@ -121,11 +121,11 @@ class VotingSystemPost extends React.Component {
 						</Col>
 					</Row>
 					<Row className="points-post">
-						<Col xs="auto" >	
+						<Col xs="auto" >
 							<span>
 								upvotes: {countUpvotes}&nbsp;
 							</span>
-						
+
 							<span> |&nbsp; </span>
 						</Col>
 						<Col xs="auto">
@@ -138,7 +138,7 @@ class VotingSystemPost extends React.Component {
 							<span>
 								comments: {countComments}&nbsp;
 							</span>
-						</Col>	
+						</Col>
 					</Row>
 				</Container>
 			</div>
@@ -178,7 +178,7 @@ const countQuery = gql`
 		        count
 		    }
 		    _commentsMeta{
-		        count 
+		        count
 		    }
 		  }
 	}`;
