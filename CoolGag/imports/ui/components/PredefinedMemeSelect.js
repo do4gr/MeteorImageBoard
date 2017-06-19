@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import {gql,  graphql, withApollo } from 'react-apollo';
 
 class PredefinedMemeSelect extends React.Component {
 
@@ -11,18 +10,18 @@ class PredefinedMemeSelect extends React.Component {
 		onSelect: PropTypes.func,
 		data: PropTypes.object
 	}
-	
+
 	constructor(props) {
 		super(props);
 		this.loadMemes();
 	}
-	
+
 	state = {
 		memesLoaded: false,
 		memes: []
 	}
-	
-	
+
+
 	async loadMemes() {
 		const result = await this.props.client.query({
 			query: gql`
@@ -43,12 +42,12 @@ class PredefinedMemeSelect extends React.Component {
 			memesLoaded: true
 		});
 	}
-	
+
 	render() {
 		if (this.props.data && this.props.data.loading) {
 			return (<div className={this.props.className ? this.props.className : ""} style={this.props.style ? this.props.style : {}}>Loading</div>)
 		}
-		
+
 		return (
 			<div className={(this.props.className ? this.props.className : "") + ' memeSelect'} style={this.props.style ? this.props.style : {}}>
 				{ !this.state.memesLoaded &&
@@ -64,7 +63,7 @@ class PredefinedMemeSelect extends React.Component {
 			</div>
 		);
 	}
-	
+
 	memeSelected(meme) {
 		if (this.props.onSelect) {
 			this.props.onSelect(meme);

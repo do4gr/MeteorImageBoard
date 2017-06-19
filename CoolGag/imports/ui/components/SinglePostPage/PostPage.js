@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import DetailPost from './DetailPost'
 import {Container, Row, Col} from 'reactstrap';
 

@@ -1,7 +1,6 @@
 import React from 'react'
-import { graphql, compose, withApollo } from 'react-apollo'
+import { gql, graphql, compose, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
-import gql from 'graphql-tag'
 import { Button, ButtonGroup } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
 import ContentEditable from 'react-contenteditable';
@@ -49,7 +48,7 @@ class ProfileHeader extends React.Component {
 			<div className="center-text">
 				<h1 className="profileName"> {this.props.data.user.name}</h1>
 
-				{this.props.data.user.profilePic && this.props.data.user.profilePic.url && 
+				{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="profileImage">
 						<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
 					</div>
@@ -66,9 +65,9 @@ class ProfileHeader extends React.Component {
 								<text x="20" y="72" fill="white" fontSize="7pt">Add an image
 									<tspan x="25" y="85">of yourself!</tspan>
 								</text>
-							</svg>	
-						</span>	
-					</div>		
+							</svg>
+						</span>
+					</div>
 				}
 				<div>
 					Member since {this.props.data.user.createdAt.split("T")[0].split("-")[2]}.{this.props.data.user.createdAt.split("T")[0].split("-")[1]}.{this.props.data.user.createdAt.split("T")[0].split("-")[0]}
@@ -107,5 +106,5 @@ const profileData = gql`
 		}
 	}
 `
-export default graphql(profileData, { options: { forceFetch: true }} )
+export default graphql(profileData)
 (withApollo(withRouter(ProfileHeader)))

@@ -1,7 +1,6 @@
 import React from 'react'
 import PostPreview from '../components/PostPreview'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import {Container, Row, Col} from 'reactstrap';
 
@@ -19,10 +18,10 @@ export default class ListPage extends React.Component {
       <div>
         <Container>
           <Row>
-            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container"> 
+            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
                 {this.props.data.allPosts.map((post) =>
                   <PostPreview key={post.id} post={post}/>
-                )}  
+                )}
             </Col>
           </Row>
         </Container>

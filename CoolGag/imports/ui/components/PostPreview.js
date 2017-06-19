@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button} from 'reactstrap';
-import gql from 'graphql-tag'
 import PostTitle from './Posts/PostTitle'
-import {graphql, compose} from 'react-apollo'
+import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {Container, Row, Col} from 'reactstrap';
 
@@ -42,7 +41,7 @@ class PostPreview extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col xs="12" sm="6"> 
+					<Col xs="12" sm="6">
 						<div>
 			        		<Link to={`/view/${this.props.post.id}`}>
 								<Button className="comment-btn"  onClick= {()=>{}}><span className="glyphicon glyphicon-thumbs-down"></span>COMMENT</Button>
@@ -79,4 +78,4 @@ const userQuery = gql `
  	}
  `
 
-export default graphql(userQuery)(PostPreview)
+export default graphql(userQuery, fetchPolicy : 'network-only')(PostPreview)

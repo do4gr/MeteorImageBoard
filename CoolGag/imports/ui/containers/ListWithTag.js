@@ -1,5 +1,4 @@
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { gql, graphql } from 'react-apollo';
 import ListPage from '../components/ListPage';
 
 const WithTagQuery = gql`query($tagText: String!) {

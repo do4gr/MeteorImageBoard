@@ -1,5 +1,4 @@
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import {gql,  graphql, fetchPolicy } from 'react-apollo';
 import CreateGroup from '/imports/ui/components/CreateGroup'
 
 const UserQuery = gql`
@@ -10,4 +9,4 @@ const UserQuery = gql`
 	}
 `
 
-export default graphql(UserQuery)(CreateGroup)
+export default graphql(UserQuery, fetchPolicy : 'network-only')(CreateGroup)

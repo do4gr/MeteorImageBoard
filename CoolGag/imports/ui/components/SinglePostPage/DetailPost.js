@@ -1,7 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router';
-import gql from 'graphql-tag'
-import {graphql, compose} from 'react-apollo'
+import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import PropTypes from 'prop-types';
 
 import CommentList from 'react-uikit-comment-list'
@@ -128,4 +127,4 @@ const userQuery = gql `
  `
 
 export default
-compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery),)(DetailPost)
+compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery, fetchPolicy : 'network-only'),)(DetailPost)

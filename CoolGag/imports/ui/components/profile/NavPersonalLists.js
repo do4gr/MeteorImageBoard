@@ -1,7 +1,6 @@
 import React from 'react'
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Row, Col} from 'reactstrap'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import ListPage from '../ListPage'
 import ProfilePostListPage from './ProfilePostListPage'
 
