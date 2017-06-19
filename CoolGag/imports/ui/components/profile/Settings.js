@@ -1,7 +1,6 @@
 import React from 'react'
-import { graphql, compose, withApollo } from 'react-apollo'
+import { gql, graphql, compose, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
-import gql from 'graphql-tag'
 import { Button, ButtonGroup } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
 import ContentEditable from 'react-contenteditable';
@@ -50,7 +49,7 @@ class Settings extends React.Component {
 			<div className="center-text">
 				<h1 className="profileName">Hey {this.props.data.user.name}, let's update your profile!</h1>
 
-				{!this.state.isEditingPicture && this.props.data.user.profilePic && this.props.data.user.profilePic.url && 
+				{!this.state.isEditingPicture && this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="defaultImage changePicture">
 						<span>
 							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)} />
@@ -71,9 +70,9 @@ class Settings extends React.Component {
 								<text x="20" y="72" fill="white" fontSize="7pt">Add an image
 									<tspan x="25" y="85">of yourself!</tspan>
 								</text>
-							</svg>  
-						</span> 
-					</div>    
+							</svg>
+						</span>
+					</div>
 				}
 
 				<form className={'profileForm'} onSubmit={this.handleUpload.bind(this)}>
@@ -102,7 +101,7 @@ class Settings extends React.Component {
 									}
 								</div>
 							}
-							{ this.state.imageUrl &&    
+							{ this.state.imageUrl &&
 								<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
 									<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
 										<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
@@ -195,7 +194,7 @@ class Settings extends React.Component {
 			isLoadingFile: false
 		});
 	}
-	
+
 	handleFileSelect(file) {
 		if(file != null) {
 			this.setState({
@@ -241,7 +240,7 @@ class Settings extends React.Component {
 				this.setState({'isSubmitting': false});
 			});
 		};
-		
+
 		let data = new FormData();
 		data.append('data', this.state.file);
 		continueUpload();
@@ -292,7 +291,7 @@ const uploadPicture = gql`
 		setUserOnFile(
 			userProfilePicUserId: $userId,
 			profilePicFileId: $postedFileId
-		) 
+		)
 		{
 			userProfilePicUser {
 				id
@@ -306,7 +305,7 @@ const deletePicture = gql`
 		unsetUserOnFile(
 			userProfilePicUserId: $userId,
 			profilePicFileId: $fileId
-		) 
+		)
 		{
 			userProfilePicUser {
 				id
@@ -324,5 +323,5 @@ const deletePicture = gql`
 export default compose(
 	graphql(uploadPicture, { name: 'changeProfilePic' } ),
 	graphql(deletePicture, { name: 'deleteProfilePic'} ),
-	graphql(profileData, { options: { forceFetch: true }} )
+	graphql(profileData)
 )(withApollo(withRouter(Settings)))

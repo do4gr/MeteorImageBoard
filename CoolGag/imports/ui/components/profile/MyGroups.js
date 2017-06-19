@@ -1,7 +1,6 @@
 import React from 'react'
 import PostPreview from '../PostPreview'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { Button, Label} from 'reactstrap'
 
@@ -23,23 +22,23 @@ export default class MyGroups extends React.Component {
         <div className="group-list-item-wrapper">
         {//link to the special group site with showing Members, inviting Members, create Group, GroupPosts
         }
-         
+
           <div className="group-list-group-title">{this.props.group.name}</div>
-         
+
          <div className="group-list-btn-plusMembers">
           <Button color="secondary">Add Members</Button>
          </div>
          <div className="group-list-btn-leaveGroup">
           <Button color="danger">Leave Group</Button>
          </div>
-         
+
        {/*
           <div>
             <b>Members</b>
               <div>
                 {this.props.group.users.map((groupUser) =>
                   <div> {groupUser.name},  </div>
-                )} 
+                )}
               </div>
           </div>
           */}
@@ -48,4 +47,3 @@ export default class MyGroups extends React.Component {
     )
   }
 }
-

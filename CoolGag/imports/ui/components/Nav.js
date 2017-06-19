@@ -2,8 +2,7 @@ import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql, fetchPolicy } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 
@@ -153,4 +152,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, { options: {forceFetch: true }})(Example)
+export default graphql(userQuery, fetchPolicy : 'network-only')(Example)

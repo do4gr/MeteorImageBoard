@@ -1,6 +1,5 @@
 import React from "react";
-import gql from "graphql-tag";
-import { graphql, compose } from "react-apollo";
+import { gql, graphql, compose } from "react-apollo";
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 import { FormGroup, Input, Button } from "reactstrap";

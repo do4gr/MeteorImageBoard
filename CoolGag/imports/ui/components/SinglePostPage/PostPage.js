@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import DetailPost from './DetailPost'
 import {Container, Row, Col} from 'reactstrap';
 
@@ -45,8 +44,8 @@ class PostPage extends React.Component {
   }
 }
 
-const PostQuery = gql`query PostQuery($id: ID!){
-  Post (id: $id){
+export const PostQuery = gql`query PostQuery($postId: ID!){
+  Post (id: $postId){
     id
     category
     upvotes
@@ -56,25 +55,21 @@ const PostQuery = gql`query PostQuery($id: ID!){
       user{
         id
         name
-        profilePic { url }
+        profilePic { id, url }
       }
     }
-    postedFile { url }
-      description
-      user{ name }
-    }
-    user {
-      id 
-      name
-    }
+    postedFile { id, url }
+    description
+    user{ id, name }
+  }
+  user {id,name}
 }`
 
 
 const PostPageWithData = graphql(PostQuery, {
   options: (ownProps) => ({
       variables: {
-        id: ownProps.params.postId
-
+        postId: ownProps.params.postId
       }
     })
   }

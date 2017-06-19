@@ -1,7 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router';
-import gql from 'graphql-tag'
-import {graphql, compose} from 'react-apollo'
+import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import PropTypes from 'prop-types';
 
 import CommentList from 'react-uikit-comment-list'
@@ -9,7 +8,8 @@ import {FormGroup, Input, Button} from 'reactstrap'
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
-import { countQuery } from '/imports/ui/components/VotingSystemPost';
+import {countQuery} from '/imports/ui/components/VotingSystemPost';
+import {PostQuery} from './PostPage'
 
 class DetailPost extends React.Component {
 
@@ -21,7 +21,7 @@ class DetailPost extends React.Component {
     text: ''
   }
 
-  handleComment = () => {
+  handleComment = async() => {
     const userId = this.props.user.id
     const postId = this.props.post.id
     const text = this.state.text
@@ -30,9 +30,17 @@ class DetailPost extends React.Component {
         userId,
         postId,
         text
-      }
+      },
+      refetchQueries: [
+        {
+          query: PostQuery,
+          variables: {
+            postId
+          }
+        }
+      ]
     }).then(({data}) => {
-      //console.log('got data', data);
+      this.setState({text : ''})
     }).catch((error) => {
       console.log('there was an error sending the query', error);
     });
@@ -46,13 +54,7 @@ class DetailPost extends React.Component {
     }
   }
 
-  handleSubmit = (event) => {
-    this.props.router.replace('/view/' + postId);
-  }
-
   render() {
-  //  console.log(this.props);
-
     if (this.props.data.loading) {
       return (
         <div>Loading</div>
@@ -92,17 +94,10 @@ class DetailPost extends React.Component {
           </b>
         </div>
         <hr className="hr-comment"/>
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Input type="textarea" value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} placeholder="write comments..." name="text" id="comment-form" className="w-100"/>
-          </FormGroup>
-          <div>
-            <button type="submit" disabled={this.isSubmittable()
-              ? ''
-              : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">{"Add Comment"}</button>
-          </div>
-        </form>
-
+        <input value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} placeholder="write comments..." type="text" id="comment-form" className="w-100"/>
+        <button type="submit" disabled={this.isSubmittable()
+          ? ''
+          : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">Add Comment</button>
         <div className='commentList'>
           {comments.map((comment) => <ShowComment key={comment.id} comment={comment}/>)}
         </div>

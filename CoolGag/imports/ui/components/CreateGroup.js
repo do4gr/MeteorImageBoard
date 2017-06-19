@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { graphql, compose, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import { gql, graphql, compose, withApollo } from 'react-apollo';
 import {Button} from 'reactstrap';
 import PropTypes from 'prop-types';
 import UserQuery from '/imports/ui/containers/UserQuery'
@@ -26,7 +25,7 @@ class CreateGroup extends React.Component{
 		return (
 			<div>Here we go</div>
 
-		) 
+		)
 	}
 
 }
@@ -35,9 +34,9 @@ const createGroup = gql`
 	mutation createGroup($name: String!, $userId: ID! ){
 		createGroup(
 			name: $name,
-			usersIds: $userId	
+			usersIds: $userId
 		){
-			id		
+			id
 		}
 	}
 `

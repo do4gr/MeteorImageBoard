@@ -1,7 +1,6 @@
 import React from 'react'
 import PostPreview from '../PostPreview'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 export default class DownvoteListPage extends React.Component {
