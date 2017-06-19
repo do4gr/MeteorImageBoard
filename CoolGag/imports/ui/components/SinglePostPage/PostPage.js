@@ -45,8 +45,8 @@ class PostPage extends React.Component {
   }
 }
 
-const PostQuery = gql`query PostQuery($id: ID!){
-  Post (id: $id){
+export const PostQuery = gql`query PostQuery($postId: ID!){
+  Post (id: $postId){
     id
     category
     upvotes
@@ -64,7 +64,7 @@ const PostQuery = gql`query PostQuery($id: ID!){
       user{ name }
     }
     user {
-      id 
+      id
       name
     }
 }`
@@ -73,8 +73,7 @@ const PostQuery = gql`query PostQuery($id: ID!){
 const PostPageWithData = graphql(PostQuery, {
   options: (ownProps) => ({
       variables: {
-        id: ownProps.params.postId
-
+        postId: ownProps.params.postId
       }
     })
   }
