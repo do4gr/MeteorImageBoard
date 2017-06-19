@@ -18,9 +18,9 @@ import PostUtils from './Posts/PostUtils';
 class CreatePost extends React.Component {
 
 	static propTypes = {
-		router: PropTypes.object,
-		mutate: PropTypes.func,
-		data: PropTypes.object
+		router: PropTypes.object.isRequired,
+		mutate: PropTypes.func.isRequired,
+		data: PropTypes.object.isRequired,
 	}
 	
 	static placeholders = {

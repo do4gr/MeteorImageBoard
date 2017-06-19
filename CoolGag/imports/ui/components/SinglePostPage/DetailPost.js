@@ -9,6 +9,7 @@ import {FormGroup, Input, Button} from 'reactstrap'
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
+import { countQuery } from '/imports/ui/components/VotingSystemPost';
 
 class DetailPost extends React.Component {
 
@@ -24,7 +25,6 @@ class DetailPost extends React.Component {
     const userId = this.props.user.id
     const postId = this.props.post.id
     const text = this.state.text
-
     this.props.createCommentMutation({
       variables: {
         userId,

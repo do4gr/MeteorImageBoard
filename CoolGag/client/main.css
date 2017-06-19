@@ -66,6 +66,11 @@ nav .navbar-toggable-md{
 
 }
 
+.container .nested{
+	padding-left: 0;
+	padding-right: 0 ;
+}
+
 .logout-btn 
 	a {
 	background-color: red;
