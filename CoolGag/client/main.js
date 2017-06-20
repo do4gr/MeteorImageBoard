@@ -60,13 +60,13 @@ ReactDOM.render((
       <Route component={App}>
         <Route path='/' component={Home}/>
         <Route path='createPost' component={CreatePost}/>
-        <Route path='createGoup' component={CreateGroup}/>
+        <Route path='createGroup' component={CreateGroup}/>
         <Route path='login' component={LoginUser}/>
         <Route path='signup' component={CreateUser}/>
         <Route path='kittenslist' component={KittensList}/>
         <Route path='hotlist' component={HotList}/>
-        <Route path='trendinglist' component={FreshList}/>
-        <Route path='freshlist' component={TrendingList}/>
+        <Route path='trendinglist' component={TrendingList}/>
+        <Route path='freshlist' component={FreshList}/>
         <Route path='tag/:tagText' component={ListWithTag}/>
         <Route path='view/:postId' component={PostPage}/>
         <Route path='settings' component={Settings}/>
