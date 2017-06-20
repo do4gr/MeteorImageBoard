@@ -3,6 +3,7 @@ import Nav from '../components/Nav'
 import { fetchPolicy, gql, graphql } from 'react-apollo'
 import { withRouter } from 'react-router'
 
+
 /*
   Props:
     router
