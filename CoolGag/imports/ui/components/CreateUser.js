@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql , fetchPolicy} from 'react-apollo'
 import PropTypes from 'prop-types'
 
 class CreateUser extends React.Component {
@@ -125,7 +124,7 @@ const userQuery = gql`
 `
 
 export default graphql(createUser, {name: 'createUser'})(
-  graphql(userQuery, { options: { forceFetch: true }})(
+  graphql(userQuery, fetchPolicy: "network-only")(
     graphql(signinUser, {name: 'signinUser'})(
       withRouter(CreateUser))
     )

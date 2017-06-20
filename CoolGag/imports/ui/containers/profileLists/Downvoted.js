@@ -1,14 +1,14 @@
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { gql, graphql } from 'react-apollo';
 import DownvoteListPage from '../../components/profile/DownvoteListPage';
 
 
 
 const DownvotePostsQuery = gql`query {
     user{
+        id
         downvotedPosts(orderBy: createdAt_DESC) {
             id
-        	postedFile { url }
+        	  postedFile { id, url }
             description
         }
     }

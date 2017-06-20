@@ -1,7 +1,6 @@
 import React from 'react'
 import Nav from '../components/Nav'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { fetchPolicy, gql, graphql } from 'react-apollo'
 import { withRouter } from 'react-router'
 
 /*
@@ -50,4 +49,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, { options: {forceFetch: true }})(withRouter(App))
+export default graphql(userQuery, fetchPolicy: 'network-only')(withRouter(App))

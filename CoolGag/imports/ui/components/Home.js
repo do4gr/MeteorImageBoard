@@ -1,7 +1,6 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
+import { gql, graphql, fetchPolicy } from 'react-apollo'
 import { withRouter } from 'react-router'
-import gql from 'graphql-tag'
 import ListPage from '../containers/ListPage'
 import Nav from './Nav'
 import {Container, Row, Col } from 'reactstrap'
@@ -96,4 +95,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, { options: {forceFetch: true }})(withRouter(Home))
+export default graphql(userQuery, fetchPolicy: "network-only")(withRouter(Home))

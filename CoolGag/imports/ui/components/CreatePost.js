@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { graphql, compose, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
 import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
@@ -18,11 +17,11 @@ import PostUtils from './Posts/PostUtils';
 class CreatePost extends React.Component {
 
 	static propTypes = {
-		router: PropTypes.object,
-		mutate: PropTypes.func,
-		data: PropTypes.object
+		router: PropTypes.object.isRequired,
+		mutate: PropTypes.func.isRequired,
+		data: PropTypes.object.isRequired,
 	}
-	
+
 	static placeholders = {
 		upper: 'Enter',
 		lower: 'Text'
@@ -46,7 +45,7 @@ class CreatePost extends React.Component {
 		upperImageText: CreatePost.placeholders.upper,
 		lowerImageText: CreatePost.placeholders.lower
 	}
-	
+
 	static fontSizePercentage = 0.09;
 	static textStyle = {
 		'text-align': 'center',
@@ -66,7 +65,7 @@ class CreatePost extends React.Component {
 	isSubmittable() {
 		return this.state.description && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
 	}
-	
+
 	onWindowResize(event) {
 		this.recalcImageFontSize();
 	}
@@ -189,7 +188,7 @@ class CreatePost extends React.Component {
 			</div>
 		)
 	}
-	
+
 	recalcImageFontSize(element) {
 		if(!element) {
 			$(ReactDOM.findDOMNode(this)).find('.imagePreview').each((i, e)=>{
@@ -203,9 +202,9 @@ class CreatePost extends React.Component {
 	async handlePost(event) {
 		event.preventDefault();
 		this.setState({'isSubmitting': true});
-		
+
 		// TODO(rw): clean up
-		
+
 		var continueUpload = () => {
 			fetch('https://api.graph.cool/file/v1/cj2ryvxmbt4qw0160y6qhdgdl', {
 				body: data,
@@ -272,7 +271,7 @@ class CreatePost extends React.Component {
 				this.setState({'isSubmitting': false});
 			});
 		};
-		
+
 		let data = new FormData();
 		if(this.state.isTextEntered) {
 			this.generateImage({
@@ -286,10 +285,10 @@ class CreatePost extends React.Component {
 			data.append('data', this.state.file);
 			continueUpload();
 		}
-    
+
 		return false;
 	}
-	
+
 	onDragStart(validType) {
 		this.setState({
 			isDraggingFile: true,
@@ -322,7 +321,7 @@ class CreatePost extends React.Component {
 			isLoadingFile: false
 		});
 	}
-	
+
 	handleFileSelect(file) {
 		if(file != null) {
 			this.setState({
@@ -403,12 +402,12 @@ class CreatePost extends React.Component {
 		}
 		return result;
 	}
-	
+
 	// Image from DOM: https://developer.mozilla.org/de/docs/Web/HTML/Canvas/Drawing_DOM_objects_into_a_canvas
 	generateImage(options) {
 		this.setState({'isRendering': true});
 		var img = new Image();
-		
+
 		img.onload = () => {
 			var width = this.state.imageSize.width;
 			var height = this.state.imageSize.height;
@@ -419,12 +418,12 @@ class CreatePost extends React.Component {
 			canvas.height = height;
 			canvas.style = 'width: ' + 400 + 'px;';
 			var fontSize = width * CreatePost.fontSizePercentage;
-			
+
 			var blackUpperText;
 			var whiteUpperText;
 			var blackLowerText;
 			var whiteLowerText;
-			
+
 			this.drawText({
 				html: this.state.upperImageText,
 				fontSize: fontSize,
@@ -457,7 +456,7 @@ class CreatePost extends React.Component {
 							color: 'white'
 						}).then((result)=>{
 							whiteLowerText = result;
-							
+
 							//ctx.drawImage(blackUpperText, -5, fontSize / 5-5);
 							ctx.clearRect(0, 0, canvas.width, canvas.height);
 							ctx.drawImage(img, 0, 0);
@@ -471,7 +470,7 @@ class CreatePost extends React.Component {
 							ctx.drawImage(blackUpperText, offset, fontSize / 16);
 							ctx.drawImage(blackUpperText, offset, fontSize / 16 + offset);
 							ctx.drawImage(whiteUpperText, 0, fontSize / 16);
-							
+
 							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height - offset);
 							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height);
 							ctx.drawImage(blackLowerText, -offset, height - blackLowerText.height + offset);
@@ -481,9 +480,9 @@ class CreatePost extends React.Component {
 							ctx.drawImage(blackLowerText, offset, height - blackLowerText.height);
 							ctx.drawImage(blackLowerText, offset, height - blackLowerText.height + offset);
 							ctx.drawImage(whiteLowerText, 0, height - whiteLowerText.height);
-							
+
 							var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-							
+
 							this.setState({'isRendering': false});
 							if(options && typeof options.callback == 'function') {
 								options.callback(dataUrl);
@@ -493,10 +492,10 @@ class CreatePost extends React.Component {
 				});
 			});
 		}
-		
+
 		img.src = this.state.imageUrl;
 	}
-	
+
 	drawText(options) {
 		var color = options && options.color ? options.color : 'black';
 		var html = options && options.html ? options.html : '';
@@ -504,7 +503,7 @@ class CreatePost extends React.Component {
 		var height = options && options.height ? options.height : 400;
 		var fontSize = options && options.fontSize ? options.fontSize : 36;
 		var callback = null;
-		
+
 		var frame = document.createElement('iframe');
 		frame.setAttribute('style', 'position:absolute;top:0;left:0;width:0;height:0;');
 		frame.setAttribute('frameBorder','0');
@@ -526,9 +525,9 @@ class CreatePost extends React.Component {
 				}
 			});
 		};
-		
+
 		document.body.appendChild(frame);
-		
+
 		return {
 			then: (c)=> {
 				callback = c;
@@ -562,10 +561,5 @@ const userQuery = gql`
 
 export default compose(
   graphql(createPost),
-  graphql(userQuery, { options: { forceFetch: true }} )
+  graphql(userQuery, fetchPolicy: "network-only" )
 )(withApollo(withRouter(CreatePost)))
-
-
-// export default graphql(createPost)(
-// 	graphql(userQuery, { options: { forceFetch: true }} )(withRouter(CreatePost))
-// )

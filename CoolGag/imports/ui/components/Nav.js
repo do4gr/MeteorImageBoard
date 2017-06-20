@@ -2,8 +2,7 @@ import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql, fetchPolicy } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 
@@ -91,7 +90,10 @@ class Example extends React.Component {
 								<NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
 							</NavItem>
 							<NavItem>
-								<NavLink href="/create/">Create&nbsp;Post</NavLink>
+								<NavLink href="/createPost/">+&nbsp;Post</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
               </NavItem>
                <NavItem >
                 <NavLink >
@@ -150,4 +152,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, { options: {forceFetch: true }})(Example)
+export default graphql(userQuery, fetchPolicy : 'network-only')(Example)

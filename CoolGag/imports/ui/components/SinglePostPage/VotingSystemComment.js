@@ -1,31 +1,28 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
+import { gql, graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {FormGroup, Input, Button, } from 'reactstrap'
 
 class VotingSystemComment extends React.Component{
 	static propTypes = {
-	   	
-	        comment: React.PropTypes.object,
-	   
+	    comment: React.PropTypes.object.isRequired,
 	}
-
-	state = {
-	    update: false,
-  	}
 
 	handleUpvote = () => {
 
 	    const userId = this.props.comment.user.id
 	    const commentId = this.props.comment.id
 	    this.props.upvoteCommentMutation({
-	      mutation: upvoteComment,
-	      variables: { commentId, userId }
+	      	mutation: upvoteComment,
+	      	variables: { commentId, userId },
+	      	refetchQueries: [{
+	      	 	query: countQuery,
+	      	 	variables: { id: commentId }
+	      	}],
 	    }).then(({ data }) => {
 	    	this.setState({ 'update': true });
-	        console.log('got data', data);
+	        //console.log('got data', data);
 	      }).catch((error) => {
 	        console.log('there was an error sending the query', error);
 	      });
@@ -35,18 +32,21 @@ class VotingSystemComment extends React.Component{
 	    const userId = this.props.comment.user.id
 	    const commentId = this.props.comment.id
 	    this.props.downvoteCommentMutation({
-	      mutation: downvoteComment,
-	      variables: { commentId, userId }
+	      	mutation: downvoteComment,
+	      	variables: { commentId, userId },
+	      	refetchQueries: [{
+	      	 	query: countQuery,
+	      	 	variables: { id: commentId }
+	      	}],
 	    }).then(({ data }) => {
-	    	this.setState({ update: true });
-	        console.log('got data', data);
+	        //console.log('got data', data);
 	      }).catch((error) => {
 	        console.log('there was an error sending the query', error);
 	      });
 	   }
 
 	render(){
-		console.log(this.props);
+		//console.log(this.props);
 
 		if (this.props.data.loading) {
   			return (<div>Loading</div>)
@@ -57,10 +57,8 @@ class VotingSystemComment extends React.Component{
       		return (<div>An unexpected error occurred</div>)
 		}
 
-	     // TODO: _usersWhoUpvotedMeta is not defined. Why? comments where defined...is it coming from parent PostPage
 	    const countUpvotes = this.props.data.Comment._usersWhoUpvotedMeta.count;
 	    const countDownvotes = this.props.data.Comment._usersWhoDownvotedMeta.count;
-
 
 	   	return(
 	   		<div>
@@ -81,7 +79,7 @@ class VotingSystemComment extends React.Component{
 		        	<span>
 		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>{' '}
 		        	</span>
-	        	</div>   
+	        	</div>
 			</div>
 	   		)
 	   }
