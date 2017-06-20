@@ -5,6 +5,7 @@ const UserQuery = gql`
 	query {
 		user {
 			id
+			name
 		}
 	}
 `
