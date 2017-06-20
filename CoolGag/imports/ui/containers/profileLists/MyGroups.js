@@ -6,7 +6,7 @@ const MyGroupsQuery = gql`query {
     user{
         id
         name
-        groups{
+        groups (orderBy: createdAt_DESC){
             id
 	          name
             createdAt
