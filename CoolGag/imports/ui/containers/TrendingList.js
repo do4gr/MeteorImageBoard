@@ -1,8 +1,12 @@
 import {gql,  graphql } from 'react-apollo';
 import ListPage from '../components/ListPage';
+import { withRouter } from 'react-router'
 
-const TrendingQuery = gql`query {
-  allPosts(orderBy: createdAt_DESC) {
+var date = new Date(); //generate the current date
+date.setDate(date.getDate() - 1); // calculate the date of yesterday
+const TrendingQuery = gql`query TrendingQuery($yesterday: DateTime!) {
+  allPosts(orderBy: karmaPoints_DESC
+  filter: {createdAt_gt: $yesterday}) {
     id
 	postedFile { id, url }
     description
@@ -10,4 +14,12 @@ const TrendingQuery = gql`query {
   }
 }`
 
-export default graphql(TrendingQuery)(ListPage);
+const TrendingWithData = graphql(TrendingQuery, {
+  options: {
+    variables: {
+      yesterday: date
+    }
+  }
+})(withRouter(ListPage))
+
+export default TrendingWithData

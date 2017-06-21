@@ -65,24 +65,24 @@ class VotingSystemComment extends React.Component{
 	   		<div>
 	   			<div className="points-comment">
 				    <span>
-				        upvotes: { countUpvotes }&nbsp;
+							upvotes: { countUpvotes }&nbsp;
 				    </span>
 				    <span> | </span>
 				    <span>
-				        downvotes: { countDownvotes }&nbsp;
+							downvotes: { countDownvotes }&nbsp;
 				    </span>
 
-		         </div>
-				<div>
-					<span>
+					</div>
+					<div>
+						<span>
 		      			<Button className="upvote-btn" size="sm" onClick={this.handleUpvote}> 
 		      			<Glyphicon glyph="arrow-up" /></Button>{' '}
-		        	</span>
-		        	<span>
+						</span>
+						<span>
 		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><Glyphicon glyph="arrow-down" /></Button>{' '}
-		        	</span>
-	        	</div>
-			</div>
+						</span>
+					</div>
+				</div>
 	   		)
 	   }
 }

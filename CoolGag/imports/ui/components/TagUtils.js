@@ -1,4 +1,5 @@
 import React from 'react';
+import gql from 'react-apollo';
 
 function replaceAll(string, find, replace) {
 	result = string;
@@ -123,5 +124,91 @@ export default class TagUtils {
 		}
 		
 		return result;
+	}
+	
+	
+	static async requestTags(options) {
+		console.log('before query', options.client);
+		const tmp = await options.client.query({
+			query: gql`
+				query predefinedMemeQuery {
+					allPredefinedMemes {
+						name
+						file {
+							url
+							secret
+						}
+					}
+				}
+			`
+		});
+		console.log('test');
+		const result = await options.client.query({
+			query: gql`
+				query allTagsQuery{
+					allTags{
+						id,
+						text,
+						_postsMeta {count}
+					}
+				}
+			`
+		});
+		console.log('after query');
+		
+		var tags = [];
+		var tagCounts = [];
+		
+		for(var i = 0; i < result.length; i += 1) {
+			var tag = result[i];
+			var count = tag._postsMeta.count;
+			if(count > 0) {
+				var inserted = false;
+				for(var k = 0; k < tagCounts.length; k += 1) {
+					if(count > tagCounts[k]) {
+						tags.splice(k, 0, tag.text);
+						tagCounts.splice(k, 0, tag._postsMeta.count);
+						inserted = true;
+						break;
+					}
+				}
+				if(!inserted) {
+					tags.push(tag.text);
+					tagCounts.push(tag._postsMeta.count);
+				}
+			}
+		}
+		
+		// apply result
+		if(options && typeof options.callback) {
+			options.callback(tags);
+		}
+		return tags;
+	}
+	
+	static mostUsed(allTags) {
+		var tags = [];
+		var tagCounts = [];
+		
+		for(var i = 0; i < allTags.length; i += 1) {
+			var tag = allTags[i];
+			var count = tag._postsMeta.count;
+			if(count > 0) {
+				var inserted = false;
+				for(var k = 0; k < tagCounts.length; k += 1) {
+					if(count > tagCounts[k]) {
+						tags.splice(k, 0, tag.text);
+						tagCounts.splice(k, 0, tag._postsMeta.count);
+						inserted = true;
+						break;
+					}
+				}
+				if(!inserted) {
+					tags.push(tag.text);
+					tagCounts.push(tag._postsMeta.count);
+				}
+			}
+		}
+		return tags;
 	}
 }

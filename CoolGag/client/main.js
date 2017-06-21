@@ -65,8 +65,8 @@ ReactDOM.render((
         <Route path='signup' component={CreateUser}/>
         <Route path='kittenslist' component={KittensList}/>
         <Route path='hotlist' component={HotList}/>
-        <Route path='trendinglist' component={FreshList}/>
-        <Route path='freshlist' component={TrendingList}/>
+        <Route path='trendinglist' component={TrendingList}/>
+        <Route path='freshlist' component={FreshList}/>
         <Route path='tag/:tagText' component={ListWithTag}/>
         <Route path='view/:postId' component={PostPage}/>
         <Route path='settings' component={Settings}/>

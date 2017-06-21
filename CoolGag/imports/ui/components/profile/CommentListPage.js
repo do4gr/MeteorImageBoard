@@ -2,6 +2,7 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql,graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import {Container, Row, Col} from 'reactstrap';
 
 export default class CommentListPage extends React.Component {
 
@@ -14,16 +15,20 @@ export default class CommentListPage extends React.Component {
       return (<div>Loading</div>)
     }
     return (
-      <div className='w-100 flex justify-center'>
-        <div className='w-100' style={{ maxWidth: 400 }}>
-            {this.props.data.user.comments.map((comment) =>
-                <span>
-                <span> <h4>Am: {comment.createdAt}</h4></span>
-                <PostPreview key={comment.post.id} post={comment.post} />
-                </span>
-            )}
+        <div>
+            <Container>
+                <Row>
+                    <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
+                        {this.props.data.user.comments.map((comment) =>
+                            <span>
+                            <span> <h4>Am: {comment.createdAt}</h4></span>
+                            <PostPreview key={comment.post.id} post={comment.post} />
+                            </span>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
         </div>
-      </div>
     )
   }
 }

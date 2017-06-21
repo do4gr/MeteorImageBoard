@@ -1,13 +1,16 @@
 import React from 'react';
+import { withRouter} from 'react-router';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
-import { gql, graphql, fetchPolicy } from 'react-apollo'
-import PropTypes from 'prop-types'
+import { gql, graphql, compose, fetchPolicy, withApollo } from 'react-apollo'
+import PropTypes from 'prop-types';
+import TagUtils from './TagUtils';
 
 
 class Example extends React.Component {
   static propTypes = {
+		router: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired
   }
 
@@ -16,7 +19,6 @@ class Example extends React.Component {
 
 		this.toggleNavBar = this.toggleNavBar.bind(this);
 		this.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
-    this.toggleCategoriesMenu = this.toggleCategoriesMenu.bind(this);
 		this.state = {
 			isNavBarOpen: false,
 			isBurgerMenuOpen: false,
@@ -35,11 +37,18 @@ class Example extends React.Component {
 			isBurgerMenuOpen: !this.state.isBurgerMenuOpen,
 		});
 	}
-  toggleCategoriesMenu() {
-    this.setState( {
-      isCategoriesMenuOpen: !this.state.isCategoriesMenuOpen,
-    });
-  }
+	getFilteredTags() {
+		return TagUtils.mostUsed(this.props.allTags.allTags).slice(0, 5);
+	}
+	toggleTagsMenu() {
+		this.setState( {
+			isCategoriesMenuOpen: !this.state.isCategoriesMenuOpen,
+		});
+	}
+	
+	tagClicked(tag) {
+		this.props.router.replace('/tag/' + tag)
+	}
 
   _logout = () => {
     // remove token from local storage and reload page to reset apollo client
@@ -97,20 +106,22 @@ class Example extends React.Component {
               </NavItem>
                <NavItem >
                 <NavLink >
-                <Dropdown  isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleCategoriesMenu}>
-                        <DropdownToggle caret color="secondary" outline>
-                          More&nbsp;Fun
-                        </DropdownToggle>{''}
-                        <DropdownMenu className="dropdown-menu-left">
-                          <DropdownItem>Dark Humor</DropdownItem>
-                          <DropdownItem>Yummy</DropdownItem>
-                          <DropdownItem>Funny</DropdownItem>
-                          <DropdownItem>Cute</DropdownItem>
-                          <DropdownItem>Hackers United</DropdownItem>
-                          <DropdownItem>Work</DropdownItem>
-                          <DropdownItem>Politics</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+				<Dropdown isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleTagsMenu.bind(this)}>
+					<DropdownToggle caret color="secondary" outline>
+						More Fun
+					</DropdownToggle>
+					<DropdownMenu className="dropdown-menu-left">
+						{ !this.props.allTags.allTags &&
+							<DropdownItem header>Loading</DropdownItem>
+						}
+						{ this.props.allTags.allTags && this.getFilteredTags().map((tag)=>{
+							return (
+								<DropdownItem key={tag} onClick={this.tagClicked.bind(this, tag)}>
+									{'#' + tag}
+								</DropdownItem>);
+						})}
+					</DropdownMenu>
+				</Dropdown>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -153,4 +164,19 @@ const userQuery = gql`
   }
 `
 
-export default graphql(userQuery, fetchPolicy : 'network-only')(Example)
+const tagQuery = gql`
+	query {
+		allTags {
+			id
+			text
+			_postsMeta {
+				count
+			}
+		}
+	}
+`
+
+export default compose(
+	graphql(tagQuery, {name: 'allTags'}),
+	graphql(userQuery, {fetchPolicy : 'network-only'})
+)(withRouter(Example))

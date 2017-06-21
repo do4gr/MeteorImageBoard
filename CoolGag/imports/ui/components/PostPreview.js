@@ -19,37 +19,39 @@ class PostPreview extends React.Component {
 		return (
 			<div>
 				<Container className="nested">
-				<div className='list-container'>
-				<Row>
-					<Col>
-						<div className='pb3'>
-								<PostTitle title={this.props.post.description} /> &nbsp;
-						</div>
-					</Col>
-				</Row>
-				<Row>
-					<Col >
-					<div className="feed-img">
-						<Link to={`/view/${this.props.post.id}`}>
-							<img src={this.props.post.postedFile.url} className='w-100' />
-						</Link>
-					</div>
-					{ this.props.post.category &&
-						<div className='pt3'>
-							{this.props.post.category}&nbsp;
-						</div>
-					}
-					</Col>
-				</Row>
-				<Row>
+          <div className='list-container'>
+            <Row>
+              <Col>
+                <div className='pb3'>
+                  <PostTitle title={this.props.post.description} /> &nbsp;
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col >
+                <div className="feed-img">
+                  <Link to={`/view/${this.props.post.id}`}>
+                    <img src={this.props.post.postedFile.url} className='w-100' />
+                  </Link>
+                </div>
+                { this.props.post.category &&
+                  <div className='pt3'>
+                    {this.props.post.category}&nbsp;
+                  </div>
+                }
+              </Col>
+            </Row>
+            <Row>
 					
-					<Col xs="12" sm="6" >
-						<div className="pull-right">
-		            		Author:&nbsp;
-		            		<Link to={`/myposts/`} className="profile-post-link">
-		               			{this.props.post.user ? this.props.post.user.name: "deleted user"}&nbsp;
-		           			</Link>
-		         		</div>
+              <Col xs="12" sm="6" >
+                <span className='author-tag'>
+                  Author:
+                  <Link to={`/myposts/`} className="profile-post-link">
+                    {this.props.post.user
+                      ? this.props.post.user.name
+                      : "unknown user"}&nbsp;
+                  </Link>
+                </span>
 		         	</Col>
 		         	<Col xs="12" sm="6">
 						<div>
@@ -58,8 +60,8 @@ class PostPreview extends React.Component {
 							</Link>
 			        	</div>
 			        </Col>
-				</Row>
-				<Row>
+            </Row>
+            <Row>
 	        		<Col xs="12" className="pt-2">
 	        			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
 	        		</Col>
