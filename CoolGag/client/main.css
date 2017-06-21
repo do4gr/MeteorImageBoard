@@ -1,3 +1,11 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
+body {
+	font-size: 16px !important;
+	font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -14,8 +22,27 @@ body {
   margin: 0;
   padding: 20px;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
 }
 
+h2, .h2 {
+	font-size: 2rem !important;
+}
+textarea, .form-control{
+	font-size: 16px !important;
+	line-height: 24px !important;
+}
+.dropdown-menu{
+	font-size: 16px !important;
+	border-radius: 3px !important;
+	padding: 8px auto !important;
+	margin-top: 2px !important;
+	line-height: 24px !important;
+}
+
+.navbar-toggler{
+	font-size: 18px !important;
+}
 .profile-drowpdown {
   float: right;
 }
@@ -59,8 +86,26 @@ nav {
 }
 nav .nav-item {
   display: flex;
-  align-items: center;  
+  align-items: center; 
+  line-height: 24px; 
 }
+
+nav .navbar-brand{
+	height: auto;
+	font-size: 20px;
+}
+
+.btn {
+	font-size: 16px !important;
+	border-radius: 4px !important;
+	line-height: 20px !important;
+	padding: 8px 16px !important;
+}
+
+/*nav { 
+	display: flex;
+  	align-items: center; 
+}*/
 
 nav .navbar-toggable-md{
 
@@ -125,6 +170,17 @@ nav .navbar-toggable-md{
 	opacity: 0.5;
 	transition: opacity 0.1875s;
 }
+@media (min-width: 992px){ 
+	.navbar-toggleable-md {
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		-webkit-box-align: center;
+		align-items: center;
+	}
+}
+
 @media (pointer: fine) {
 	.imagePreview .imageText {
 		opacity: 0;

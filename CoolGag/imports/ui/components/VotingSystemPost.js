@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { FormGroup, Input, Button } from "reactstrap";
 import update from "immutability-helper";
 import {Container, Row, Col} from 'reactstrap';
+import { Glyphicon } from 'react-bootstrap';
 
 class VotingSystemPost extends React.Component {
 	static propTypes = {
@@ -103,7 +104,7 @@ class VotingSystemPost extends React.Component {
 										className="upvote-btn"
 										onClick={this.handleUpvote}
 									>
-										<span className="glyphicon glyphicon-thumbs-up" />UP
+										<Glyphicon glyph="arrow-up"/>
 									</Button>
 									{" "}
 								</span>
@@ -112,7 +113,7 @@ class VotingSystemPost extends React.Component {
 										className="downvote-btn"
 										onClick={this.handleDownvote}
 									>
-										<span className="glyphicon glyphicon-thumbs-down" />DOWN
+										<Glyphicon glyph="arrow-down"/>
 									</Button>
 									{" "}
 								</span>

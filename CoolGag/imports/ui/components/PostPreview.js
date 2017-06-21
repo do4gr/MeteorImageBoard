@@ -6,6 +6,7 @@ import PostTitle from './Posts/PostTitle'
 import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {Container, Row, Col} from 'reactstrap';
+import { Glyphicon } from 'react-bootstrap';
 
 class PostPreview extends React.Component {
 
@@ -41,13 +42,7 @@ class PostPreview extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col xs="12" sm="6">
-						<div>
-			        		<Link to={`/view/${this.props.post.id}`}>
-								<Button className="comment-btn"  onClick= {()=>{}}><span className="glyphicon glyphicon-thumbs-down"></span>COMMENT</Button>
-							</Link>
-			        	</div>
-			        </Col>
+					
 					<Col xs="12" sm="6" >
 						<div className="pull-right">
 		            		Author:&nbsp;
@@ -56,6 +51,13 @@ class PostPreview extends React.Component {
 		           			</Link>
 		         		</div>
 		         	</Col>
+		         	<Col xs="12" sm="6">
+						<div>
+			        		<Link to={`/view/${this.props.post.id}`}>
+								<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>
+							</Link>
+			        	</div>
+			        </Col>
 				</Row>
 				<Row>
 	        		<Col xs="12" className="pt-2">

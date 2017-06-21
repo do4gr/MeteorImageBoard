@@ -47,7 +47,7 @@
 }
 
 .create-group-btn,
-.group-list-btn-plusMembers, 
+.group-list-btn-deleteGroup, 
 .group-list-btn-leaveGroup{
 	float: right;
 }

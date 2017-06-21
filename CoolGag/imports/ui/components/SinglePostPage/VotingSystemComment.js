@@ -3,6 +3,7 @@ import { gql, graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {FormGroup, Input, Button, } from 'reactstrap'
+import { Glyphicon } from 'reactstrap';
 
 class VotingSystemComment extends React.Component{
 	static propTypes = {
@@ -74,10 +75,11 @@ class VotingSystemComment extends React.Component{
 		         </div>
 				<div>
 					<span>
-		      			<Button className="upvote-btn" size="sm" onClick= { this.handleUpvote }><span className="glyphicon glyphicon-thumbs-up"></span>UP</Button>{' '}
+		      			<Button className="upvote-btn" size="sm" onClick={this.handleUpvote}> 
+		      			<Glyphicon glyph="arrow-up" /></Button>{' '}
 		        	</span>
 		        	<span>
-		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><span className="glyphicon glyphicon-thumbs-down"></span>DOWN</Button>{' '}
+		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><Glyphicon glyph="arrow-down" /></Button>{' '}
 		        	</span>
 	        	</div>
 			</div>

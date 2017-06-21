@@ -22,7 +22,6 @@ export default class GroupListPage extends React.Component {
         <div >
           <div className="group-header-wrapper">
             <div className="groups-title">My Groups</div>
-            <div className="create-group-btn"><Button color="info">Create Group</Button></div>
           </div>
           <div>
             <hr/>
