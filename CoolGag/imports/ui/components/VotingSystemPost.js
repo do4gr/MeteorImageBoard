@@ -103,7 +103,7 @@ class VotingSystemPost extends React.Component {
 									<Button
 										className="upvote-btn"
 										onClick={this.handleUpvote}
-									>⬆️
+									>
 										<Glyphicon glyph="arrow-up"/>
 									</Button>
 									{" "}
@@ -112,7 +112,7 @@ class VotingSystemPost extends React.Component {
 									<Button
 										className="downvote-btn"
 										onClick={this.handleDownvote}
-									>⬇️
+									>
 										<Glyphicon glyph="arrow-down"/>
 									</Button>
 									{" "}
