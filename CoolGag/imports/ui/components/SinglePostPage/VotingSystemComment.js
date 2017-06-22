@@ -3,7 +3,8 @@ import { gql, graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {FormGroup, Input, Button, } from 'reactstrap'
-import { Glyphicon } from 'reactstrap';
+import {Glyphicon} from 'react-bootstrap'
+import {Container, Row, Col} from 'reactstrap';
 
 class VotingSystemComment extends React.Component{
 	static propTypes = {
@@ -63,26 +64,39 @@ class VotingSystemComment extends React.Component{
 
 	   	return(
 	   		<div>
-	   			<div className="points-comment">
-				    <span>
-							upvotes: { countUpvotes }&nbsp;
-				    </span>
-				    <span> | </span>
-				    <span>
-							downvotes: { countDownvotes }&nbsp;
-				    </span>
+				<Container className="nested">
+					<Row>
+						<Col>
+							<div className="points-comment">
+							    <span>
+							        upvotes: { countUpvotes }&nbsp;
+							    </span>
+							    <span> | </span>
+							    <span>
+							        downvotes: { countDownvotes }&nbsp;
+							    </span>
 
-					</div>
-					<div>
-						<span>
-		      			<Button className="upvote-btn" size="sm" onClick={this.handleUpvote}> 
-		      			<Glyphicon glyph="arrow-up" /></Button>{' '}
-						</span>
-						<span>
-		     	 		<Button className="downvote-btn" size="sm" onClick={ this.handleDownvote }><Glyphicon glyph="arrow-down" /></Button>{' '}
-						</span>
-					</div>
-				</div>
+					         </div>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<div>
+								<span>
+					      			<Button className="upvote-btn btn-sm"  onClick={this.handleUpvote} >
+					      				<Glyphicon glyph="arrow-up"/>
+					      			</Button>{' '}
+					        	</span>
+					        	<span>
+					     	 		<Button className="downvote-btn btn-sm"  onClick={ this.handleDownvote }>
+					     	 			<Glyphicon glyph="arrow-down"/>
+					     	 		</Button>{' '}
+					        	</span>
+				        	</div>
+						</Col>
+					</Row>
+				</Container>
+			</div>
 	   		)
 	   }
 }
