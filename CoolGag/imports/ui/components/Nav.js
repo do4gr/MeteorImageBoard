@@ -132,6 +132,7 @@ class Example extends React.Component {
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-left">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>
+                          <DropdownItem href="/mygroups/">My Groups</DropdownItem>
                           <DropdownItem divider />
                           <DropdownItem href="/settings/">Settings</DropdownItem>
                     </DropdownMenu>

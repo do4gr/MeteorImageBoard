@@ -3,6 +3,7 @@ import PostPreview from '../PostPreview'
 import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { Button, Label} from 'reactstrap'
+import { Glyphicon } from 'react-bootstrap'
 
 export default class MyGroups extends React.Component {
 
@@ -24,12 +25,13 @@ export default class MyGroups extends React.Component {
         }
 
           <div className="group-list-group-title">{this.props.group.name}</div>
-
-         <div className="group-list-btn-plusMembers">
-          <Button color="secondary">Add Members</Button>
+        {//ToDO POPUP beim löschen
+        }
+         <div className="group-list-btn-deleteGroup">
+          <Button color="danger"><Glyphicon glyph="trash" /></Button>
          </div>
          <div className="group-list-btn-leaveGroup">
-          <Button color="danger">Leave Group</Button>
+          <Button color="danger">Leave</Button>
          </div>
 
        {/*
