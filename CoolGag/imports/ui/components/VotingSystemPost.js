@@ -6,6 +6,8 @@ import { FormGroup, Input, Button } from "reactstrap";
 import update from "immutability-helper";
 import {Container, Row, Col} from 'reactstrap';
 import { Glyphicon } from 'react-bootstrap';
+import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
+import VotingCommentPoints from '/imports/ui/components/VotingCommentPoints';
 
 class VotingSystemPost extends React.Component {
 	static propTypes = {
@@ -97,7 +99,7 @@ class VotingSystemPost extends React.Component {
 			<div>
 				<Container className="nested">
 					<Row>
-						<Col sm="12">
+						<Col xs="12" sm="6">
 							<div>
 								<span>
 									<Button
@@ -117,29 +119,30 @@ class VotingSystemPost extends React.Component {
 									</Button>
 									{" "}
 								</span>
+								<span>
+									<Link to={`/view/${this.props.post.id}`}>
+										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
+									</Link>
+								</span>
 							</div>
 						</Col>
+					    <Col xs="12" sm="6" >
+					        <div className='pull-right'>
+					            Author:&nbsp;
+					            <Link to={`/myposts/`} className="profile-post-link">
+				                    {this.props.post.user
+				                      ? this.props.post.user.name
+				                      : "deleted user"}&nbsp;
+				                 </Link>
+					        </div>
+						</Col>	
 					</Row>
-					<Row className="points-post">
-						<Col xs="auto" >
-							<span>
-								upvotes: {countUpvotes}&nbsp;
-							</span>
 
-							<span> |&nbsp; </span>
-						</Col>
-						<Col xs="auto">
-							<span>
-								downvotes: {countDownvotes}&nbsp;
-							</span>
-							<span> |&nbsp; </span>
-						</Col>
-						<Col xs="auto">
-							<span>
-								comments: {countComments}&nbsp;
-							</span>
-						</Col>
-					</Row>
+					<Row>
+			        	<Col xs="12" className="pt-2">
+			        		<VotingCommentPoints data={this.props.data} post={ this.props.post } user={ this.props.data.user } />
+			        	</Col>
+			        </Row>
 				</Container>
 			</div>
 		);
