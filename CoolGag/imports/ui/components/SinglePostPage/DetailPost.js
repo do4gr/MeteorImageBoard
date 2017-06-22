@@ -4,11 +4,13 @@ import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import PropTypes from 'prop-types';
 import CommentList from 'react-uikit-comment-list'
 import {Form, FormGroup, Input, Button} from 'reactstrap'
+import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
+
 
 class DetailPost extends React.Component {
 
@@ -74,38 +76,61 @@ class DetailPost extends React.Component {
     const comments = this.props.post.comments;
     return (
       <div className="detailPost-view">
-        <div className='pt3'>
-          Description: {this.props.post.description
-            ? this.props.post.description
-            : "-"}&nbsp;
-        </div>
-        <div >
-          <img src={`${this.props.post.postedFile.url}`} className="post-img w-100"/>
-        </div>
-        <span className='author-tag'>
-          Author:
-          <Link to={`/myposts/`} className="profile-post-link">
-            {this.props.post.user
-              ? this.props.post.user.name
-              : "unknown user"}&nbsp;
-          </Link>
-        </span>
-
-        <VotingSystemPost post={this.props.post} user={this.props.user}/>
-        <div className='pt3'>
-          <b>Comments
-          </b>
-        </div>
-        <hr className="hr-comment"/>
-
-        <Input value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} placeholder="write comments..." type="textarea" id="comment-form" className="w-100"/>
-
-        <button type="submit" disabled={this.isSubmittable()
-        ? ''
-        : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">Add Comment</button>
-        <div className='commentList'>
-          {comments.map((comment) => <ShowComment key={comment.id} comment={comment}/>)}
-        </div>
+        <Container className="nested">
+          <Row>
+            <Col xs="12">
+              <div className='pt3'>
+                Description: {this.props.post.description
+                  ? this.props.post.description
+                  : "-"}&nbsp;
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <div >
+                <img src={`${this.props.post.postedFile.url}`} className="post-img w-100"/>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <VotingSystemPost post={this.props.post} user={this.props.user}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <div className='pt3'>
+                <b>Comments</b>
+              </div>
+              <hr className="hr-comment"/>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Input value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} placeholder="write comments..." type="textarea" id="comment-form" className="w-100"/>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="pull-right">
+                <button type="submit" disabled={this.isSubmittable()
+                  ? ''
+                  : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                  Add Comment
+                </button>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className='commentList'>
+                {comments.map((comment) => 
+                  <ShowComment key={comment.id} comment={comment}/>)}
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }
@@ -131,5 +156,4 @@ const userQuery = gql `
  	}
  `
 
-export default
-compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery),)(DetailPost)
+export default compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery),)(DetailPost)

@@ -5,6 +5,7 @@ import {Button} from 'reactstrap';
 import PostTitle from './Posts/PostTitle'
 import {gql, graphql, compose, fetchPolicy} from 'react-apollo'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
+import VotingCommentPoints from '/imports/ui/components/VotingCommentPoints';
 import {Container, Row, Col} from 'reactstrap';
 import { Glyphicon } from 'react-bootstrap';
 
@@ -34,38 +35,14 @@ class PostPreview extends React.Component {
                     <img src={this.props.post.postedFile.url} className='w-100' />
                   </Link>
                 </div>
-                { this.props.post.category &&
-                  <div className='pt3'>
-                    {this.props.post.category}&nbsp;
-                  </div>
-                }
               </Col>
             </Row>
-            <Row>
-					
-              <Col xs="12" sm="12" >
-                <div className='pull-right'>
-                  Author:
-                  <Link to={`/myposts/`} className="profile-post-link">
-                    {this.props.post.user
-                      ? this.props.post.user.name
-                      : "unknown user"}&nbsp;
-                  </Link>
-                </div>
-		        </Col>
-		         	<Col xs="12" sm="12">
-						<div>
-			        		<Link to={`/view/${this.props.post.id}`}>
-								<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>
-							</Link>
-			        	</div>
-			        </Col>
-            </Row>
-            <Row>
+            	<Row>
 	        		<Col xs="12" className="pt-2">
 	        			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
 	        		</Col>
 	        	</Row>
+	      
 			</div>
 			<hr/>
 			</Container>
