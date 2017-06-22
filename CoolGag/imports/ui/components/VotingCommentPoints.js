@@ -6,6 +6,7 @@ import { FormGroup, Input, Button } from "reactstrap";
 import update from "immutability-helper";
 import {Container, Row, Col} from 'reactstrap';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
+import moment from 'moment';
 
 
 class VotingCommentPoints extends React.Component{
@@ -34,6 +35,7 @@ class VotingCommentPoints extends React.Component{
 		const countComments = this.props.data.Post._commentsMeta.count;
 		const countUpvotes = this.props.data.Post._usersWhoUpvotedMeta.count;
 		const countDownvotes = this.props.data.Post._usersWhoDownvotedMeta.count;
+		const from = moment(this.props.data.Post.createdAt).format("MMM Do YY");
 
 		return(
 			<div>
@@ -56,9 +58,15 @@ class VotingCommentPoints extends React.Component{
 							<span>
 								comments: {countComments}&nbsp;
 							</span>
+							<span> |&nbsp; </span>
+						</Col>
+						<Col xs="auto">
+							<span>
+								from: {from}&nbsp;
+							</span>
 						</Col>
 					</Row>
-				</Container>	
+				</Container>
 			</div>
 
 		)
@@ -78,6 +86,7 @@ const countQuery = gql`
 		    _commentsMeta{
 		        count
 		    }
+				createdAt
 		  }
 	}`;
 
