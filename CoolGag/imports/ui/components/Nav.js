@@ -5,7 +5,6 @@ import {Container, Row, Col} from 'reactstrap';
 import { gql, graphql, fetchPolicy } from 'react-apollo'
 import PropTypes from 'prop-types'
 
-
 class Example extends React.Component {
   static propTypes = {
     data: PropTypes.object.isRequired
@@ -69,32 +68,35 @@ class Example extends React.Component {
   renderLoggedIn() {
 		return (
 			<div>
-      <Container>
-        <Row>
-        <Col>
-				<Navbar color="faded" light className="navbar-toggleable-md">
-					<NavbarToggler right onClick={this.toggleNavBar} />
-					<NavbarBrand href="/">coolGAG</NavbarBrand>
-					<Collapse isOpen={this.state.isNavBarOpen} navbar>
-						<Nav className="ml-auto" navbar>
-							<NavItem>
-								<NavLink href="/hotlist/">Hot</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/trendinglist/">Trending</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/freshlist/">Fresh</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/createPost/">+&nbsp;Post</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
-              </NavItem>
+        <Container>
+          <Row>
+            <Col>
+              <Navbar color="faded" light className="navbar-toggleable-md">
+                <NavbarToggler right onClick={this.toggleNavBar} />
+                <NavbarBrand href="/">coolGAG</NavbarBrand>
+                <Collapse isOpen={this.state.isNavBarOpen} navbar>
+                  <Nav className="ml-auto" navbar>
+                    <NavItem>
+                      <NavLink href="/hotlist/">Hot</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/trendinglist/">Trending</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/freshlist/">Fresh</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/createPost/">+&nbsp;Post</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/search/">+&nbsp;Search</NavLink>
+                    </NavItem>
                <NavItem >
                 <NavLink >
                 <Dropdown  isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleCategoriesMenu}>
