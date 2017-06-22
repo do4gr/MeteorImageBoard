@@ -130,7 +130,7 @@ nav .navbar-nav{
 }
 
 nav .ml-auto{
-	margin-left:0;
+	margin-left: auto !important;
 }
 
 .container .nested{
