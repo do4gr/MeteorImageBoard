@@ -37,11 +37,12 @@ class PostPreview extends React.Component {
                 </div>
               </Col>
             </Row>
+            
             <Row>
-	        		<Col xs="12" className="pt-2">
-	        			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
-	        		</Col>
-	        	</Row>
+        		<Col xs="12" className="pt-2">
+        			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
+        		</Col>
+        	</Row>
 
 			</div>
 			<hr/>
