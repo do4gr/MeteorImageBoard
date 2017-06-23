@@ -43,6 +43,7 @@ class PostPreview extends React.Component {
         			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
         		</Col>
         	</Row>
+
 			</div>
 			<hr/>
 			</Container>
