@@ -91,7 +91,7 @@ class MyGroupsList extends React.Component {
           <Row>
             <Col xs="12" sm="6" md="8">
               <div className="group-list-group-title">
-                <Link to={`#`}>
+                <Link to={`/group/${this.props.group.id}`}>
                     {this.props.group.name}
                 </Link>
               </div>
@@ -118,14 +118,7 @@ class MyGroupsList extends React.Component {
         
 
        {/*
-          <div>
-            <b>Members</b>
-              <div>
-                {this.props.group.users.map((groupUser) =>
-                  <div> {groupUser.name},  </div>
-                )}
-              </div>
-          </div>
+        
           */}
       </div>
     )

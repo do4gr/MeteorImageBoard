@@ -2,7 +2,7 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import MyGroups from '/imports/ui/components/profile/MyGroupsList'
+import MyGroupsList from '/imports/ui/components/profile/MyGroupsList'
 import { Button,Label } from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router';
@@ -39,7 +39,7 @@ export default class GroupListPage extends React.Component {
             <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="group-listing">
               {this.props.data.user.groups.map((group) =>
               //<PostPreview key={post.id} post={post} />
-              <MyGroups key={group.id} group={group} data={this.props.data} />
+              <MyGroupsList key={group.id} group={group} data={this.props.data} />
               )}
             </Col>
           </Row>

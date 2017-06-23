@@ -16,6 +16,7 @@ import ProfilePage from '../imports/ui/components/profile/ProfilePage'
 
 import Settings from '../imports/ui/components/profile/Settings'
 import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
+import GroupPage from '../imports/ui/components/profile/GroupPage'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
@@ -74,6 +75,7 @@ ReactDOM.render((
         <Route path='search' component={SearchApp}/>
         <Route component={ProfilePage}>
           <Route path='mygroups' component={MyGroups}/>
+          <Route path='group/:groupId' component={GroupPage}/>
           <Route path='myposts' component={MyPosts}/>
           <Route path='mycomments' component={MyComments}/>
           <Route path='upvoted' component={Upvoted}/>

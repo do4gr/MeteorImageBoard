@@ -54,12 +54,10 @@ class ProfileHeader extends React.Component {
 					</div>
 				}
 				{!(this.props.data.user.profilePic && this.props.data.user.profilePic.url) &&
+					<div>
 					<div className="defaultImage">
 						<span>
-							<div className="ínput-center">
-								<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Edit your profile" onClick={this.changeImage.bind(this)} />
-							</div>
-							<svg width="25%" height="25%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<svg width="10%" height="10%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
 								<path d="M65.904,52.834c-4.734,3.725-10.695,5.955-17.172,5.955c-6.316,0-12.146-2.119-16.821-5.68C16.654,55.575,5,68.803,5,84.757 c0,17.711,14.356,6.197,32.065,6.197h25.868C80.643,90.954,95,102.468,95,84.757C95,68.051,82.22,54.333,65.904,52.834z" fill="#5a0000"/>
 								<path d="m48.732 55.057c13.285 0 24.092-10.809 24.092-24.095 0-2.1031-0.27084-4.1442-0.77947-6.0902-1.8787-4.3822 8.5763-5.105 5.6621-20.437-4.3832 12.115-12.076 9.1999-13.982 7.68-4.1173-3.2825-9.3298-5.2464-14.993-5.2464-5.5341 0-10.638 1.8757-14.711 5.0247-3.0862 2.4557-10.352 3.617-14.38-7.562-3.0717 14.595 7.1947 15.878 5.7569 20.62-0.49546 1.9222-0.75905 3.9365-0.75905 6.0112 1e-3 13.286 10.809 24.095 24.093 24.095z" fill="#5a0000"/>
 								<text x="20" y="72" fill="white" fontSize="7pt">Add an image
@@ -67,6 +65,10 @@ class ProfileHeader extends React.Component {
 								</text>
 							</svg>
 						</span>
+					</div>
+					<div className="ínput-center">
+						<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Edit your profile" onClick={this.changeImage.bind(this)} />
+					</div>
 					</div>
 				}
 				<div>
