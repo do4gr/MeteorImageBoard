@@ -12,6 +12,7 @@ import FileSelectButton from './../FileHandling/FileSelectButton';
 import WindowDropZone from './../FileHandling/WindowDropZone';
 import FileHandling from './../FileHandling/FileHandling';
 import PredefinedMemeSelect from './../PredefinedMemeSelect';
+import MyPosts from './../containers/profileLists/MyPosts';
 
 class ProfileHeader extends React.Component {
 
@@ -45,6 +46,7 @@ class ProfileHeader extends React.Component {
 		}
 
 		return (
+			<container>
 			<div className="center-text">
 				<h1 className="profileName"> {this.props.data.user.name}</h1>
 
@@ -76,9 +78,12 @@ class ProfileHeader extends React.Component {
 					Karma: {this.props.data.user.karma}
 				</div>
 				<div className="topPadding30">
+				<h1>warumnicht </h1>
+				<button>MYPOSTS</button>{''}
 					<NavPersonalLists />
 				</div>
 			</div>
+			</container>
 		);
 	}
 
