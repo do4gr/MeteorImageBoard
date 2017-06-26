@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, graphql, compose, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
-import { Button, ButtonGroup } from 'reactstrap'
+import { Button, ButtonGroup, Col, Row } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
@@ -133,6 +133,7 @@ class Settings extends React.Component {
 				<div>
 					{/* <NavPersonalLists /> */}
 				</div>
+				<button>Delete Profile</button>
 			</div>
 		);
 	}
