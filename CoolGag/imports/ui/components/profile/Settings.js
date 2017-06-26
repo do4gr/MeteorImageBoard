@@ -133,6 +133,8 @@ class Settings extends React.Component {
 				<div>
 					{/* <NavPersonalLists /> */}
 				</div>
+				<button>Change Password</button>
+				<button>Change Email</button>
 				<button>Delete Profile</button>
 			</div>
 		);
