@@ -6,6 +6,7 @@ import {Container, Row, Col} from 'reactstrap';
 import { gql, graphql, compose, fetchPolicy, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types';
 import TagUtils from './TagUtils';
+import { Glyphicon } from 'react-bootstrap'
 
 class Example extends React.Component {
   static propTypes = {
@@ -104,7 +105,7 @@ class Example extends React.Component {
                       <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink href="/search/">+&nbsp;Search</NavLink>
+                      <NavLink href="/search/"><Glyphicon glyph="search"/></NavLink>
                     </NavItem>
                <NavItem >
                 <NavLink >

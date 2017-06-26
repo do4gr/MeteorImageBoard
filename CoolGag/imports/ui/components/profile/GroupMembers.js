@@ -12,7 +12,7 @@ class GroupMembers extends React.Component{
 	    data: PropTypes.shape({
 			loading: React.PropTypes.bool,
 			error: React.PropTypes.object,
-			Group: React.PropTypes.object,
+			username: React.PropTypes.object,
 	    }).isRequired
 	}
 
@@ -32,12 +32,12 @@ class GroupMembers extends React.Component{
 			<Container>
 				<Row>
 					<Col>
-						<div>Members</div>
-					</Col>
-					<Col>					
-						{this.props.data.Group.users.map((groupUser) =>
-                  			<div> {groupUser.name},  </div>
-                		)}
+						<Link>
+					{//`/profile/${this.props.user.id}`}
+					}
+							<div>{this.props.username}</div>
+						</Link>
+						
 					</Col>
 				</Row>
 			</Container>
