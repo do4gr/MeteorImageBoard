@@ -2,9 +2,10 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import MyGroups from '/imports/ui/components/profile/MyGroups'
+import MyGroups from '/imports/ui/components/profile/MyGroupsList'
 import { Button,Label } from 'reactstrap'
-
+import {Container, Row, Col} from 'reactstrap';
+import { Link } from 'react-router';
 
 export default class GroupListPage extends React.Component {
 
@@ -17,22 +18,32 @@ export default class GroupListPage extends React.Component {
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
+
+    if (this.props.data.error) {
+      console.log(this.props.data.error);
+      return <div>An unexpected error occurred</div>;
+    }
+    
     return (
       <div className='group-list-container'>
-        <div >
-          <div className="group-header-wrapper">
-            <div className="groups-title">My Groups</div>
-            <div className="create-group-btn"><Button color="info">Create Group</Button></div>
-          </div>
-          <div>
-            <hr/>
-
+        <Container>
+          <Row>
+            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+              <div className="group-header-wrapper">
+                <div className="groups-title">My Groups</div>
+              </div>
+               <hr/>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="group-listing">
               {this.props.data.user.groups.map((group) =>
               //<PostPreview key={post.id} post={post} />
-              <MyGroups key={group.id} group={group} />
+              <MyGroups key={group.id} group={group} data={this.props.data} />
               )}
-          </div>
-        </div>
+            </Col>
+          </Row>
+         </Container>
       </div>
     )
   }

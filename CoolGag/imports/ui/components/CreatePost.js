@@ -13,6 +13,7 @@ import FileHandling from './FileHandling/FileHandling';
 import TagUtils from './TagUtils';
 import PredefinedMemeSelect from './PredefinedMemeSelect';
 import PostUtils from './Posts/PostUtils';
+import {Container, Row, Col} from 'reactstrap';
 
 class CreatePost extends React.Component {
 
@@ -92,99 +93,105 @@ class CreatePost extends React.Component {
 		}
 
 		return (
-			<div className='w-100 pa4 flex justify-center'>
-				<form style={{ maxWidth: 400 }} className='' onSubmit={this.handlePost.bind(this)}>
-					<input
-						className='w-100 pa3 mv2'
-						value={this.state.description}
-						placeholder='Description'
-						onChange={(e) => this.setState({description: e.target.value})}
-					/>
-					{/*TagUtils.splitByTagsAndRefs("@wepner: see my #hashtag #lol #yolo").map((element, index)=>{
-						if (element.type == 'tag') {
-							return (<a href="#" key={index}>#{element.text}</a>);
-						} else if(element.type == 'ref') {
-							return (<a href="#" key={index}>@{element.text}</a>);
-						} else {
-							return element.text;
-							//return (<span key={index}>{element.text}</span>)
-						}
-					})*/}
-					<input
-						className='w-100 pa3 mv2'
-						value={this.state.category}
-						placeholder='Category -> Try KITTENS or WTF'
-						onChange={(e) => this.setState({category: e.target.value})}
-					/>
-					<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
-					<WindowDropZone
-						onDragStart={this.onDragStart.bind(this)}
-						onDragEnd={this.onDragEnd.bind(this)}
-						onDrop={this.onDropFiles.bind(this)}
-					/>
-					&nbsp;
-					<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
-					{ !this.state.imageUrl &&
-						<div className='w-100 dropzone mv3'>
-							{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
-								<span>Kein Bild ausgewählt.</span>
-							}
-							{ this.state.isLoadingFile &&
-								<span>Processing File...</span>
-							}
-							{ this.state.isDraggingFile && this.state.isValidType &&
-								<span>Drop to Upload</span>
-							}
-							{ this.state.isDraggingFile && !this.state.isValidType &&
-								<span>Invalid File</span>
-							}
-						</div>
-					}
-					{ this.state.imageUrl &&
-						<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-							<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-								<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
-								<ContentEditable
-									onFocus={this.onImageTextFocused.bind(this)}
-									onBlur={this.onImageTextBlured.bind(this)}
-									className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
-									html={this.state.upperImageText}
-									onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
-								<ContentEditable
-									onFocus={this.onImageTextFocused.bind(this)}
-									onBlur={this.onImageTextBlured.bind(this)}
-									className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
-									html={this.state.lowerImageText}
-									onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
-							</div>
-							{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
-								<div className='w-100 dropzone'>
-									{ this.state.isDraggingFile && this.state.isValidType &&
-										<span>Drop to Upload</span>
+			<div>
+				<Container>
+					<Row>
+						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+							<form  className='' onSubmit={this.handlePost.bind(this)}>
+								<input
+									className='w-100 pa3 mv2'
+									value={this.state.description}
+									placeholder='Description'
+									onChange={(e) => this.setState({description: e.target.value})}
+								/>
+								{/*TagUtils.splitByTagsAndRefs("@wepner: see my #hashtag #lol #yolo").map((element, index)=>{
+									if (element.type == 'tag') {
+										return (<a href="#" key={index}>#{element.text}</a>);
+									} else if(element.type == 'ref') {
+										return (<a href="#" key={index}>@{element.text}</a>);
+									} else {
+										return element.text;
+										//return (<span key={index}>{element.text}</span>)
 									}
-									{ this.state.isDraggingFile && !this.state.isValidType &&
-										<span>Invalid File</span>
-									}
-									{ this.state.isLoadingFile &&
-										<span>Processing File...</span>
-									}
-								</div>
-							}
-						</div>
-					}
-					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
-						{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
-					</button>
-					<Popup
-						className = "memeSelectPopup"
-						btnClass = "popup__btn"
-						closeBtn = {true}
-						closeHtml = {null}
-						defaultOk = "Ok"
-						defaultCancel = "Cancel"
-						wildClasses = {false}
-						closeOnOutsideClick = {true} />
-				</form>
+								})*/}
+								<input
+									className='w-100 pa3 mv2'
+									value={this.state.category}
+									placeholder='Category -> Try KITTENS or WTF'
+									onChange={(e) => this.setState({category: e.target.value})}
+								/>
+								<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
+								<WindowDropZone
+									onDragStart={this.onDragStart.bind(this)}
+									onDragEnd={this.onDragEnd.bind(this)}
+									onDrop={this.onDropFiles.bind(this)}
+								/>
+								&nbsp;
+								<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
+								{ !this.state.imageUrl &&
+									<div className='w-100 dropzone mv3'>
+										{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
+											<span>Kein Bild ausgewählt.</span>
+										}
+										{ this.state.isLoadingFile &&
+											<span>Processing File...</span>
+										}
+										{ this.state.isDraggingFile && this.state.isValidType &&
+											<span>Drop to Upload</span>
+										}
+										{ this.state.isDraggingFile && !this.state.isValidType &&
+											<span>Invalid File</span>
+										}
+									</div>
+								}
+								{ this.state.imageUrl &&
+									<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
+										<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
+											<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+											<ContentEditable
+												onFocus={this.onImageTextFocused.bind(this)}
+												onBlur={this.onImageTextBlured.bind(this)}
+												className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
+												html={this.state.upperImageText}
+												onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
+											<ContentEditable
+												onFocus={this.onImageTextFocused.bind(this)}
+												onBlur={this.onImageTextBlured.bind(this)}
+												className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
+												html={this.state.lowerImageText}
+												onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
+										</div>
+										{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
+											<div className='w-100 dropzone'>
+												{ this.state.isDraggingFile && this.state.isValidType &&
+													<span>Drop to Upload</span>
+												}
+												{ this.state.isDraggingFile && !this.state.isValidType &&
+													<span>Invalid File</span>
+												}
+												{ this.state.isLoadingFile &&
+													<span>Processing File...</span>
+												}
+											</div>
+										}
+									</div>
+								}
+								<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+									{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
+								</button>
+								<Popup
+									className = "memeSelectPopup"
+									btnClass = "popup__btn"
+									closeBtn = {true}
+									closeHtml = {null}
+									defaultOk = "Ok"
+									defaultCancel = "Cancel"
+									wildClasses = {false}
+									closeOnOutsideClick = {true} />
+							</form>
+						</Col>
+					</Row>
+				</Container>
 			</div>
 		)
 	}
