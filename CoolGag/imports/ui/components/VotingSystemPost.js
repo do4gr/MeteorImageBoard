@@ -23,6 +23,10 @@ class VotingSystemPost extends React.Component {
 	handleUpvote = () => {
 		const userId = this.props.user.id;
 		const postId = this.props.post.id;
+
+		const karmaPoints = this.props.post.karmaPoints ? this.props.post.karmaPoints : 0;
+		const dummy = "upvote";
+
 		this.props
 			.upvotePostMutation({
 				variables: { postId, userId },
@@ -55,11 +59,28 @@ class VotingSystemPost extends React.Component {
 			.catch(error => {
 				console.log("there was an error sending the query", error);
 			});
+
+			this.props
+				.updatePost({
+					mutation: updatePost,
+					variables: { postId, dummy, userId, karmaPoints},
+				})
+				.then(({ data }) => {
+
+					console.log("got update", data);
+				})
+				.catch(error => {
+					console.log("there was an error sending the update", error);
+				});
+
 	};
 
 	handleDownvote = () => {
 		const userId = this.props.user.id;
 		const postId = this.props.post.id;
+		const karmaPoints = this.props.post.karmaPoints ? this.props.post.karmaPoints : 0;
+		const dummy = "downvote";
+
 		this.props
 			.downvotePostMutation({
 				mutation: downvotePost,
@@ -76,6 +97,22 @@ class VotingSystemPost extends React.Component {
 			.catch(error => {
 				console.log("there was an error sending the query", error);
 			});
+
+			this.props
+				.updatePost({
+					mutation: updatePost,
+					variables: { postId, dummy, userId, karmaPoints},
+				})
+				.then(({ data }) => {
+
+					console.log("got update", data);
+				})
+				.catch(error => {
+					console.log("there was an error sending the update", error);
+				});
+
+
+
 	};
 
 	render() {
@@ -126,7 +163,7 @@ class VotingSystemPost extends React.Component {
 								</span>
 							</div>
 						</Col>
-					    <Col xs="12" sm="6" >
+					    <Col xs="12" sm="6" > /* Author hier verändern */
 					        <div className='pull-right'>
 					            Author:&nbsp;
 					            <Link to={`/myposts/`} className="profile-post-link">
@@ -135,7 +172,7 @@ class VotingSystemPost extends React.Component {
 				                      : "deleted user"}&nbsp;
 				                 </Link>
 					        </div>
-						</Col>	
+						</Col>
 					</Row>
 
 					<Row>
@@ -152,7 +189,7 @@ class VotingSystemPost extends React.Component {
 // Mutations
 const downvotePost = gql`
  	mutation addToUserDownvotedPost($userId: ID!, $postId: ID!) {
-  		addToUserDownvotedPost(usersWhoDownvotedUserId: $userId, downvotedPostsPostId: $postId) {
+  		addToUserDownvotedPost(usersWhoDownvotedUserId: $userId, downvotedPostsPostId: $postId, ) {
    			usersWhoDownvotedUser {
 		      	id
 		      	name
@@ -169,6 +206,14 @@ const upvotePost = gql`
    			}
   		}
 }`;
+
+
+const updatePost = gql`
+	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
+		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+			id
+		}
+	}`;
 
 const countQuery = gql`
 	query countQuery($id: ID!){
@@ -187,6 +232,7 @@ const countQuery = gql`
 	}`;
 
 export default compose(
+	graphql(updatePost, { name: "updatePost" }),
 	graphql(upvotePost, { name: "upvotePostMutation" }),
 	graphql(downvotePost, {
 		name: "downvotePostMutation"

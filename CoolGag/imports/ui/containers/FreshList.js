@@ -8,6 +8,7 @@ const FreshQuery = gql`query {
 	  postedFile { id, url }
     description
 	  category
+    karmaPoints
   }
 }`
 

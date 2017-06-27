@@ -26,6 +26,11 @@ class DetailPost extends React.Component {
     const userId = this.props.user.id
     const postId = this.props.post.id
     const text = this.state.text
+
+    const karmaPoints = this.props.post.karmaPoints ? this.props.post.karmaPoints : 0;
+		const dummy = "comment";
+
+
     this.props.createCommentMutation({
       variables: {
         userId,
@@ -39,9 +44,9 @@ class DetailPost extends React.Component {
             postId
           }
         },
-        { 
+        {
           query: CountPostQuery,
-          variables: { id: postId } 
+          variables: { id: postId }
         }
       ]
     }).then(({data}) => {
@@ -49,6 +54,22 @@ class DetailPost extends React.Component {
     }).catch((error) => {
       console.log('there was an error sending the query', error);
     });
+
+    this.props
+      .updatePost({
+        mutation: updatePost,
+        variables: { postId, dummy, userId, karmaPoints},
+      })
+      .then(({ data }) => {
+
+        console.log("got update", data);
+      })
+      .catch(error => {
+        console.log("there was an error sending the update", error);
+      });
+
+
+
   }
 
   isSubmittable() {
@@ -125,7 +146,7 @@ class DetailPost extends React.Component {
           <Row>
             <Col>
               <div className='commentList'>
-                {comments.map((comment) => 
+                {comments.map((comment) =>
                   <ShowComment key={comment.id} comment={comment}/>)}
               </div>
             </Col>
@@ -146,7 +167,15 @@ const createComment = gql `
         id
       }
  }
- `
+ `;
+
+ const updatePost = gql`
+ 	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
+ 		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+ 			id
+ 		}
+ 	}`;
+
 // Queries
 const userQuery = gql `
  	query userQuery{
@@ -156,4 +185,6 @@ const userQuery = gql `
  	}
  `
 
-export default compose(graphql(createComment, {name: 'createCommentMutation'}), graphql(userQuery),)(DetailPost)
+export default compose(graphql(createComment, {name: 'createCommentMutation'}),
+graphql(updatePost, { name: "updatePost" }),
+graphql(userQuery),)(DetailPost)
