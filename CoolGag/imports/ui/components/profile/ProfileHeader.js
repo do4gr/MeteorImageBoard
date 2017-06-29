@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, graphql, compose, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
-import { Button, ButtonGroup } from 'reactstrap'
+import { Button, ButtonGroup, Col, Row } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import FileSelectButton from './../FileHandling/FileSelectButton';
 import WindowDropZone from './../FileHandling/WindowDropZone';
 import FileHandling from './../FileHandling/FileHandling';
 import PredefinedMemeSelect from './../PredefinedMemeSelect';
+import MyPosts from './../../containers/profileLists/MyPosts';
 import moment from 'moment';
 
 
@@ -48,7 +49,11 @@ class ProfileHeader extends React.Component {
 		}
 
 		return (
+			<container>
 			<div className="center-text">
+			<Row>
+			<Col xs={3} md={1} />
+			<Col xs={10} md={6}>
 				<h1 className="profileName"> {this.props.data.user.name}</h1>
 				{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="profileImage">
@@ -77,10 +82,15 @@ class ProfileHeader extends React.Component {
 				<div>
 					Karma: {this.props.data.user.karma}
 				</div>
+				</Col>
+				<Col xs={3} md={1}>
 				<div className="topPadding30">
 					<NavPersonalLists />
 				</div>
+				</Col>
+				</Row>
 			</div>
+			</container>
 		);
 	}
 
