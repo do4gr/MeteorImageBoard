@@ -46,8 +46,7 @@ class MyGroupsList extends React.Component {
             }],
       })
       .then(({ data }) => {
-
-        console.log("got data", data);
+        //console.log("got data", data);
       })
       .catch(error => {
         console.log("there was an error sending the query", error);
@@ -65,8 +64,7 @@ class MyGroupsList extends React.Component {
           }],
     })
     .then(({ data }) => {
-
-      console.log("got data", data);
+      //console.log("got data", data);
     })
     .catch(error => {
       console.log("there was an error sending the query", error);
@@ -75,7 +73,7 @@ class MyGroupsList extends React.Component {
 
 
   render () {
-    console.log(this.props)
+    //console.log(this.props)
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
@@ -111,11 +109,11 @@ class MyGroupsList extends React.Component {
                 </Modal>
               */}
                 <Button color="danger"><Glyphicon glyph="trash" onClick={this.handleDeletion} /></Button>
-              
+
             </Col>
           </Row>
         </Container>
-        
+
 
        {/*
           <div>

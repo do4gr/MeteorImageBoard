@@ -9,6 +9,7 @@ const UpvotePostsQuery = gql`query {
             id
         	  postedFile { id, url }
             description
+            user{id}
         }
     }
 }`
