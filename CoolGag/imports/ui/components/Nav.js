@@ -84,7 +84,7 @@ class Example extends React.Component {
               <Navbar color="faded" light className="navbar-toggleable-md">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
-                  <span><img src="/images/icon1.gif" /></span>
+                  <img src="/images/icon1.gif" style={{width:'100px'}}/>
                 </NavbarBrand>
                 <Collapse isOpen={this.state.isNavBarOpen} navbar>
                   <Nav className="ml-auto" navbar>
