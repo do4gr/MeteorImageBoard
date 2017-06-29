@@ -13,9 +13,12 @@ import CreateGroup from '../imports/ui/components/CreateGroup'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
+import PublicProfile from '../imports/ui/components/PublicProfile'
+
 
 import Settings from '../imports/ui/components/profile/Settings'
 import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
+
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
@@ -24,8 +27,8 @@ import KittensList from '../imports/ui/containers/KittensList'
 import ListWithTag from '../imports/ui/containers/ListWithTag';
 
 import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
-import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
 import MyComments from '../imports/ui/containers/profileLists/MyComments'
+import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
 import Upvoted from '../imports/ui/containers/profileLists/Upvoted'
 import Downvoted from '../imports/ui/containers/profileLists/Downvoted'
 import SearchApp from '../imports/ui/components/Search/SearchApp.js'
@@ -70,6 +73,7 @@ ReactDOM.render((
         <Route path='freshlist' component={FreshList}/>
         <Route path='tag/:tagText' component={ListWithTag}/>
         <Route path='view/:postId' component={PostPage}/>
+        <Route path='publicProfile/:userId' component={PublicProfile}/>
         <Route path='settings' component={Settings}/>
         <Route path='search' component={SearchApp}/>
         <Route component={ProfilePage}>

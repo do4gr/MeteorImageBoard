@@ -23,6 +23,10 @@ class VotingSystemPost extends React.Component {
 	handleUpvote = () => {
 		const userId = this.props.user.id;
 		const postId = this.props.post.id;
+
+		const karmaPoints = this.props.post.karmaPoints ? this.props.post.karmaPoints : 0;
+		const dummy = "upvote";
+
 		this.props
 			.upvotePostMutation({
 				variables: { postId, userId },
@@ -55,11 +59,28 @@ class VotingSystemPost extends React.Component {
 			.catch(error => {
 				console.log("there was an error sending the query", error);
 			});
+
+			this.props
+	.updatePost({
+		mutation: updatePost,
+		variables: { postId, dummy, userId, karmaPoints},
+	})
+	.then(({ data }) => {
+
+		console.log("got update", data);
+	})
+	.catch(error => {
+		console.log("there was an error sending the update", error);
+	});
+
 	};
 
 	handleDownvote = () => {
 		const userId = this.props.user.id;
 		const postId = this.props.post.id;
+		const karmaPoints = this.props.post.karmaPoints ? this.props.post.karmaPoints : 0;
+		const dummy = "downvote";
+
 		this.props
 			.downvotePostMutation({
 				mutation: downvotePost,
@@ -76,6 +97,21 @@ class VotingSystemPost extends React.Component {
 			.catch(error => {
 				console.log("there was an error sending the query", error);
 			});
+
+			this.props
+				.updatePost({
+					mutation: updatePost,
+					variables: { postId, dummy, userId, karmaPoints},
+				})
+				.then(({ data }) => {
+
+					console.log("got update", data);
+				})
+				.catch(error => {
+					console.log("there was an error sending the update", error);
+				});
+
+
 	};
 
 	render() {
@@ -124,18 +160,24 @@ class VotingSystemPost extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
+								<span>
+								KarmaPoints:&nbsp;
+												{this.props.post.karmaPoints
+													? this.props.post.karmaPoints
+													: 0}&nbsp;
+								</span>
 							</div>
 						</Col>
 					    <Col xs="12" sm="6" >
 					        <div className='pull-right'>
 					            Author:&nbsp;
-					            <Link to={`/myposts/`} className="profile-post-link">
+					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
 				                    {this.props.post.user
 				                      ? this.props.post.user.name
 				                      : "deleted user"}&nbsp;
 				                 </Link>
 					        </div>
-						</Col>	
+						</Col>
 					</Row>
 
 					<Row>
@@ -170,6 +212,13 @@ const upvotePost = gql`
   		}
 }`;
 
+const updatePost = gql`
+	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
+		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+			id
+		}
+	}`;
+
 const countQuery = gql`
 	query countQuery($id: ID!){
 		Post(id: $id){
@@ -186,23 +235,24 @@ const countQuery = gql`
 		  }
 	}`;
 
-export default compose(
-	graphql(upvotePost, { name: "upvotePostMutation" }),
-	graphql(downvotePost, {
-		name: "downvotePostMutation"
-		// 	options:{
-		// 		 update: (proxy, { data: { addToUserUpvotedPost } }) => {
-		// const data = proxy.readQuery({ query: countQuery });
-		// data.usersWhoUpvoted.push(addToUserUpvotedPost);
-		// proxy.writeQuery({ query: countQuery , data });
-		// 		},
-		// 	},
-	}),
-	graphql(countQuery, {
-		options: ownProps => ({
-			variables: {
-				id: ownProps.post.id
-			}
+	export default compose(
+		graphql(updatePost, { name: "updatePost" }),
+		graphql(upvotePost, { name: "upvotePostMutation" }),
+		graphql(downvotePost, {
+			name: "downvotePostMutation"
+			// 	options:{
+			// 		 update: (proxy, { data: { addToUserUpvotedPost } }) => {
+			// const data = proxy.readQuery({ query: countQuery });
+			// data.usersWhoUpvoted.push(addToUserUpvotedPost);
+			// proxy.writeQuery({ query: countQuery , data });
+			// 		},
+			// 	},
+		}),
+		graphql(countQuery, {
+			options: ownProps => ({
+				variables: {
+					id: ownProps.post.id
+				}
+			})
 		})
-	})
-)(VotingSystemPost);
+	)(VotingSystemPost);

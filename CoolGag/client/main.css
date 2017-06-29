@@ -71,7 +71,7 @@ textarea, .form-control{
 }
 .btn-singup, .btn-login{
   display: inline-block;
- 
+
 }
 .body {
   flex: 1 1 auto;
@@ -86,8 +86,8 @@ nav {
 }
 nav .nav-item {
   display: flex;
-  align-items: center; 
-  line-height: 24px; 
+  align-items: center;
+  line-height: 24px;
 }
 
 nav .navbar-brand{
@@ -110,11 +110,11 @@ nav .navbar-brand{
 	padding: 3px 12px !important;
 }
 
-/*nav { 
+/*nav {
 	display: flex;
-  	align-items: center; 
+  	align-items: center;
 }*/
-@media (min-width: 992px){ 
+@media (min-width: 992px){
 	.navbar-toggleable-md {
 		-webkit-box-orient: horizontal;
 		-webkit-box-direction: normal;
@@ -138,7 +138,7 @@ nav .ml-auto{
 	padding-right: 0 ;
 }
 
-.logout-btn 
+.logout-btn
 	a {
 	background-color: red;
 	color: red;
@@ -224,4 +224,11 @@ nav .ml-auto{
      0.0625em  0em      0 #000,
      0em       0.0625em 0 #000,
      0em      -0.0625em 0 #000;
+}
+
+.paddingTopPage{
+
+	padding: 60px;
+
+
 }

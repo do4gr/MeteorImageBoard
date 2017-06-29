@@ -14,7 +14,7 @@ export default class GroupListPage extends React.Component {
   }
 
   render () {
-    console.log(this.props)
+  //  console.log(this.props)
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
@@ -23,7 +23,7 @@ export default class GroupListPage extends React.Component {
       console.log(this.props.data.error);
       return <div>An unexpected error occurred</div>;
     }
-    
+
     return (
       <div className='group-list-container'>
         <Container>
