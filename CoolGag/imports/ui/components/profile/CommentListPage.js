@@ -3,6 +3,8 @@ import PostPreview from '../PostPreview'
 import { gql,graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import {Container, Row, Col} from 'reactstrap';
+import moment from 'moment';
+
 
 export default class CommentListPage extends React.Component {
 
@@ -21,7 +23,7 @@ export default class CommentListPage extends React.Component {
               <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
                 {this.props.data.user.comments.map((comment) =>
                   <span>
-                    <span> <h4>Am: {comment.createdAt}</h4></span>
+                    <span> <h4>On: {moment(comment.createdAt).format("MMM Do YY")}</h4></span>
                     <PostPreview key={comment.id} post={comment.post} />
                   </span>
                 )}
