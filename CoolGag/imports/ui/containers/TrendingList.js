@@ -8,9 +8,11 @@ const TrendingQuery = gql`query TrendingQuery($yesterday: DateTime!) {
   allPosts(orderBy: karmaPoints_DESC
   filter: {createdAt_gt: $yesterday}) {
     id
+    user {id,name }
 	postedFile { id, url }
     description
 	category
+  karmaPoints
   }
 }`
 
