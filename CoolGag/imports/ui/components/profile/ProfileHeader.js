@@ -36,6 +36,7 @@ class ProfileHeader extends React.Component {
 	}
 
 	render() {
+
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
@@ -52,7 +53,7 @@ class ProfileHeader extends React.Component {
 			<Col xs={3} md={1} />
 			<Col xs={10} md={6}>
 				<h1 className="profileName"> {this.props.data.user.name}</h1>
-
+/* name und bild hier ändern*/
 				{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="profileImage">
 						<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
