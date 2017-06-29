@@ -12,6 +12,7 @@ const MyCommentsQuery = gql`query {
                 id
             	  postedFile { id, url }
                 description
+                user{id}
             }
             text
             updatedAt
