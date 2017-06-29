@@ -8,9 +8,11 @@ const HotQuery = gql`query HotQuery($lastWeek: DateTime!) {
   allPosts(orderBy: karmaPoints_DESC
   filter: {createdAt_gt: $lastWeek}) {
     id
+    user {id,name }
 	postedFile { id, url }
     description
 	category
+  karmaPoints
   }
 }`
 

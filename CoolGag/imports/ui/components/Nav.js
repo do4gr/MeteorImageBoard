@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter} from 'react-router';
+import {Link} from 'react-router';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
@@ -11,7 +12,7 @@ import { Glyphicon } from 'react-bootstrap'
 class Example extends React.Component {
   static propTypes = {
 		router: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
   }
 
 	constructor(props) {
@@ -45,7 +46,7 @@ class Example extends React.Component {
 			isCategoriesMenuOpen: !this.state.isCategoriesMenuOpen,
 		});
 	}
-	
+
 	tagClicked(tag) {
 		this.props.router.replace('/tag/' + tag)
 	}

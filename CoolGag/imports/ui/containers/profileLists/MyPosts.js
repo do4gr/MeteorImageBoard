@@ -10,6 +10,8 @@ const MyPostsQuery = gql`query {
             id
         	  postedFile {id,  url }
             description
+            user {id,name }
+
         }
     }
 }`
