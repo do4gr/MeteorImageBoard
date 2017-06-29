@@ -5,9 +5,11 @@ const KittenQuery = gql`query {
   allPosts(orderBy: createdAt_DESC
   filter: {category: KITTENS}) {
     id
+    user {id,name }
 	  postedFile { id, url }
     description
 	  category
+    karmaPoints
   }
 }`
 
