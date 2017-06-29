@@ -171,7 +171,7 @@ class VotingSystemPost extends React.Component {
 					    <Col xs="12" sm="6" >
 					        <div className='pull-right'>
 					            Author:&nbsp;
-					            <Link to={`/myposts/`} className="profile-post-link">
+					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
 				                    {this.props.post.user
 				                      ? this.props.post.user.name
 				                      : "deleted user"}&nbsp;

@@ -14,14 +14,28 @@ export default class ProfilePostListPage extends React.Component {
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
+
+    let myParameter = null
+    if (this.props.data.user){
+      myParameter = this.props.data.user
+         }
+    else {
+
+      myParameter = this.props.data.User
+
+    }
+
     return (
         <div>
             <Container>
                 <Row>
                     <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
-                        {this.props.data.user.posts.map((post) =>
-                            <PostPreview key={post.id} post={post} />
-                        )}
+
+
+                    {myParameter.posts.map((post) =>
+                        <PostPreview key={post.id} post={post} />
+                    )}
+
                     </Col>
                 </Row>
             </Container>
