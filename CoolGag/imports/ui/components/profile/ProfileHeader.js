@@ -13,6 +13,8 @@ import WindowDropZone from './../FileHandling/WindowDropZone';
 import FileHandling from './../FileHandling/FileHandling';
 import PredefinedMemeSelect from './../PredefinedMemeSelect';
 import MyPosts from './../../containers/profileLists/MyPosts';
+import moment from 'moment';
+
 
 class ProfileHeader extends React.Component {
 
@@ -37,7 +39,7 @@ class ProfileHeader extends React.Component {
 
 	render() {
 
-		if (this.props.data.loading) {
+		 if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
 		// redirect if no user is logged in
@@ -53,7 +55,6 @@ class ProfileHeader extends React.Component {
 			<Col xs={3} md={1} />
 			<Col xs={10} md={6}>
 				<h1 className="profileName"> {this.props.data.user.name}</h1>
-				{/* name und bild hier ändern*/}
 				{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="profileImage">
 						<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
@@ -76,7 +77,7 @@ class ProfileHeader extends React.Component {
 					</div>
 				}
 				<div>
-					Member since {this.props.data.user.createdAt.split("T")[0].split("-")[2]}.{this.props.data.user.createdAt.split("T")[0].split("-")[1]}.{this.props.data.user.createdAt.split("T")[0].split("-")[0]}
+					Member since {moment(this.props.data.user.createdAt).format("MMM Do YY")}
 				</div>
 				<div>
 					Karma: {this.props.data.user.karma}
