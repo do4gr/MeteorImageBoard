@@ -8,6 +8,7 @@ const FeedQuery = gql `query {
     postedFile {id,url }
     description
 	  category
+    karmaPoints
   }
 }`
 
