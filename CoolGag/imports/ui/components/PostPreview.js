@@ -13,7 +13,7 @@ class PostPreview extends React.Component {
 
   static propTypes = {
     post: PropTypes.object,
-    data: PropTypes.object
+    data: PropTypes.object,
   }
 
 	render () {
@@ -37,7 +37,7 @@ class PostPreview extends React.Component {
                 </div>
               </Col>
             </Row>
-            
+
             <Row>
         		<Col xs="12" className="pt-2">
         			<VotingSystemPost post={ this.props.post } user={ this.props.data.user } />
