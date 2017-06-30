@@ -21,6 +21,7 @@ class CreatePost extends React.Component {
 		router: PropTypes.object.isRequired,
 		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
+		group: PropTypes.object
 	}
 
 	static placeholders = {
@@ -252,7 +253,8 @@ class CreatePost extends React.Component {
 									postedFileId: postedFileId,
 									category: category,
 									userId: userId,
-									tags: tags
+									tags: tags,
+									group: group
 								}
 							}).then((result) => {
 								var promisses = [];
@@ -544,13 +546,14 @@ class CreatePost extends React.Component {
 }
 
 const createPost = gql`
-	mutation ($description: String!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!, $tags: [PosttagsTag!]) {
+	mutation ($description: String!, $group: ID!, $category: POST_CATEGORY, $postedFileId: ID!, $userId: ID!, $tags: [PosttagsTag!]) {
 		createPost(
 			description: $description,
 			postedFileId: $postedFileId,
 			category: $category,
 			userId: $userId,
-			tags: $tags)
+			tags: $tags,
+			group: $group)
 		{
 			id
 			postedFile { id }

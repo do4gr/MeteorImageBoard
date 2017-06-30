@@ -61,6 +61,7 @@ class ProfileHeader extends React.Component {
 								</div>
 							}
 							{!(this.props.data.user.profilePic && this.props.data.user.profilePic.url) &&
+					<div>
 								<div className="defaultImage">
 									<span>
 										<div className="ínput-center">
@@ -74,6 +75,10 @@ class ProfileHeader extends React.Component {
 											</text>
 										</svg>
 									</span>
+					</div>
+					<div className="ínput-center">
+						<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Edit your profile" onClick={this.changeImage.bind(this)} />
+					</div>
 								</div>
 							}
 							<div>
