@@ -1,14 +1,25 @@
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-import ListPage from '../../components/ListPage';
+import {gql, graphql } from 'react-apollo';
+import GroupListPage from '../../components/profile/GroupListPage';
 
-//TODO
+
 const MyGroupsQuery = gql`query {
-  allPosts(orderBy: createdAt_DESC) {
-    id
-	postedFile { url }
-    description
-  }
+    user{
+        id
+        name
+        groups (orderBy: createdAt_DESC){
+            id
+	          name
+            createdAt
+            updatedAt
+            users{id,name}
+            posts{
+                id
+            	  postedFile { id, url }
+                description
+                user{id}
+            }
+        }
+    }
 }`
 
-export default graphql(MyGroupsQuery)(ListPage);
+export default graphql(MyGroupsQuery)(GroupListPage);

@@ -1,7 +1,6 @@
 import React from 'react'
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Row, Col} from 'reactstrap'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 import ListPage from '../ListPage'
 import ProfilePostListPage from './ProfilePostListPage'
 
@@ -25,13 +24,16 @@ export default class NavPersonalLists extends React.Component {
 	render() {
 		return (
 			<div>
+			<Row>
+			<Col xs={10} md={5} />
+			<Col xs={10} md={5}>
 			<Container>
-				<Row>
 				<Col>
-				<Navbar color="faded" light className="navbar-toggleable-md">
+				<Navbar light className="navbar-toggleable-sm">
 					<NavbarToggler right onClick={this.toggleNavBar} />
 					<Collapse isOpen={this.state.isNavBarOpen} navbar>
-						<Nav className="ml-auto" navbar>
+
+						<Nav vertical className="ml-auto" navbar>
 							<NavItem>
 								<NavLink href="/myposts/">MY&nbsp;POSTS</NavLink>
 							</NavItem>
@@ -49,10 +51,13 @@ export default class NavPersonalLists extends React.Component {
 							</NavItem>
 						</Nav>
 					</Collapse>
-				</Navbar>
+					</Navbar>
 				</Col>
-				</Row>
+
 			</Container>
+			</Col>
+			<Col xs={10} md={5} />
+			</Row>
 			</div>
 		);
   }

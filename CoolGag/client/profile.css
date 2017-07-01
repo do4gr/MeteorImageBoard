@@ -1,0 +1,84 @@
+.defaultImage, .profileImage {
+	position: relative;
+}
+
+.defaultImage:hover svg {
+	opacity:0.5;
+}
+
+.defaultImage span > div {
+	z-index: 2;
+	display:none;
+}
+
+.defaultImage input {
+	background-color:rgba( 211, 211, 211, 1 );
+}
+
+.defaultImage:hover span > div {
+	display:block;
+}
+
+.changePicture span {
+	display: block;
+	padding-top: 20px;
+}
+
+.profilePic {
+	max-width: 400px;
+	max-height: 500px;
+}
+
+.editProfilePic:hover {
+	opacity:0.5;
+}
+
+.profileName {
+	padding-top: 20px;
+}
+
+.topPadding30 {
+	padding-top: 30px;
+}
+
+.profileForm {
+	margin: 0 auto;
+	maxWidth: 400;
+}
+
+.create-group-btn,
+.group-list-btn-deleteGroup, 
+.group-list-btn-leaveGroup{
+	float: right;
+}
+.group-list-btn-leaveGroup{
+	margin-right: 10px;
+}
+
+.group-header-wrapper, .group-list-item-wrapper{
+	overflow: auto;
+	align-items: center;
+	display:block;
+}
+
+.group-list-container{
+	overflow: auto;
+  	border-radius: 10px;
+
+  	background: rgba(204, 204, 204, 0.03);
+	padding: 10px;
+	display: block;
+	margin: 10px auto;
+	width: 80%;
+}
+
+.nav-personal-lists{
+	margin-top: 15px;
+}
+
+.groups-title, .group-list-group-title{
+	float: left;
+	font-weight: bold;
+	 
+}
+

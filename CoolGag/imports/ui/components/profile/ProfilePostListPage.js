@@ -1,8 +1,8 @@
 import React from 'react'
-import Post from '../Post'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import PostPreview from '../PostPreview'
+import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import {Container, Row, Col} from 'reactstrap';
 
 export default class ProfilePostListPage extends React.Component {
 
@@ -14,14 +14,32 @@ export default class ProfilePostListPage extends React.Component {
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
+
+    let myParameter = null
+    if (this.props.data.user){
+      myParameter = this.props.data.user
+         }
+    else {
+
+      myParameter = this.props.data.User
+
+    }
+
     return (
-      <div className='w-100 flex justify-center'>
-        <div className='w-100' style={{ maxWidth: 400 }}>
-          {this.props.data.user.posts.map((post) =>
-            <Post key={post.id} post={post} />
-          )}
+        <div>
+            <Container>
+                <Row>
+                    <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
+
+
+                    {myParameter.posts.map((post) =>
+                        <PostPreview key={post.id} post={post} />
+                    )}
+
+                    </Col>
+                </Row>
+            </Container>
         </div>
-      </div>
     )
   }
 }

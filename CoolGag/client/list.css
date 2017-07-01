@@ -1,0 +1,34 @@
+.list-container{
+  overflow: auto;
+  border-radius: 10px;
+/*  padding: 10px;*/
+  display: block;
+  display: block;
+  margin: 10px auto;
+}
+
+.feed-img{
+	display: block;
+ 	margin: 10px auto 10px auto;
+  	width: 100%;
+}
+
+.points-post{
+	color: grey;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.feed-container{
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+
+}
+.button-wrapper{
+	overflow: hidden;
+}
+.comment-btn-link{
+	float: left;
+	margin-right: 5px;
+}

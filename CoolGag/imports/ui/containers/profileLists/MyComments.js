@@ -1,14 +1,23 @@
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-import ListPage from '../../components/ListPage';
+import { gql,graphql } from 'react-apollo';
+import CommentListPage from '../../components/profile/CommentListPage';
 
-//TODO
+
 const MyCommentsQuery = gql`query {
-  allPosts(orderBy: createdAt_DESC) {
-    id
-	postedFile { url }
-    description
-  }
+    user{
+        id
+        comments{
+            id
+            createdAt
+            post{
+                id
+            	  postedFile { id, url }
+                description
+                user{id}
+            }
+            text
+            updatedAt
+        }
+    }
 }`
 
-export default graphql(MyCommentsQuery)(ListPage);
+export default graphql(MyCommentsQuery)(CommentListPage);

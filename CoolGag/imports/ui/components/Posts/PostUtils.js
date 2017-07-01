@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import {gql} from 'react-apollo';
 
 export default class PostUtils {
 	static async requestTags(options) {
@@ -14,9 +14,9 @@ export default class PostUtils {
 			} else {
 				result = await options.client.query({query: allTagsQuery});
 			}
-			console.log(result);
+			//console.log(result);
 			var tagList = result.data.allTags;
-			
+
 			if(options && typeof options.callback == 'function') {
 				options.callback(tagList);
 			}
@@ -26,7 +26,7 @@ export default class PostUtils {
 			return undefined;
 		}
 	}
-	
+
 	static async requestOrCreateTags(options) {
 		options.client.mutate({
 			variables: {
@@ -41,7 +41,7 @@ export default class PostUtils {
 			options.error(exception);
 		});
 	}
-	
+
 	static async addExistingTag(options) {
 		if(options && options.client) {
 			if(options.postId) {
