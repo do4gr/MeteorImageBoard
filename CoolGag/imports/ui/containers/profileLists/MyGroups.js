@@ -8,9 +8,10 @@ const MyGroupsQuery = gql`query {
         name
         groups (orderBy: createdAt_DESC){
             id
-	          name
+            name
             createdAt
             updatedAt
+            admin { id }
             users{id,name}
             posts{
                 id

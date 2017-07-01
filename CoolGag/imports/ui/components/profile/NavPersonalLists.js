@@ -30,15 +30,9 @@ export default class NavPersonalLists extends React.Component {
 			<Container>
 				<Col>
 				<Navbar light className="navbar-toggleable-sm">
-					<NavbarToggler right onClick={this.toggleNavBar} />
-					<Collapse isOpen={this.state.isNavBarOpen} navbar>
-
 						<Nav vertical className="ml-auto" navbar>
 							<NavItem>
 								<NavLink href="/myposts/">MY&nbsp;POSTS</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/mygroups/">GROUPS</NavLink>
 							</NavItem>
 							<NavItem>
 								<NavLink href="/mycomments/">MY&nbsp;COMMENTS</NavLink>
@@ -49,8 +43,10 @@ export default class NavPersonalLists extends React.Component {
 							<NavItem>
 								<NavLink href="/downvoted/">DOWNVOTED</NavLink>
 							</NavItem>
+							<NavItem>
+								<NavLink href="/mygroups/">GROUPS</NavLink>
+							</NavItem>
 						</Nav>
-					</Collapse>
 					</Navbar>
 				</Col>
 

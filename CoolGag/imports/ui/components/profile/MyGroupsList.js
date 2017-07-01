@@ -16,17 +16,28 @@ class MyGroupsList extends React.Component {
       loading: React.PropTypes.bool,
       error: React.PropTypes.object,
       group: React.PropTypes.object,
-      user: React.PropTypes.object
+      user: React.PropTypes.object,
     }).isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      isAdmin: false,
     };
-
+    this.checkAdmin = this.checkAdmin.bind(this);
     this.toggle = this.toggle.bind(this);
+  }
+
+  checkAdmin = () =>{
+    // const userId = this.props.data.user.id;
+    // const adminId = this.props.data.admin.id;
+    // if( adminId === userId){
+    //     this.setState({
+    //       isAdmin: true
+    //   });
+    // }
   }
 
   toggle() {
@@ -36,6 +47,11 @@ class MyGroupsList extends React.Component {
   }
 
   handleDeletion = () => {
+    // const userId = this.props.data.user.id;
+    // const adminId = this.props.data.admin.id;
+    // if( adminId === userId){
+
+    // }
     const groupId = this.props.group.id;
     this.props.deleteGroup({
         mutation: deleteGroup,
@@ -73,7 +89,7 @@ class MyGroupsList extends React.Component {
 
 
   render () {
-    //console.log(this.props)
+    console.log(this.props)
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
@@ -108,16 +124,13 @@ class MyGroupsList extends React.Component {
                   </ModalFooter>
                 </Modal>
               */}
+              { this.props.data.user.id === this.props.group.admin.id &&
                 <Button color="danger"><Glyphicon glyph="trash" onClick={this.handleDeletion} /></Button>
+              }
 
             </Col>
           </Row>
         </Container>
-
-
-       {/*
-        
-          */}
       </div>
     )
   }
@@ -130,6 +143,7 @@ const MyGroupsQuery = gql`query {
         groups (orderBy: createdAt_DESC){
             id
             name
+            admin { id }
             createdAt
             updatedAt
             users{id,name}

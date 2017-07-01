@@ -9,6 +9,7 @@ export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
     picFile { id, url }
     createdAt
     updatedAt
+    admin { id }
     users{
         id
         name

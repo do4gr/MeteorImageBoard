@@ -58,7 +58,7 @@ class GroupPage extends React.Component{
 						</Col>
 					</Row>
 					<Row>
-						<Col xs="12">
+						<Col xs="12" sm="12" md="11" lg="10">
 							<div className="pull-right">
 								<Button color="info" onClick={ this.toggle }>+&nbsp;Post</Button>
 								<Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -76,13 +76,14 @@ class GroupPage extends React.Component{
 						</Col>
 					</Row>
 					<Row>
-						
-						<Col xs="12" sm="12" md={{ size: 2, offset: 1 }} lg={{ size: 2.5, offset: 1.5 }}>
+						<Col xs="12" sm="6" md={{ size: 2, offset: 1 }} lg={{ size: 2.5, offset: 1.5 }}>
 							<div className="heading2">Members</div>
-							{this.props.data.Group.users.map((groupUser) =>
-                  				<GroupMembers key={groupUser.id} username={groupUser.name}  data={this.props.data}/>
+							{this.props.data.Group.users.map((groupUser) =>              
+                  					<GroupMembers key={groupUser.id} groupUser={groupUser}  data={this.props.data}/>
+                  				
                 			)}
 						</Col>
+
 						<Col xs="12" sm={{ size: 10, offset: 1 }} md={{ size: 7, offset: 1 }} lg={{ size: 6, offset: 1.5 }} className="feed-container">
 	                        {this.props.data.Group.posts.map((post) =>
 	                            <PostPreview key={post.id} post={post} />

@@ -28,15 +28,15 @@ export default class GroupListPage extends React.Component {
       <div className='group-list-container'>
         <Container>
           <Row>
-            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} xl={{ size: 10, offset: 1 }}>
               <div className="group-header-wrapper">
                 <div className="groups-title">My Groups</div>
               </div>
-               <hr/>
             </Col>
           </Row>
+          <hr/>
           <Row>
-            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="group-listing">
+            <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} xl={{ size: 10, offset: 1 }} className="group-listing">
               {this.props.data.user.groups.map((group) =>
               //<PostPreview key={post.id} post={post} />
               <MyGroupsList key={group.id} group={group} data={this.props.data} />

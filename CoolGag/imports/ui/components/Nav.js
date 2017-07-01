@@ -80,7 +80,7 @@ class Example extends React.Component {
   renderLoggedIn() {
 		return (
 			<div>
-        <Container>
+        <Container >
           <Row>
             <Col>
               <Navbar color="faded" light className="navbar-toggleable-md">
