@@ -18,6 +18,7 @@ html, body {
 	min-height: 100%;
 }
 
+
 body {
   margin: 0;
   padding: 20px;
@@ -38,6 +39,10 @@ textarea, .form-control{
 	padding: 8px auto !important;
 	margin-top: 2px !important;
 	line-height: 24px !important;
+}
+
+.logout-btn{
+	background-color: #f51712;
 }
 
 .navbar-toggler{

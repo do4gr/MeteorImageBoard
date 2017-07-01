@@ -6,6 +6,7 @@ export const UserQuery = gql`
 		user {
 			id
 			name
+			profilePic { id, url }
 		}
 	}
 `

@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter} from 'react-router';
 import {Link} from 'react-router';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
-import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
+import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Media} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
 import { gql, graphql, compose, fetchPolicy, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types';
@@ -63,6 +63,7 @@ class Example extends React.Component {
   //container the listpage to open it with the query of the category you are looking at
 
 	render() {
+    console.log(this.props)
     if (this._isLoggedIn()) {
       return this.renderLoggedIn()
     } else {
@@ -99,9 +100,6 @@ class Example extends React.Component {
                       <NavLink href="/freshlist/">Fresh</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
-                    </NavItem>
-                    <NavItem>
                       <NavLink href="/createPost/">+&nbsp;Post</NavLink>
                     </NavItem>
                     <NavItem>
@@ -133,23 +131,21 @@ class Example extends React.Component {
               <NavItem>
                 <NavLink >
                 <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
-                        <DropdownToggle caret color="info" outline >
-                          {this.props.data.user.name}
+                        <DropdownToggle className="profile-img" >
+
+                          <img  className="img-circle" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width: '100%'}}/>
+          
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-left">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>
                           <DropdownItem href="/mygroups/">My Groups</DropdownItem>
-                          <DropdownItem divider />
                           <DropdownItem href="/settings/">Settings</DropdownItem>
+                          <DropdownItem divider />
+                          <DropdownItem href="/"  className="logout-btn" onClick={this._logout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 </NavLink>
               </NavItem>
-              <NavItem >
-                <NavLink href="/"  onClick={this._logout}>
-                  <Button color="danger"  outline >Logout</Button>{''}
-                </NavLink>
-							</NavItem>
 						</Nav>
 					</Collapse>
 				</Navbar>
@@ -166,6 +162,7 @@ const userQuery = gql`
     user {
       id
       name
+      profilePic { id, url }
     }
   }
 `
