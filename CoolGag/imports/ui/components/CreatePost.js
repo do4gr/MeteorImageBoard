@@ -4,9 +4,9 @@ import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
 import {Button} from 'reactstrap';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import TagUtils from './TagUtils';
-import PostUtils from './Posts/PostUtils';
-import PostUpload from './Posts/PostUpload';
+import TagUtils from '/imports/ui/components/TagUtils';
+import PostUtils from '/imports/ui/components/Posts/PostUtils';
+import PostUpload from '/imports/ui/components/Posts/PostUpload';
 
 class CreatePost extends React.Component {
 

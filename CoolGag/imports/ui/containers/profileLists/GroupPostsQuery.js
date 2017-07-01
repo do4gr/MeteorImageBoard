@@ -15,7 +15,7 @@ export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
         name
         profilePic { id, url }
       }
-    posts{
+    posts (orderBy: createdAt_DESC){
         id
         postedFile { id, url }
         description
