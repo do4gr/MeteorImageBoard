@@ -10,9 +10,7 @@ import Popup from 'react-popup';
 import FileSelectButton from '../FileHandling/FileSelectButton';
 import WindowDropZone from '../FileHandling/WindowDropZone';
 import FileHandling from '../FileHandling/FileHandling';
-import TagUtils from '../TagUtils';
 import PredefinedMemeSelect from '../PredefinedMemeSelect';
-import PostUtils from '../Posts/PostUtils';
 import {Container, Row, Col} from 'reactstrap';
 
 class PostUpload extends React.Component {
@@ -23,7 +21,10 @@ class PostUpload extends React.Component {
 		data: PropTypes.object.isRequired,
 		group: PropTypes.object,
 		enableMemeSelect: PropTypes.bool,
-		enableImageText: PropTypes.bool
+		enableImageText: PropTypes.bool,
+		enableDescription: PropTypes.bool,
+		onUploaded: PropTypes.func.isRequired,
+		callbacks: PropTypes.object.isRequired
 	}
 
 	static placeholders = {
@@ -64,9 +65,16 @@ class PostUpload extends React.Component {
 	static lowerTextStyle = {
 		'bottom': '.25em' // not 0, since thas caused the text to have no gap towards the bottom at all
 	};
+	
+	constructor(props) {
+		super(props);
+		if(props.callbacks) {
+			props.callbacks.uploadFile = this.handlePost;
+		}
+	}
 
 	isSubmittable() {
-		return this.state.description && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
+		return (!this.props.enableDescription || this.state.description) && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
 	}
 
 	onWindowResize(event) {
@@ -99,13 +107,15 @@ class PostUpload extends React.Component {
 				<Container>
 					<Row>
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-							<form  className='' onSubmit={this.handlePost.bind(this)}>
-								<input
-									className='w-100 pa3 mv2'
-									value={this.state.description}
-									placeholder='Description'
-									onChange={(e) => this.setState({description: e.target.value})}
-								/>
+							<form className='' onSubmit={this.onPostClicked.bind(this)}>
+								{ this.props.enableDescription &&
+									<input
+										className='w-100 pa3 mv2'
+										value={this.state.description}
+										placeholder='Description'
+										onChange={(e) => this.setState({description: e.target.value})}
+									/>
+								}
 								<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
 								<WindowDropZone
 									onDragStart={this.onDragStart.bind(this)}
@@ -201,9 +211,13 @@ class PostUpload extends React.Component {
 			$(element).css({'font-size': $(element).width() * PostUpload.fontSizePercentage + "px"});
 		}
 	}
-
-	async handlePost(event) {
+	
+	onPostClicked(event) {
 		event.preventDefault();
+		this.handlePost();
+	}
+
+	async handlePost() {
 		this.setState({'isSubmitting': true});
 
 		// TODO(rw): clean up
@@ -214,56 +228,12 @@ class PostUpload extends React.Component {
 				method: 'POST'
 			}).then((response) => {
 				response.json().then(result => {
-					//self.setState({imageUrl: result.url});
-					this.setState({postedFileId: result.id});
-					this.setState({userId: this.props.data.user.id});
-					var {description, postedFileId, userId} = this.state
-					var tagsTextList = TagUtils.findTags(description).textList;
-					var tags = tagsTextList.map((element) => {
-						return {text: element};
-					});
-					//var tags2 = '42';
-					PostUtils.requestTags({
-						client: this.props.client,
-						tags: tagsTextList,
-						callback: (actualTags) => {
-							var existingTagIds = [];
-							for(var i = 0; i < actualTags.length; i++) {
-								var actual = actualTags[i];
-								for(var j = 0; j < tags.length; j++) {
-									if(tags[j].text == actual.text) {
-										tags[j].id = actual.id;
-										tags.splice(j,1);
-										existingTagIds.push(actual.id);
-										j -= 1;
-									}
-								}
-							}
-							this.props.mutate({
-								variables: {
-									description: description,
-									postedFileId: postedFileId,
-									userId: userId,
-									tags: tags,
-									groupId: this.props.group != null ? this.props.group.id : null
-								}
-							}).then((result) => {
-								var promisses = [];
-								for(var i = 0; i < existingTagIds.length; i++) {
-									promisses.push(PostUtils.addExistingTag({
-										client: this.props.client,
-										postId: result.data.createPost.id,
-										tagId: existingTagIds[i]
-									}));
-								}
-								// TODO(rw): check, if the reference adding worked
-								//for(var i = 0; i < promisses.length; i++) {
-								//	await promisses[i];
-								//}
-								this.props.router.replace('/');
-							});
+					if(typeof this.props.onUploaded == "function") {
+						if(this.props.enableDescription) {
+							result.description = this.state.description;
 						}
-					});
+						this.props.onUploaded(result);
+					}
 				});
 			}).catch((exception) => {
 				// TODO: handle upload error
