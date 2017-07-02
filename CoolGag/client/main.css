@@ -138,15 +138,24 @@ nav .ml-auto{
 	margin-left: auto !important;
 }
 
+.profil-imgHolder{
+	width: 40px;
+	height: 38px;
+}
+.img-responsive{
+	height: inherit !important;
+}
+.profile-img{
+	padding: 0px 0px 0px 0px  !important;
+}
+
 .container .nested{
 	padding-left: 0;
 	padding-right: 0 ;
 }
 
-.logout-btn
-	a {
+.logout-btn{
 	background-color: red;
-	color: red;
 }
 
 .dropzone {
@@ -236,4 +245,8 @@ nav .ml-auto{
 	padding: 60px;
 
 
+}
+.logo-img{
+	width: 45px;
+	height: 45px;
 }

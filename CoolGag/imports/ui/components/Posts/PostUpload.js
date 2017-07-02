@@ -183,6 +183,7 @@ class PostUpload extends React.Component {
 								<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 									{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
 								</button>
+								
 								{ this.props.enableMemeSelect &&
 									<Popup
 										className = "memeSelectPopup"

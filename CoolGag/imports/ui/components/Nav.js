@@ -86,7 +86,7 @@ class Example extends React.Component {
               <Navbar color="faded" light className="navbar-toggleable-md">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
-                  <img src="/images/icon1.gif" style={{width:'100px'}}/>
+                  <img className="logo-img" src="/images/icon1.gif" />
                 </NavbarBrand>
                 <Collapse isOpen={this.state.isNavBarOpen} navbar>
                   <Nav className="ml-auto" navbar>
@@ -131,10 +131,10 @@ class Example extends React.Component {
               <NavItem>
                 <NavLink >
                 <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
-                        <DropdownToggle className="profile-img" >
-
-                          <img  className="img-circle" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width: '100%'}}/>
-          
+                        <DropdownToggle className="profile-img">
+                          <div className="profil-imgHolder">
+                            <img  className="img-responsive" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image"/>
+                          </div>
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-left">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>

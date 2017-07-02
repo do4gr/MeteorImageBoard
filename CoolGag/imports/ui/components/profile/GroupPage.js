@@ -85,6 +85,7 @@ class GroupPage extends React.Component{
 						          	
 						          </ModalBody>
 						          <ModalFooter>
+						          	<Button color="primary" onClick={this.toggle}>Finished</Button>{' '}
 						            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
 						          </ModalFooter>
 						        </Modal>
