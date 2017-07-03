@@ -34,6 +34,25 @@ class Settings extends React.Component {
 		isEditingPicture: false,
 	}
 
+	handleUserDeletion = () => {
+      const userId = this.props.data.user.id;
+      this.props.deleteUser({
+          mutation: deleteUser,
+          variables: { userId },
+          refetchQueries: [{
+                query: profileData,
+                // variables: { id: postId }
+              }],
+        })
+        .then(({ data }) => {
+
+          console.log("got data", data);
+        })
+        .catch(error => {
+          console.log("there was an error sending the query", error);
+        });
+	};
+
 	render() {
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
@@ -136,6 +155,7 @@ class Settings extends React.Component {
 				<button>Change Password</button>
 				<button>Change Email</button>
 				<button>Delete Profile</button>
+				<button onClick={this.handleUserDeletion}>Delete Profile</button>
 			</div>
 		);
 	}
@@ -288,6 +308,13 @@ const profileData = gql`
 		}
 	}
 `
+const deleteUser = gql`
+  mutation deleteUser($userId: ID!) {
+      deleteUser( id: $userId) {
+            id
+            name
+      }
+}`;
 
 const uploadPicture = gql`
 	mutation ($userId: ID!, $postedFileId: ID!) {
@@ -326,5 +353,6 @@ const deletePicture = gql`
 export default compose(
 	graphql(uploadPicture, { name: 'changeProfilePic' } ),
 	graphql(deletePicture, { name: 'deleteProfilePic'} ),
+	graphql(deleteUser, { name: "deleteUser" }),
 	graphql(profileData)
 )(withApollo(withRouter(Settings)))
