@@ -24,7 +24,6 @@ class PublicProfile extends React.Component {
   }
 
   render () {
-    console.log(this.props);
 
 
     if (this.props.data.loading) {
@@ -34,6 +33,31 @@ class PublicProfile extends React.Component {
     if (this.props.data.error) {
       console.log(this.props.data.error)
       return (<div>An unexpected error occurred</div>)
+    }
+
+    let points = 0
+    if (this.props.data.User.posts){
+
+      {this.props.data.User.posts.map((post) =>
+        points = points + post.karmaPoints
+      )}
+
+
+    }
+    if (this.props.data.User.downvotedPosts){
+      {this.props.data.User.downvotedPosts.map((post) =>
+        points = points + 2
+      )}
+    }
+    if (this.props.data.User.upvotedPosts){
+      {this.props.data.User.upvotedPosts.map((post) =>
+        points = points + 2
+      )}
+    }
+    if (this.props.data.User.comments){
+      {this.props.data.User.comments.map((comment) =>
+        points = points + 5
+      )}
     }
 
     return (
@@ -48,7 +72,7 @@ class PublicProfile extends React.Component {
           Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
         </div>
         <div>
-          Karma: 0
+          Karma: {points}
         </div>
         <div className="paddingTopPage">
         <ProfilePostListPage data={this.props.data}/>
@@ -69,6 +93,9 @@ export const PublicPostsQuery = gql`query PublicPostsQuery($userId: ID!){
     name
     createdAt
     karma
+    downvotedPosts{ id }
+    upvotedPosts{ id }
+    comments{ id }
     profilePic {
       id
       url

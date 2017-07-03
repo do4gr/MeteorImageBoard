@@ -61,7 +61,7 @@ class VotingCommentPoints extends React.Component{
 						</Col>
 						<Col xs="auto">
 							<span>
-								from: {from}&nbsp;
+								created: {from}&nbsp;
 							</span>
 						</Col>
 					</Row>
