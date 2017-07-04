@@ -110,7 +110,7 @@ class MyGroupsList extends React.Component {
                     <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-              { this.props.data.user.id === this.props.group.admin.id &&
+              { this.props.data.user.id === this.props.group.admins.id &&
                 <span>
                   <Button color="danger" onClick={this.toggle}><Glyphicon glyph="trash"/></Button>
                   <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -140,7 +140,7 @@ const MyGroupsQuery = gql`query {
         groups (orderBy: createdAt_DESC){
             id
             name
-            admin { id }
+            admins { id }
             createdAt
             updatedAt
             users{id,name}

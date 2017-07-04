@@ -25,7 +25,8 @@ import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
-import ListWithTag from '../imports/ui/containers/ListWithTag';
+import ListWithTag from '../imports/ui/containers/ListWithTag'
+import UserQuery from '../imports/ui/containers/UserQuery'
 
 import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
 import MyComments from '../imports/ui/containers/profileLists/MyComments'

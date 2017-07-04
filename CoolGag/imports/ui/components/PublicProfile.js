@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter, Redirect } from 'react-router'
-import { gql, graphql, compose, withApollo } from 'react-apollo'
-import { Button, ButtonGroup } from 'reactstrap'
+import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo'
+import { Button, ButtonGroup,  Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap'
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
 import {Container, Row, Col} from 'reactstrap';
 import ProfilePostListPage from '../components/profile/ProfilePostListPage';
+import { MyGroupsQuery } from '/imports/ui/components/profile/MyGroupsList';
 
 
 
@@ -22,10 +23,38 @@ class PublicProfile extends React.Component {
     }).isRequired,
     router: React.PropTypes.object.isRequired,
     params: React.PropTypes.object.isRequired,
+    userQuery: React.PropTypes.object.isRequired,
+  }
+
+  state = {
+    group: '',
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false
+    };
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
+  isSubmittable() {
+    return this.state.group
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
   }
 
   render () {
-
+    console.log(this.props)
 
     if (this.props.data.loading) {
       return (<div>Loading</div>)
@@ -80,6 +109,27 @@ class PublicProfile extends React.Component {
           <Col sm="3" md={{ size: 3, offset: 1 }} lg={{ size: 2, offset: 1 }}>
             <div className="pull-right">
               <Button color="info" onClick={ this.toggle }>+&nbsp;Invite to Group</Button>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                  <ModalHeader toggle={this.toggle}>Add {this.props.data.User.name} to Group</ModalHeader>
+                  <ModalBody className="text-center">
+                    <form onSubmit={this.handleSubmit}>
+                      <FormGroup>
+                      <Label for="groupSelect">Select the Group you want {this.props.data.User.name} to join:</Label>
+                      <Input type="select" name="select" id="groupSelect"
+                        value={this.state.group}
+                        onChange={(e) => this.setState({group: e.target.value})}>
+                         {this.props.userQuery.user.groups.map((group) =>
+                            <option key={group.id}>{group.name}</option>
+                        )}
+                      </Input>
+                    </FormGroup>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary"  onClick={this.toggle} onClick={this.addToGroup.bind(this)}>Add</Button>{' '}
+                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
             </div>
           </Col>
         </Row>
@@ -133,7 +183,37 @@ class PublicProfile extends React.Component {
   goBack = () => {
     this.props.router.replace('/')
   }
+
+  addToGroup = (event) => {
+    const { group } = this.state
+    const userId = this.props.data.User.id;
+    const groupId = this.group.id;
+
+    this.props.addToUserToGroup({
+      variables: {userId, groupId }
+    })
+    .then(({ data }) => {
+      //  console.log("got data", data);
+    })
+    .catch(error => {
+      console.log("there was an error sending the query", error);
+    });
+  }
 }
+
+
+const addToUserToGroup = gql`
+  mutation createGroup($groupId: [ID!], $userId: [ID!]){
+   addToUserOnGroup(
+      groupsGroupId: $groupId,
+      usersUserId: $userId,
+    ){
+      groupsGroup {
+        id
+      }
+    }
+  }
+`
 
 export const PublicPostsQuery = gql`query PublicPostsQuery($userId: ID!){
   User (id: $userId){
@@ -149,25 +229,38 @@ export const PublicPostsQuery = gql`query PublicPostsQuery($userId: ID!){
       url
     }
     posts(orderBy: createdAt_DESC) {
-  id
-  user {id,name }
-  postedFile { id, url }
-  description
-  karmaPoints
-  category
-}
+      id
+      user {id,name }
+      postedFile { id, url }
+      description
+      karmaPoints
+      category
+    }
+  }
+}`
 
-}
+const userQuery = gql` query userQuery{
+  user {
+    id
+    name
+    groups { id, name }
+  }
 }`
 
 
-const PublicPostsWithData = graphql(PublicPostsQuery, {
-  options: (ownProps) => ({
-      variables: {
-        userId: ownProps.params.userId
-      }
-    })
-  }
+
+
+const PublicPostsWithData = compose(
+  graphql(userQuery, {fetchPolicy : 'network-only', name: 'userQuery' }),
+  graphql(addToUserToGroup, { name: "addToUserToGroup" }),
+  graphql(PublicPostsQuery, {
+    options: (ownProps) => ({
+        variables: {
+          userId: ownProps.params.userId
+        }
+      })
+    }
+)
 )(withRouter(PublicProfile))
 
 export default PublicPostsWithData

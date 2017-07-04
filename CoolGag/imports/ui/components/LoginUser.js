@@ -92,5 +92,5 @@ const userQuery = gql`
 `
 
 export default graphql(signinUser, {name: 'signinUser'})(
-  graphql(userQuery, fetchPolicy: "network-only")(withRouter(CreateLogin))
+  graphql(userQuery, {fetchPolicy: "network-only"})(withRouter(CreateLogin))
 )

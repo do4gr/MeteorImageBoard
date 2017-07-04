@@ -73,8 +73,8 @@ class CreateGroup extends React.Component{
 				response.json().then(result => {
 					//this.setState({imageUrl: result.url});
 					this.setState({picFileId: result.id});
-					this.setState({userId: this.props.data.user.id });
-					var {picFileId, userId, name} = this.state;
+					// this.setState({userId: this.props.data.user.id });
+					var {picFileId, name} = this.state;
 					this.props.createGroup({
 						variables: {
 							picFileId: picFileId,
@@ -82,6 +82,9 @@ class CreateGroup extends React.Component{
 							adminId: this.props.data.user.id,
 							name: name
 						},
+						refetchQueries: [{
+              				query: MyGroupsQuery,
+            			}],
 					});
 					this.setState({'isSubmitting': false});
 					this.props.router.replace('/mygroups/')
@@ -373,7 +376,7 @@ const createGroup = gql`
 		createGroup(
 			name: $name,
 			usersIds: $userId,
-			adminId: $adminId,
+			adminsId: $adminId,
 			picFileId: $picFileId
 		){
 			id

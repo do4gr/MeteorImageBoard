@@ -12,7 +12,7 @@ const MyGroupsQuery = gql`query {
             createdAt
             updatedAt
             picFile { id, url }
-            admin { id }
+            admins { id }
             users{id,name}
             posts{
                 id
