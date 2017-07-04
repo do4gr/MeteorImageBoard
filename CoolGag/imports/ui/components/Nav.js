@@ -132,7 +132,7 @@ class Example extends React.Component {
                 <NavLink >
                 <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
                         <DropdownToggle className="profile-img">
-                          <div className="profil-imgHolder">
+                          <div className="imgHolder">
                             <img  className="img-responsive" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image"/>
                           </div>
                         </DropdownToggle>

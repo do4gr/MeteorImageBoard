@@ -2,7 +2,7 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql, graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Button, Label, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import { Button, Label, Modal, ModalHeader, ModalBody, ModalFooter, Media} from 'reactstrap'
 import { Glyphicon } from 'react-bootstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router';
@@ -23,10 +23,9 @@ class MyGroupsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
-      isAdmin: false,
+      modal: false
     };
-    this.checkAdmin = this.checkAdmin.bind(this);
+
     this.toggle = this.toggle.bind(this);
   }
 
@@ -40,7 +39,7 @@ class MyGroupsList extends React.Component {
     // }
   }
 
-  toggle() {
+   toggle() {
     this.setState({
       modal: !this.state.modal
     });
@@ -103,31 +102,45 @@ class MyGroupsList extends React.Component {
       <div>
         <Container className="nested group-listing">
           <Row>
-            <Col xs="12" sm="6" md="8">
+            <Col xs="3" sm="2" md="2" lg="1">
+              <div className="imgHolder align-item" >
+                  <img  className="rounded-circle" src={`${this.props.group.picFile? this.props.group.picFile.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
+              </div>
+            </Col>
+            <Col xs="9" sm="4" md="6" lg="7" className="align-item">
               <div className="group-list-group-title">
                 <Link to={`/group/${this.props.group.id}`}>
                     {this.props.group.name}
                 </Link>
               </div>
             </Col>
-            <Col xs="12"  sm="6" md="4">
-                <Button color="warning" onClick={this.handleLeaving}>Leave</Button>{" "}
-              {/*
-                <Modal isOpen={this.state.modal} toggle={this.toggle} >
-                  <ModalHeader toggle={this.toggle}>Leave this Group</ModalHeader>
-                  <ModalBody>
-                  Hey &nbsp;{ this.props.data.user }&nbsp;, are you sure you want to leave {this.props.group.name}?
+            <Col xs="12"  sm="6" md="4" lg="4">
+                <Button color="warning" onClick={this.toggle}>Leave</Button>{" "}
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                  <ModalHeader toggle={this.toggle}>Leave Group</ModalHeader>
+                  <ModalBody className="text-center">
+                    Are you sure that you want to leave the group "{ this.props.group.name }"?
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" onClick={this.handleLeaving}>Leave</Button>{' '}
+                    <Button color="primary" onClick={this.toggle} onClick={this.handleLeaving}>Leave</Button>{' '}
                     <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-              */}
               { this.props.data.user.id === this.props.group.admin.id &&
-                <Button color="danger"><Glyphicon glyph="trash" onClick={this.handleDeletion} /></Button>
+                <span>
+                  <Button color="danger" onClick={this.toggle}><Glyphicon glyph="trash"/></Button>
+                  <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Delete Group</ModalHeader>
+                    <ModalBody className="text-center">
+                      Are you sure that you want to delete the group "{ this.props.group.name }"?
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="primary" onClick={this.toggle} onClick={this.handleDeletion}>Delete</Button>{' '}
+                      <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                  </Modal>
+                  </span>
               }
-
             </Col>
           </Row>
         </Container>

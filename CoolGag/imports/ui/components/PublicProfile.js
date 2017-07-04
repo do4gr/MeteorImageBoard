@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
+import {Container, Row, Col} from 'reactstrap';
 import ProfilePostListPage from '../components/profile/ProfilePostListPage';
 
 
@@ -61,18 +62,65 @@ class PublicProfile extends React.Component {
     }
 
     return (
-      <div className="center-text">
-        <h1 className="profileName"> {this.props.data.User.name}</h1>
-        {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
-          <div className="profileImage">
-            <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic'/>
+      <div >
+      <Container>
+        <Row>
+          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+            <h1 className="profileName center-text"> {this.props.data.User.name}</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="9" md={{ size: 6, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+             {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
+            <div className="profilePic center-block">
+              <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-80 profilePic'/>
+            </div>
+          }
+          </Col>
+          <Col sm="3" md={{ size: 3, offset: 1 }} lg={{ size: 2, offset: 1 }}>
+            <div className="pull-right">
+              <Button color="info" onClick={ this.toggle }>+&nbsp;Invite to Group</Button>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+            <div className="center-text">
+             Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
+            </div> 
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+            <div className="center-text" >
+              Karma: {points}
+            </div>
+          </Col>
+        </Row>
+        <hr/>
+         <Row>
+          <Col>
+            <div className="paddingTopPage">
+              <ProfilePostListPage data={this.props.data}/>
+            </div>
+            <hr/>
+          </Col>
+        </Row>
+      </Container>
+        <div>
+          
+          {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
+            <div className="profileImage">
+              <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic'/>
+            </div>
+          }
+          <div>
+            Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
           </div>
-        }
-        <div>
-          Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
-        </div>
-        <div>
-          Karma: {points}
+          <div>
+            Karma: {points}
+          </div>
+        
         </div>
         <div className="paddingTopPage">
         <ProfilePostListPage data={this.props.data}/>

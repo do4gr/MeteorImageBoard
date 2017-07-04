@@ -88,6 +88,7 @@ class ProfileHeader extends React.Component {
 				<div className="topPadding30">
 					<NavPersonalLists />
 				</div>
+				
 				</Col>
 				</Row>
 				</Container>

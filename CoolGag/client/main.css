@@ -137,8 +137,12 @@ nav .navbar-nav{
 nav .ml-auto{
 	margin-left: auto !important;
 }
+.align-item{
+	display: flex;
+	align-items: center;
+}
 
-.profil-imgHolder{
+.imgHolder {
 	width: 40px;
 	height: 38px;
 }
