@@ -29,16 +29,6 @@ class MyGroupsList extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  checkAdmin = () =>{
-    // const userId = this.props.data.user.id;
-    // const adminId = this.props.data.admin.id;
-    // if( adminId === userId){
-    //     this.setState({
-    //       isAdmin: true
-    //   });
-    // }
-  }
-
    toggle() {
     this.setState({
       modal: !this.state.modal
@@ -46,11 +36,6 @@ class MyGroupsList extends React.Component {
   }
 
   handleDeletion = () => {
-    // const userId = this.props.data.user.id;
-    // const adminId = this.props.data.admin.id;
-    // if( adminId === userId){
-
-    // }
     const groupId = this.props.group.id;
     this.props.deleteGroup({
         mutation: deleteGroup,
@@ -75,7 +60,6 @@ class MyGroupsList extends React.Component {
       variables: { groupId, userId },
       refetchQueries: [{
             query: MyGroupsQuery,
-            // variables: { id: postId }
           }],
     })
     .then(({ data }) => {
@@ -104,7 +88,7 @@ class MyGroupsList extends React.Component {
           <Row>
             <Col xs="3" sm="2" md="2" lg="1">
               <div className="imgHolder align-item" >
-                  <img  className="rounded-circle" src={`${this.props.group.picFile? this.props.group.picFile.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
+                  <img  className="img-rounded imgHolder" src={`${this.props.group.picFile? this.props.group.picFile.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
               </div>
             </Col>
             <Col xs="9" sm="4" md="6" lg="7" className="align-item">

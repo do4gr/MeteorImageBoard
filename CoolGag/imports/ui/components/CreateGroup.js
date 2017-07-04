@@ -4,7 +4,7 @@ import { withRouter, Redirect } from 'react-router';
 import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { UserQuery } from '/imports/ui/containers/UserQuery'
-import {Container, Row, Col, FormGroup, Input, Button, ButtonGroup } from 'reactstrap';
+import {Container, Row, Col, FormGroup, Input, Button, ButtonGroup, Collapse, CardBlock, Card } from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
 import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
@@ -12,6 +12,7 @@ import FileSelectButton from '/imports/ui/components/FileHandling/FileSelectButt
 import WindowDropZone from '/imports/ui/components/FileHandling/WindowDropZone';
 import FileHandling from '/imports/ui/components/FileHandling/FileHandling';
 import PredefinedMemeSelect from '/imports/ui/components/PredefinedMemeSelect';
+import {MyGroupsQuery} from '/imports/ui/components/profile/MyGroupsList';
 
 class CreateGroup extends React.Component{
 
@@ -20,18 +21,27 @@ class CreateGroup extends React.Component{
 		data: PropTypes.object.isRequired,
 	}
 
+	constructor(props) {
+		super(props);
+		this.toggle = this.toggle.bind(this);
+		this.state = { collapse: false };
+	}
+
+	toggle() {
+		this.setState({ collapse: !this.state.collapse });
+	}
 	state = {
-	imageUrl: '',
-	name: '',
-	imageSize: {width: 0, height: 0},
-	isSubmitting: false,
-	isRendering: false,
-	file: null,
-	picFileId: '',
-	isDraggingFile: false,
-	isValidType: true,
-	isLoadingFile: false,
-	isEditingPicture: false,
+		imageUrl: '',
+		name: '',
+		imageSize: {width: 0, height: 0},
+		isSubmitting: false,
+		isRendering: false,
+		file: null,
+		picFileId: '',
+		isDraggingFile: false,
+		isValidType: true,
+		isLoadingFile: false,
+		isEditingPicture: false,
 	}
 
 	// const handleSubmit = () => {
@@ -64,15 +74,14 @@ class CreateGroup extends React.Component{
 					//this.setState({imageUrl: result.url});
 					this.setState({picFileId: result.id});
 					this.setState({userId: this.props.data.user.id });
-					this.setState({adminId: this.props.data.user.id});
-					var {picFileId, userId, adminId, name} = this.state;
+					var {picFileId, userId, name} = this.state;
 					this.props.createGroup({
 						variables: {
 							picFileId: picFileId,
-							userId: userId,
-							adminId: userId,
+							userId: this.props.data.user.id ,
+							adminId: this.props.data.user.id,
 							name: name
-						}
+						},
 					});
 					this.setState({'isSubmitting': false});
 					this.props.router.replace('/mygroups/')
@@ -222,66 +231,75 @@ class CreateGroup extends React.Component{
 
 				</div>
 				*/}
-					<FormGroup>
-						<div>
-							<WindowDropZone
-								onDragStart={this.onDragStart.bind(this)}
-								onDragEnd={this.onDragEnd.bind(this)}
-								onDrop={this.onDropFiles.bind(this)}
-							/>
+					
+						<Button onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
+						<Collapse isOpen={this.state.collapse}>
+				          <Card>
+				            <CardBlock>
+				            	<FormGroup>
+									<div>
+										<WindowDropZone
+											onDragStart={this.onDragStart.bind(this)}
+											onDragEnd={this.onDragEnd.bind(this)}
+											onDrop={this.onDropFiles.bind(this)}
+										/>
 
-							{ !this.state.imageUrl &&
-								<div className='w-100 dropzone mv3'>
-									{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
-										<span>Select a file or drop an image here.</span>
-									}
-									{ this.state.isLoadingFile &&
-										<span>Processing File...</span>
-									}
-									{ this.state.isDraggingFile && this.state.isValidType &&
-										<span>Drop to Upload</span>
-									}
-									{ this.state.isDraggingFile && !this.state.isValidType &&
-										<span>Invalid File</span>
-									}
-								</div>
-							}
-							{ this.state.imageUrl &&
-								<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-									<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-										<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+										{ !this.state.imageUrl &&
+											<div className='w-100 dropzone mv3'>
+												{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
+													<span>Select a file or drop an image here.</span>
+												}
+												{ this.state.isLoadingFile &&
+													<span>Processing File...</span>
+												}
+												{ this.state.isDraggingFile && this.state.isValidType &&
+													<span>Drop to Upload</span>
+												}
+												{ this.state.isDraggingFile && !this.state.isValidType &&
+													<span>Invalid File</span>
+												}
+											</div>
+										}
+										{ this.state.imageUrl &&
+											<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
+												<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
+													<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+												</div>
+												{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
+													<div className='w-100 dropzone'>
+														{ this.state.isDraggingFile && this.state.isValidType &&
+															<span>Drop to Upload</span>
+														}
+														{ this.state.isDraggingFile && !this.state.isValidType &&
+															<span>Invalid File</span>
+														}
+														{ this.state.isLoadingFile &&
+															<span>Processing File...</span>
+														}
+													</div>
+												}
+											</div>
+										}
+
+										<button type="cancel" disabled={(this.state.isEditingPicture ? "" : "disabled")} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
+											Cancel
+										</button>{" "}
+										<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
+										
 									</div>
-									{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
-										<div className='w-100 dropzone'>
-											{ this.state.isDraggingFile && this.state.isValidType &&
-												<span>Drop to Upload</span>
-											}
-											{ this.state.isDraggingFile && !this.state.isValidType &&
-												<span>Invalid File</span>
-											}
-											{ this.state.isLoadingFile &&
-												<span>Processing File...</span>
-											}
-										</div>
-									}
-								</div>
-							}
-
-							<button type="cancel" disabled={(this.state.isEditingPicture ? "" : "disabled")} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
-								Cancel
-							</button>{" "}
-							<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
-							
-						</div>
-					</FormGroup>
+				            	</FormGroup>
+				            </CardBlock>
+				          </Card>
+				        </Collapse>
+					
 						<FormGroup>
-						<Input
-						className='w-100 pa3 mv2 group-name'
-						value={this.state.name}
-						placeholder='Choose a group name'
-						onChange={(e) => this.setState({name: e.target.value})}
-					/>
-					</FormGroup>
+							<Input
+							className='w-100 pa3 mv2 group-name'
+							value={this.state.name}
+							placeholder='Choose a group name'
+							onChange={(e) => this.setState({name: e.target.value})}
+							/>
+						</FormGroup>
 					<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 								{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
 					</button>

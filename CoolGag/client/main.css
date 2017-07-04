@@ -147,7 +147,8 @@ nav .ml-auto{
 	height: 38px;
 }
 .img-responsive{
-	height: inherit !important;
+	width: 100% !important;
+	height: 100% !important;
 }
 .profile-img{
 	padding: 0px 0px 0px 0px  !important;
