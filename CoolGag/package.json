@@ -15,6 +15,7 @@
     "graphql-faker": "^1.2.1",
     "html2canvas": "^0.5.0-beta4",
     "immutability-helper": "^2.2.2",
+    "lorem-ipsum-react-native": "^1.0.3",
     "meteor-node-stubs": "^0.2.11",
     "minimatch": "^3.0.4",
     "moment": "^2.18.1",
