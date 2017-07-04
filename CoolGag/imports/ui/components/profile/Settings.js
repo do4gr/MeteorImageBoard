@@ -32,6 +32,10 @@ class Settings extends React.Component {
 		isValidType: true,
 		isLoadingFile: false,
 		isEditingPicture: false,
+		isPasswordSubmittable: false,
+		isEmailSubmittable: false,
+		newPassword: '',
+		newEmail: '',
 	}
 
 	handleUserDeletion = () => {
@@ -52,6 +56,25 @@ class Settings extends React.Component {
           console.log("there was an error sending the query", error);
         });
 	};
+
+	isPasswordSubmittable() {
+	  if (this.state.newPassword != '') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+	isEmailSubmittable() {
+	  if (this.state.newEmail != '') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+	handleSubmit(event) {
+      event.preventDefault();
+    }
 
 	render() {
 		if (this.props.data.loading) {
@@ -152,10 +175,35 @@ class Settings extends React.Component {
 				<div>
 					{/* <NavPersonalLists /> */}
 				</div>
-				<button>Change Password</button>
-				<button>Change Email</button>
-				<button>Delete Profile</button>
-				<button onClick={this.handleUserDeletion}>Delete Profile</button>
+				<form>
+					<div>
+							<div>
+								<form onSubmit={this.handleSubmit}>
+								  <input
+									className='w-100 pa3 mv2'
+									value={this.state.newPassword}
+									placeholder='enter new password'
+									onChange={(e) => this.setState({newPassword: e.target.value})}
+								  />
+								 <button type="submit" disabled={(this.isPasswordSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isPasswordSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.state.changePassword}>change password</button>
+
+								  </form>
+							</div>
+							<div>
+								<form onSubmit={this.handleSubmit}>
+								  <input
+									className='w-100 pa3 mv2'
+									value={this.state.newEmail}
+									placeholder='enter new email'
+									onChange={(e) => this.setState({newEmail: e.target.value})}
+								  />
+								 <button type="submit" disabled={(this.isEmailSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isEmailSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.state.changeEmail}>change email</button>
+
+								  </form>
+							</div>
+						<button onClick={this.handleUserDeletion}>Delete Profile</button>
+					</div>
+				</form>
 			</div>
 		);
 	}
@@ -292,6 +340,29 @@ class Settings extends React.Component {
 		this.setState({'isSubmitting': false, 'isEditingPicture': false});
 		return false;
 	}
+
+	changePassword = () => {
+      const newPassword = this.state.newPassword;
+	  const userId = this.props.data.user.id;
+	  this.props.data.changeUserPassword({
+		  mutation: changePassword,
+		  variables: {
+			  userID,
+			  newPassword
+		  }
+	  })
+    }
+	changeEmail = () => {
+      const {newEmail} = this.state.newEmail
+	  const userId = this.props.data.user.id;
+      this.props.data.changeEmailPassword({
+		  mutation: changeEmail,
+		  variables: {
+			  userID,
+			  newEmail
+		  }
+	  })
+    }
 }
 
 const profileData = gql`
@@ -349,10 +420,27 @@ const deletePicture = gql`
 		}
 	}
 `
+const changePassword = gql`
+	mutation ($userId: ID!, $password: String!) {
+		updateUser(
+			userID: $userId){
+			password
+		}
+	}
+`
+const changeEmail = gql`
+	mutation ($userId: ID!, $email: String!) {
+		updateUser(
+			userID: $userId){
+				email
+		}
+	}
+`
 
 export default compose(
 	graphql(uploadPicture, { name: 'changeProfilePic' } ),
 	graphql(deletePicture, { name: 'deleteProfilePic'} ),
-	graphql(deleteUser, { name: "deleteUser" }),
+	graphql(changePassword, { name: "changeUserPassword" }),
+	graphql(changeEmail, { name: "changeUserEmail" }),
 	graphql(profileData)
 )(withApollo(withRouter(Settings)))
