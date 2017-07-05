@@ -17,21 +17,28 @@ class MyGroupsList extends React.Component {
       error: React.PropTypes.object,
       group: React.PropTypes.object,
       user: React.PropTypes.object,
-    }).isRequired
+    }).isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modalDelete: false,
+      modalLeave: false
     };
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
+    this.toggleLeave = this.toggleLeave.bind(this);
   }
 
-   toggle() {
+   toggleDelete() {
     this.setState({
-      modal: !this.state.modal
+      modalDelete: !this.state.modalDelete
+    });
+  }
+  toggleLeave() {
+    this.setState({
+      modalLeave: !this.state.modalLeave
     });
   }
 
@@ -99,31 +106,33 @@ class MyGroupsList extends React.Component {
               </div>
             </Col>
             <Col xs="12"  sm="6" md="4" lg="4">
-                <Button color="warning" onClick={this.toggle}>Leave</Button>{" "}
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                  <ModalHeader toggle={this.toggle}>Leave Group</ModalHeader>
+              <span>
+                <Button data-target="#leaveGroup" color="warning" onClick={this.toggleLeave}>Leave</Button>{" "}
+                <Modal id="leaveGroup" isOpen={this.state.modalLeave} toggle={this.toggleLeave}>
+                  <ModalHeader toggle={this.toggleLeave}>Leave Group</ModalHeader>
                   <ModalBody className="text-center">
                     Are you sure that you want to leave the group "{ this.props.group.name }"?
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" onClick={this.toggle} onClick={this.handleLeaving}>Leave</Button>{' '}
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    <Button color="primary" onClick={this.toggleLeave} onClick={this.handleLeaving}>Leave</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleLeave}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-              { this.props.data.user.id === this.props.group.admins.id &&
-                <span>
-                  <Button color="danger" onClick={this.toggle}><Glyphicon glyph="trash"/></Button>
-                  <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Delete Group</ModalHeader>
-                    <ModalBody className="text-center">
-                      Are you sure that you want to delete the group "{ this.props.group.name }"?
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="primary" onClick={this.toggle} onClick={this.handleDeletion}>Delete</Button>{' '}
-                      <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
-                  </Modal>
-                  </span>
+              </span>
+               { this.props.data.user.id === this.props.group.admins.id && 
+              <span>
+                <Button data-target="#deleteGroup" color="danger" onClick={this.toggleDelete} ><Glyphicon glyph="trash"/></Button>
+                <Modal id="deleteGroup" isOpen={this.state.modalDelete} toggle={this.toggleDelete}>
+                  <ModalHeader toggle={this.toggleDelete}>Delete Group</ModalHeader>
+                  <ModalBody className="text-center">
+                    Are you sure that you want to delete the group "{ this.props.group.name }"?
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={this.toggleDelete} onClick={this.handleDeletion}>Delete</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleDelete}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+                </span>
               }
             </Col>
           </Row>
@@ -133,7 +142,7 @@ class MyGroupsList extends React.Component {
   }
 }
 
-const MyGroupsQuery = gql`query {
+const MyGroupsQuery = gql`query MyGroupsQuery{
     user{
         id
         name
@@ -171,7 +180,7 @@ const userLeavesGroup = gql`
 
 
 export default compose(
-  graphql(MyGroupsQuery),
+  graphql(MyGroupsQuery, { name: "MyGroupsQuery" }),
   graphql(deleteGroup, { name: "deleteGroup" }),
   graphql(userLeavesGroup, { name: "userLeavesGroup"})
 )(MyGroupsList);

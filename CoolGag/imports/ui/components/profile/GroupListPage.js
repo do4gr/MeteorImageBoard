@@ -39,7 +39,7 @@ export default class GroupListPage extends React.Component {
             <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} xl={{ size: 10, offset: 1 }} className="group-listing">
               {this.props.data.user.groups.map((group) =>
               //<PostPreview key={post.id} post={post} />
-              <MyGroupsList key={group.id} group={group} data={this.props.data} />
+              <MyGroupsList key={group.id} group={group} data={this.props.data}/>
               )}
             </Col>
           </Row>
