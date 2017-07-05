@@ -27,7 +27,7 @@ class PublicProfile extends React.Component {
   }
 
   state = {
-    group: '',
+    groupId: '' ,
   }
 
   constructor(props) {
@@ -52,6 +52,9 @@ class PublicProfile extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
   }
+
+
+
 
   render () {
     console.log(this.props)
@@ -116,10 +119,11 @@ class PublicProfile extends React.Component {
                       <FormGroup>
                       <Label for="groupSelect">Select the Group you want {this.props.data.User.name} to join:</Label>
                       <Input type="select" name="select" id="groupSelect"
-                        value={this.state.group}
-                        onChange={(e) => this.setState({group: e.target.value})}>
-                         {this.props.userQuery.user.groups.map((group) =>
-                            <option key={group.id}>{group.name}</option>
+                        value={this.state.groupId}
+                        onChange={(e) => this.setState({groupId: e.target.value})}>
+                          <option></option>
+                         { this.props.userQuery.user.groups.map((group) =>
+                            <option  key={ group.id } value={ group.id }> { group.name } </option>
                         )}
                       </Input>
                     </FormGroup>
@@ -180,14 +184,15 @@ class PublicProfile extends React.Component {
 
   }
 
+  
+
   goBack = () => {
     this.props.router.replace('/')
   }
 
   addToGroup = (event) => {
-    const { group } = this.state
+    const { groupId } = this.state
     const userId = this.props.data.User.id;
-    const groupId = this.group.id;
 
     this.props.addToUserToGroup({
       variables: {userId, groupId }
