@@ -141,7 +141,7 @@ class PublicProfile extends React.Component {
           <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
             <div className="center-text">
              Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
-            </div> 
+            </div>
           </Col>
         </Row>
         <Row>
@@ -162,7 +162,7 @@ class PublicProfile extends React.Component {
         </Row>
       </Container>
         <div>
-          
+
           {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
             <div className="profileImage">
               <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic'/>
@@ -174,7 +174,7 @@ class PublicProfile extends React.Component {
           <div>
             Karma: {points}
           </div>
-        
+
         </div>
         <div className="paddingTopPage">
         <ProfilePostListPage data={this.props.data}/>
@@ -184,7 +184,7 @@ class PublicProfile extends React.Component {
 
   }
 
-  
+
 
   goBack = () => {
     this.props.router.replace('/')
@@ -194,12 +194,14 @@ class PublicProfile extends React.Component {
     const { groupId } = this.state
     const userId = this.props.data.User.id;
 
-    this.props.addToUserToGroup({
+    console.log(userId, this.props)
+
+    this.props.addUserToGroup({
       variables: {userId, groupId }
     })
     .then(({ data }) => {
-      //  console.log("got data", data);
-    })
+          this.goBack()
+      })
     .catch(error => {
       console.log("there was an error sending the query", error);
     });
@@ -207,8 +209,8 @@ class PublicProfile extends React.Component {
 }
 
 
-const addToUserToGroup = gql`
-  mutation createGroup($groupId: [ID!], $userId: [ID!]){
+const addUserToGroup = gql`
+  mutation addToGroup($groupId:ID!, $userId:ID!){
    addToUserOnGroup(
       groupsGroupId: $groupId,
       usersUserId: $userId,
@@ -257,7 +259,7 @@ const userQuery = gql` query userQuery{
 
 const PublicPostsWithData = compose(
   graphql(userQuery, {fetchPolicy : 'network-only', name: 'userQuery' }),
-  graphql(addToUserToGroup, { name: "addToUserToGroup" }),
+  graphql(addUserToGroup, { name: "addUserToGroup" }),
   graphql(PublicPostsQuery, {
     options: (ownProps) => ({
         variables: {
