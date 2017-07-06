@@ -33,6 +33,7 @@ import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
 import Upvoted from '../imports/ui/containers/profileLists/Upvoted'
 import Downvoted from '../imports/ui/containers/profileLists/Downvoted'
 import SearchApp from '../imports/ui/components/Search/SearchApp.js'
+import AboutPage from '../imports/ui/components/about/AboutPage'
 
 const networkInterface = createNetworkInterface({uri: 'https://api.graph.cool/simple/v1/cj2ryvxmbt4qw0160y6qhdgdl'})
 
@@ -77,6 +78,7 @@ ReactDOM.render((
         <Route path='publicProfile/:userId' component={PublicProfile}/>
         <Route path='settings' component={Settings}/>
         <Route path='search' component={SearchApp}/>
+        <Route path='about' component={AboutPage}/>
         <Route component={ProfilePage}>
           <Route path='mygroups' component={MyGroups}/>
           <Route path='group/:groupId' component={GroupPage}/>
