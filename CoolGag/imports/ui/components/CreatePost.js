@@ -19,10 +19,11 @@ class CreatePost extends React.Component {
 
 	state = {
 		isSubmitting: false,
-		postUploadCallbacks: {}
+		description: '',
+		postUploadCallbacks: {},
+		isUploadSelected: true
 	}
-
-	postUpload = null;
+	
 
 	render () {
 		if (this.props.data.loading) {
@@ -35,19 +36,22 @@ class CreatePost extends React.Component {
 			this.props.router.replace('/')
 		}
 		
-		if(this.postUpload == null) {
-			this.postUpload = (
+		return (
 				<PostUpload 
 					callbacks={this.state.postUploadCallbacks}
 					enableMemeSelect={true}
-					enableDescription={true}
 					onUploaded={this.onFileUploaded.bind(this)}
-				></PostUpload>
-			);
-			window.postUpload = this.postUpload;
-		}
-		
-		return this.postUpload;
+					shouldUpload={this.state.isUploadSelected}
+					isSubmittable={this.state.description != ''}
+				>
+					<input
+						className='w-100 pa3 mv2'
+						value={this.state.description}
+						placeholder='Title'
+						onChange={(e) => {this.setState({description: e.target.value});}}
+					/>
+				</PostUpload>
+		);
 	}
 	
 	
@@ -55,8 +59,7 @@ class CreatePost extends React.Component {
 		//self.setState({imageUrl: result.url});
 		var postedFileId = file.id;
 		var userId = this.props.data.user.id;
-		var description = file.description;
-		var tagsTextList = TagUtils.findTags(description).textList;
+		var tagsTextList = TagUtils.findTags(this.state.description).textList;
 		var tags = tagsTextList.map((element) => {
 			return {text: element};
 		});

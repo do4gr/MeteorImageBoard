@@ -17,14 +17,14 @@ class PostUpload extends React.Component {
 
 	static propTypes = {
 		router: PropTypes.object.isRequired,
-		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
 		group: PropTypes.object,
 		enableMemeSelect: PropTypes.bool,
 		enableImageText: PropTypes.bool,
-		enableDescription: PropTypes.bool,
 		onUploaded: PropTypes.func.isRequired,
-		callbacks: PropTypes.object.isRequired
+		callbacks: PropTypes.object.isRequired,
+		isSubmittable: PropTypes.bool,
+		shouldUpload: PropTypes.bool
 	}
 
 	static placeholders = {
@@ -33,7 +33,6 @@ class PostUpload extends React.Component {
 	}
 
 	state = {
-		description: '',
 		imageUrl: '',
 		imageSize: {width: 0, height: 0},
 		isSubmitting: false,
@@ -69,12 +68,24 @@ class PostUpload extends React.Component {
 	constructor(props) {
 		super(props);
 		if(props.callbacks) {
-			props.callbacks.uploadFile = this.handlePost;
+			props.callbacks.uploadFile = this.handlePost.bind(this);
 		}
 	}
 
 	isSubmittable() {
-		return (!this.props.enableDescription || this.state.description) && (this.state.file || this.state.isPredefinedMeme && this.state.imageUrl && this.state.isTextEntered) && !this.state.isSubmitting;
+		var isContainerSubmittable = this.props.isSubmittable != undefined && this.props.isSubmittable || this.props.isSubmittable == undefined;
+		var shouldUpload = this.props.shouldUpload != undefined && this.props.shouldUpload || this.props.isSubmittable == undefined;
+		return isContainerSubmittable &&
+			(
+				!shouldUpload ||
+				(
+					this.state.file ||
+					this.state.isPredefinedMeme &&
+					this.state.imageUrl &&
+					this.state.isTextEntered
+				)
+			) &&
+			!this.state.isSubmitting;
 	}
 
 	onWindowResize(event) {
@@ -108,73 +119,70 @@ class PostUpload extends React.Component {
 					<Row>
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 							<form className='' onSubmit={this.onPostClicked.bind(this)}>
-								{ this.props.enableDescription &&
-									<input
-										className='w-100 pa3 mv2'
-										value={this.state.description}
-										placeholder='Description'
-										onChange={(e) => this.setState({description: e.target.value})}
-									/>
-								}
-								<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
-								<WindowDropZone
-									onDragStart={this.onDragStart.bind(this)}
-									onDragEnd={this.onDragEnd.bind(this)}
-									onDrop={this.onDropFiles.bind(this)}
-								/>
-								{ this.props.enableMemeSelect &&
-									<span>
-										&nbsp;
-										<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
-									</span>
-								}
-								{ !this.state.imageUrl &&
-									<div className='w-100 dropzone mv3'>
-										{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
-											<span>Kein Bild ausgewählt.</span>
+								{this.props.children}
+								{ this.props.shouldUpload &&
+									<div>
+										<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
+										<WindowDropZone
+											onDragStart={this.onDragStart.bind(this)}
+											onDragEnd={this.onDragEnd.bind(this)}
+											onDrop={this.onDropFiles.bind(this)}
+										/>
+										{ this.props.enableMemeSelect &&
+											<span>
+												&nbsp;
+												<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
+											</span>
 										}
-										{ this.state.isLoadingFile &&
-											<span>Processing File...</span>
-										}
-										{ this.state.isDraggingFile && this.state.isValidType &&
-											<span>Drop to Upload</span>
-										}
-										{ this.state.isDraggingFile && !this.state.isValidType &&
-											<span>Invalid File</span>
-										}
-									</div>
-								}
-								{ this.state.imageUrl &&
-									<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-										<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-											<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
-											{ (this.props.enableImageText || this.props.enableMemeSelect) &&
-												<ContentEditable
-													onFocus={this.onImageTextFocused.bind(this)}
-													onBlur={this.onImageTextBlured.bind(this)}
-													className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
-													html={this.state.upperImageText}
-													onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
-											}
-											{ (this.props.enableImageText || this.props.enableMemeSelect) &&
-												<ContentEditable
-													onFocus={this.onImageTextFocused.bind(this)}
-													onBlur={this.onImageTextBlured.bind(this)}
-													className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
-													html={this.state.lowerImageText}
-													onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
-											}
-										</div>
-										{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
-											<div className='w-100 dropzone'>
+										{ !this.state.imageUrl &&
+											<div className='w-100 dropzone mv3'>
+												{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
+													<span>Kein Bild ausgewählt.</span>
+												}
+												{ this.state.isLoadingFile &&
+													<span>Processing File...</span>
+												}
 												{ this.state.isDraggingFile && this.state.isValidType &&
 													<span>Drop to Upload</span>
 												}
 												{ this.state.isDraggingFile && !this.state.isValidType &&
 													<span>Invalid File</span>
 												}
-												{ this.state.isLoadingFile &&
-													<span>Processing File...</span>
+											</div>
+										}
+										{ this.state.imageUrl &&
+											<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
+												<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
+													<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
+													{ (this.props.enableImageText || this.props.enableMemeSelect) &&
+														<ContentEditable
+															onFocus={this.onImageTextFocused.bind(this)}
+															onBlur={this.onImageTextBlured.bind(this)}
+															className={"outlined upper imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
+															html={this.state.upperImageText}
+															onChange={this.onImageTextChanged.bind(this, 'upperImageText')}></ContentEditable>
+													}
+													{ (this.props.enableImageText || this.props.enableMemeSelect) &&
+														<ContentEditable
+															onFocus={this.onImageTextFocused.bind(this)}
+															onBlur={this.onImageTextBlured.bind(this)}
+															className={"outlined lower imageText uncheckedSpelling" + (this.state.isTextEntered ? '' : ' placeholder')}
+															html={this.state.lowerImageText}
+															onChange={this.onImageTextChanged.bind(this, 'lowerImageText')}></ContentEditable>
+													}
+												</div>
+												{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
+													<div className='w-100 dropzone'>
+														{ this.state.isDraggingFile && this.state.isValidType &&
+															<span>Drop to Upload</span>
+														}
+														{ this.state.isDraggingFile && !this.state.isValidType &&
+															<span>Invalid File</span>
+														}
+														{ this.state.isLoadingFile &&
+															<span>Processing File...</span>
+														}
+													</div>
 												}
 											</div>
 										}
@@ -214,7 +222,14 @@ class PostUpload extends React.Component {
 	
 	onPostClicked(event) {
 		event.preventDefault();
-		this.handlePost();
+		if(typeof this.props.shouldDoFileUpload == 'function' && this.props.shouldDoFileUpload()) {
+			this.handlePost();
+		} else {
+			this.setState({'isSubmitting': true});
+			if(typeof this.props.onUploaded == "function") {
+				this.props.onUploaded({});
+			}
+		}
 	}
 
 	async handlePost() {
@@ -229,9 +244,6 @@ class PostUpload extends React.Component {
 			}).then((response) => {
 				response.json().then(result => {
 					if(typeof this.props.onUploaded == "function") {
-						if(this.props.enableDescription) {
-							result.description = this.state.description;
-						}
 						this.props.onUploaded(result);
 					}
 				});
@@ -315,7 +327,8 @@ class PostUpload extends React.Component {
 			this.setState({
 				'isPredefinedMeme': true,
 				'isLoadingFile': true,
-				'imageUrl': '/imageProxy?imageSecret=' + meme.file.secret
+				'imageUrl': '/imageProxy?imageSecret=' + meme.file.secret,
+				file: null
 			});
 			Popup.close(popupId);
 		};
@@ -506,21 +519,6 @@ class PostUpload extends React.Component {
 	}
 }
 
-const createPost = gql`
-	mutation ($description: String!, $groupId: ID, $postedFileId: ID!, $userId: ID!, $tags: [PosttagsTag!]) {
-		createPost(
-			description: $description,
-			postedFileId: $postedFileId,
-			userId: $userId,
-			tags: $tags,
-			groupId: $groupId)
-		{
-			id
-			postedFile { id }
-		}
-	}
-`
-
 const userQuery = gql`
 	query {
 		user {
@@ -530,6 +528,5 @@ const userQuery = gql`
 `
 
 export default compose(
-  graphql(createPost),
   graphql(userQuery, fetchPolicy: "network-only" )
 )(withApollo(withRouter(PostUpload)))
