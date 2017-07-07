@@ -23,8 +23,8 @@ export default class NavPersonalLists extends React.Component {
 
 	render() {
 		return (
-			<div>
-			<Container className="nested">
+			<div >
+			<Container className="nested" >
 				<Row>
 				<Col >
 				<Navbar className="navbar-inverse navbar-toggleable-sm">

@@ -3,7 +3,12 @@
 body {
 	font-size: 16px !important;
 	font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-;
+}
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
 }
 
 html {
@@ -17,18 +22,10 @@ html, body {
 	min-width: 100%;
 	min-height: 100%;
 }
-
-
-body {
-  margin: 0;
-  padding: 20px;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-
+/*set body of app to 100%*/
+html, body, #app, #app>div {
+  height: 100%
 }
-
-
-
-
 h2, .h2 {
 	font-size: 2rem !important;
 }
@@ -83,8 +80,11 @@ textarea, .form-control{
 }
 .body {
   flex: 1 1 auto;
+  margin-top: 80px;
 }
-
+.dropdown-menu-right{
+	border-radius: 1px;
+}
 .center-text{
   text-align: center;
 }
@@ -99,6 +99,7 @@ nav {
   	background-color: #585353 !important;
 	border-color: #585353 !important;
 	color: #b8cdd8 !important
+	border-radius: 0px !important;
 }
 
 /*.col-*{
@@ -111,6 +112,25 @@ nav {
 /*button .navbar-toggler{
 	border-color: #b8cdd8 !important
 }*/
+
+@media (max-width: 768px){
+	.fixed-nav {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+	}
+}
+@media (min-width: 769px){
+	.fixed-nav {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+	}
+}
 
 .navbar{
 	margin-bottom: 0 !important;
@@ -129,7 +149,7 @@ nav .navbar-brand{
 
 .btn {
 	font-size: 16px !important;
-	border-radius: 4px !important;
+	border-radius: 0px !important;
 	line-height: 20px !important;
 	padding: 8px 16px !important;
 }
@@ -155,6 +175,11 @@ nav .navbar-brand{
 		align-items: center;
 	}
 }
+@media (min-width: 768px){
+	.navbar {
+	     border-radius: 0px !important; 
+	}
+}
 
 nav .navbar-nav{
 	margin: 0 0;
@@ -171,10 +196,18 @@ nav .ml-auto{
 .imgHolder {
 	width: 40px;
 	height: 38px;
+
 }
 .img-responsive{
 	width: 100% !important;
 	height: 100% !important;
+	object-fit: cover;
+}
+.img-rounded{
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+	border-radius: 1px !important;
 }
 .profile-img{
 	padding: 0px 0px 0px 0px  !important;

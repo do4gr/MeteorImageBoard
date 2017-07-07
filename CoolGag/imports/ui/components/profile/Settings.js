@@ -52,8 +52,8 @@ class Settings extends React.Component {
 				{!this.state.isEditingPicture && this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 					<div className="defaultImage changePicture">
 						<span>
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)} />
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} />
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)}>Update</Button>{" "}
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} >Delete</Button>
 						</span>
 						<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic editProfilePic' onError={this.onProfileImageLoadError.bind(this)} />
 					</div>
@@ -133,9 +133,9 @@ class Settings extends React.Component {
 				<div>
 					{/* <NavPersonalLists /> */}
 				</div>
-				<button>Change Password</button>
-				<button>Change Email</button>
-				<button>Delete Profile</button>
+				<Button>Change Password</Button>{" "}
+				<Button>Change Email</Button>{" "}
+				<Button>Delete Profile</Button>
 			</div>
 		);
 	}

@@ -19,11 +19,12 @@ class Example extends React.Component {
 		super(props);
 
 		this.toggleNavBar = this.toggleNavBar.bind(this);
-		this.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
+		this.toggleProfileMenu = this.toggleProfileMenu.bind(this);
+    this.toggleCreateItemMenu = this.toggleCreateItemMenu.bind(this);
 		this.state = {
 			isNavBarOpen: false,
-			isBurgerMenuOpen: false,
-      isCategoriesMenuOpen: false,
+			isProfileMenuOpen: false,
+      isCreateItemMenuOpen: false,
 		};
 	}
 
@@ -33,11 +34,16 @@ class Example extends React.Component {
 		});
 	}
 
-	toggleBurgerMenu() {
+	toggleProfileMenu() {
 		this.setState( {
-			isBurgerMenuOpen: !this.state.isBurgerMenuOpen,
+			isProfileMenuOpen: !this.state.isProfileMenuOpen,
 		});
 	}
+  toggleCreateItemMenu() {
+    this.setState( {
+      isCreateItemMenuOpen: !this.state.isCreateItemMenuOpen,
+    });
+  }
 	getFilteredTags() {
 		return TagUtils.mostUsed(this.props.allTags.allTags).slice(0, 5);
 	}
@@ -83,7 +89,7 @@ class Example extends React.Component {
         <Container >
           <Row >
             <Col className="nav-col" >
-              <Navbar className="navbar-toggleable-md  navbar-toggleable-sm navbar-inverse">
+              <Navbar className="navbar-toggleable-sm navbar-inverse fixed-top">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
                   <img className="logo-img" src="/images/icon1.gif" />
@@ -108,35 +114,35 @@ class Example extends React.Component {
                     <NavItem>
                       <NavLink href="/search/"><Glyphicon glyph="search"/></NavLink>
                     </NavItem>
-               <NavItem >
-                <NavLink >
-				<Dropdown isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleTagsMenu.bind(this)}>
-					<DropdownToggle caret color="secondary" outline>
-						More Fun
-					</DropdownToggle>
-					<DropdownMenu className="dropdown-menu-left">
-						{ !this.props.allTags.allTags &&
-							<DropdownItem header>Loading</DropdownItem>
-						}
-						{ this.props.allTags.allTags && this.getFilteredTags().map((tag)=>{
-							return (
-								<DropdownItem key={tag} onClick={this.tagClicked.bind(this, tag)}>
-									{'#' + tag}
-								</DropdownItem>);
-						})}
-					</DropdownMenu>
-				</Dropdown>
+                   <NavItem >
+                  <NavLink >
+          				<Dropdown isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleTagsMenu.bind(this)}>
+          					<DropdownToggle caret color="secondary" outline>
+          						More Fun
+          					</DropdownToggle>
+          					<DropdownMenu className="dropdown-menu-right">
+          						{ !this.props.allTags.allTags &&
+          							<DropdownItem header>Loading</DropdownItem>
+          						}
+          						{ this.props.allTags.allTags && this.getFilteredTags().map((tag)=>{
+          							return (
+          								<DropdownItem key={tag} onClick={this.tagClicked.bind(this, tag)}>
+          									{'#' + tag}
+          								</DropdownItem>);
+          						})}
+          					</DropdownMenu>
+          				</Dropdown>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink >
-                <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
+                <Dropdown isOpen={this.state.isProfileMenuOpen} toggle={this.toggleProfileMenu}>
                         <DropdownToggle className="profile-img">
                           <div className="imgHolder">
                             <img  className="img-responsive" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image"/>
                           </div>
                         </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-left">
+                        <DropdownMenu className="dropdown-menu-right">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>
                           <DropdownItem href="/mygroups/">My Groups</DropdownItem>
                           <DropdownItem href="/settings/">Settings</DropdownItem>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
-import {Button} from 'reactstrap';
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -11,7 +10,7 @@ import FileSelectButton from '../FileHandling/FileSelectButton';
 import WindowDropZone from '../FileHandling/WindowDropZone';
 import FileHandling from '../FileHandling/FileHandling';
 import PredefinedMemeSelect from '../PredefinedMemeSelect';
-import {Container, Row, Col} from 'reactstrap';
+import { Button, Container, Row, Col} from 'reactstrap';
 
 class PostUpload extends React.Component {
 
@@ -125,13 +124,13 @@ class PostUpload extends React.Component {
 								{ this.props.enableMemeSelect &&
 									<span>
 										&nbsp;
-										<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</button>
+										<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</Button>
 									</span>
 								}
 								{ !this.state.imageUrl &&
 									<div className='w-100 dropzone mv3'>
 										{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
-											<span>Kein Bild ausgewählt.</span>
+											<span>Choose a picture</span>
 										}
 										{ this.state.isLoadingFile &&
 											<span>Processing File...</span>
@@ -180,9 +179,9 @@ class PostUpload extends React.Component {
 										}
 									</div>
 								}
-								<button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+								<Button type="submit"  className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 									{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
-								</button>
+								</Button>
 								
 								{ this.props.enableMemeSelect &&
 									<Popup

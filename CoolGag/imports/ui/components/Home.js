@@ -3,7 +3,7 @@ import { gql, graphql, fetchPolicy } from 'react-apollo'
 import { withRouter } from 'react-router'
 import ListPage from '../containers/ListPage'
 import Nav from './Nav'
-import {Container, Row, Col } from 'reactstrap'
+import { Button, Container, Row, Col } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 class Home extends React.Component {
@@ -49,37 +49,38 @@ class Home extends React.Component {
 
   renderLoggedOut() {
     return (
-      <div className="center-text">
-      <Container fluid>
-      <Row>
-        <Col className="greet-title">
-          <h2>Welcome to coolGAG!</h2>
-          <h3>Please Login or Signin.</h3>
-        </Col>
-      </Row>
-      <Row>
-        <Col className='pv3'>
-
-            <span
-              onClick={this._showLogin}
-              className='dib pa3 white bg-blue dim pointer btn-login'>
-              Login
-            </span>
-
-           </Col>
-        </Row>
-         <Row>
-        <Col className='pv3'>
-
-            <span
-              onClick={this._showSignup}
-              className='dib pa3 white bg-blue dim pointer btn-singup'>
-              Signup
-            </span>
-
-
+      <div className="startpage-wrapper">
+      <Container className="startpage" fluid>
+        <Row className="greet-section startpage-logo-wrapper">
+          <Col >
+            <div className="">
+              <img className="startpage-logo" src="/images/icon1.gif"/>
+            </div>
+            <div className="welcome-title">Welcome to coolGAG!</div>
           </Col>
         </Row>
+        <div className='loggin-section'>
+          <Row>
+            <Col md={{size:3, offset: 3}} className='pv3'>
+              <span>
+                <Button type="button"
+                onClick={this._showLogin}
+                className='dib pa3 white bg-blue dim pointer btn-login'
+                >Login
+                </Button>{" "}
+              </span>
+            </Col>
+            <Col md={{size:5, offset: 1}} className='pv3'>
+                <span>
+                  <Button
+                  onClick={this._showSignup}
+                  className='dib pa3 white bg-blue dim pointer btn-signup'>
+                  Signup
+                  </Button>
+                </span>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </div>
     )

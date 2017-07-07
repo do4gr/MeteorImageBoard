@@ -50,10 +50,10 @@ class ProfileHeader extends React.Component {
 
 		return (
 			<div >
-				<Container className="center profile-header">
-					<Row>
-						<Col xs="6" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 1.5 }} className="profile-header">
-							<h1 className="profileName text-center"> {this.props.data.user.name}</h1>
+				<Container className="nested center profile-header">
+					<Row className="align-item">
+						<Col xs={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1.5 }} className="profile-header">
+							<div className="profileName text-center"> {this.props.data.user.name}</div>
 							{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 								<div className="profileImage">
 									<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
@@ -73,19 +73,19 @@ class ProfileHeader extends React.Component {
 											</span>
 							</div>
 							<div className="text-center">
-								<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Edit your profile" onClick={this.changeImage.bind(this)} />
+								<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Edit your profile" onClick={this.changeImage.bind(this)}>Edit Profile</Button>
 							</div>
 										</div>
 									}
-							<div className="text-center">
+							<div className="text-center member-date">
 								Member since {moment(this.props.data.user.createdAt).format("MMM Do YY")}
 							</div>
 							<div className="text-center">
 								Karma: {this.props.data.user.karma}
 							</div>
 						</Col>
-						<Col xs="6" sm="6" md="5" md={{ size: 5, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }} className="profile-header">
-							<div className="topPadding30 ">
+						<Col xs={{ size: 5, offset: 0.5 }} sm={{ size: 5, offset: 0.5 }} md={{ size: 4, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }} className="profile-header">
+							<div >
 								<NavPersonalLists />
 							</div>
 						</Col>

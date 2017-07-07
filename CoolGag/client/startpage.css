@@ -1,0 +1,35 @@
+#root, .app{
+	height: 100%; 
+}
+div .startpage-wrapper{
+	height:100vh;
+}
+div .startpage{
+	height:100vh;
+}
+
+.greet-section{
+	height: 60%;
+}
+
+.row.startpage-logo-wrapper{
+	text-align: center;
+}
+
+.loggin-section{
+	height: 20%;
+}
+
+.startpage-logo{
+	max-height: 40%;
+	max-width: 40%;	
+}
+.welcome-title{
+	margin-top: 20px;
+	font-size: 50px;
+}	
+.btn-login, .btn-signup{
+	height: 50px;
+	width: 170px;
+	background-color: rgba(118, 22, 165, 0.4) !important;
+}

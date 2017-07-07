@@ -2,6 +2,38 @@
 	position: relative;
 }
 
+@media(max-width: 575px){
+	.navbar-nav>li>a{
+		padding-top: 2.5px !important;
+		padding-bottom: 2.5px !important;
+	}
+}
+
+@media(min-width: 576px){
+	.navbar-nav>li>a{
+		padding-top: 5px !important;
+		padding-bottom: 5px !important;
+	}
+}
+
+@media(min-width: 0px){
+	.profile-body{
+		margin-top: 150px;
+	}
+}
+
+@media(min-width: 576px){
+	.profile-body{
+		margin-top: 225px;
+	}
+}
+
+@media(min-width: 1010px){
+	.profile-body{
+		margin-top: 255px;
+	}
+}
+
 .defaultImage:hover svg {
 	opacity:0.5;
 }
@@ -23,12 +55,20 @@
 	display: block;
 	padding-top: 20px;
 }
-
+.container.profile-header{
+	width: auto !important;
+}
 .profile-header{
 	background-color: #585353 !important;
 	border-color: #333 !important;
 	color: rgba(255, 255, 255, 0.5) !important; 
 	padding: 0 !important;
+	margin-bottom: 5px !important;
+}
+@media(max-width: 575px){
+	.member-date{
+		display: none;
+	}
 }
 .profilePic {
 	max-width: 400px;
@@ -39,9 +79,7 @@
 	opacity:0.5;
 }
 
-.profileName {
-	padding-top: 20px;
-}
+
 
 .topPadding30 {
 	padding-top: 30px;
@@ -76,10 +114,6 @@
 	display: block;
 	margin: 10px auto;
 	width: 80%;
-}
-
-.nav-personal-lists{
-	margin-top: 15px;
 }
 
 .groups-title, .group-list-group-title{
