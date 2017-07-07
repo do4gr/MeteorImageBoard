@@ -12,6 +12,7 @@ const TrendingQuery = gql`query TrendingQuery($yesterday: DateTime!) {
 	postedFile { id, url }
     description
 	category
+  karmaPoints
   }
 }`
 
