@@ -19,13 +19,15 @@ import PublicProfile from '../imports/ui/components/PublicProfile'
 import Settings from '../imports/ui/components/profile/Settings'
 import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
 import GroupPage from '../imports/ui/components/profile/GroupPage'
-
+import PostPageAdmin from '../imports/ui/components/SinglePostPage/PostPageAdmin'
 
 import HotList from '../imports/ui/containers/HotList'
 import TrendingList from '../imports/ui/containers/TrendingList'
 import FreshList from '../imports/ui/containers/FreshList'
 import KittensList from '../imports/ui/containers/KittensList'
 import ListWithTag from '../imports/ui/containers/ListWithTag';
+import AdminList from '../imports/ui/containers/AdminList';
+
 
 import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
 import MyComments from '../imports/ui/containers/profileLists/MyComments'
@@ -72,8 +74,10 @@ ReactDOM.render((
         <Route path='hotlist' component={HotList}/>
         <Route path='trendinglist' component={TrendingList}/>
         <Route path='freshlist' component={FreshList}/>
+        <Route path='admin' component={AdminList}/>
         <Route path='tag/:tagText' component={ListWithTag}/>
-        <Route path='view/:postId' component={PostPage}/>
+        <Route path='view/:postId' component={PostPageAdmin}/>
+        <Route path='admin/view/:postId' component={PostPageAdmin}/>
         <Route path='publicProfile/:userId' component={PublicProfile}/>
         <Route path='settings' component={Settings}/>
         <Route path='search' component={SearchApp}/>
