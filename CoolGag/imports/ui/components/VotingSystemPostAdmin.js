@@ -189,10 +189,12 @@ class VotingSystemPostAdmin extends React.Component {
 								<Col xs="12" className="pt-2">
                 <span>
                 <Button
+                  className="trash-btn"
                   onClick={this.handleDelete}
                 >
-                delete
+                  <Glyphicon glyph="trash"/>
                 </Button>
+                {" "}
                 </span>
 								</Col>
 					 </Row>

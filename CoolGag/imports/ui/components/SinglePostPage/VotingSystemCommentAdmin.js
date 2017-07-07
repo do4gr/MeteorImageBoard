@@ -111,9 +111,9 @@ class VotingSystemCommentAdmin extends React.Component{
 					     	 		</Button>{' '}
 					        	</span>
 										<span>
-										<Button onClick={ this.handleDelete }>
-										  delete
-										</Button>
+										<Button className="trash-btn btn-sm"  onClick={ this.handleDelete }>
+											<Glyphicon glyph="trash"/>
+										</Button>{' '}
 										</span>
 				        	</div>
 						</Col>

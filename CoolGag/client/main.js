@@ -76,7 +76,7 @@ ReactDOM.render((
         <Route path='freshlist' component={FreshList}/>
         <Route path='admin' component={AdminList}/>
         <Route path='tag/:tagText' component={ListWithTag}/>
-        <Route path='view/:postId' component={PostPageAdmin}/>
+        <Route path='view/:postId' component={PostPage}/>
         <Route path='admin/view/:postId' component={PostPageAdmin}/>
         <Route path='publicProfile/:userId' component={PublicProfile}/>
         <Route path='settings' component={Settings}/>

@@ -34,7 +34,7 @@ export default class ShowComment extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col><div> {this.props.comment.text} </div></Col>	
+					<Col><div> {this.props.comment.text} </div></Col>
 				</Row>
 				<Row>
 					<Col>
@@ -43,7 +43,7 @@ export default class ShowComment extends React.Component {
 				</Row>
 				</Comment>
 				<hr/>
-			</Container> 
+			</Container>
 		</div>
   	)
   }
