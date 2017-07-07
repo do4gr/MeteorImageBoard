@@ -6,7 +6,7 @@ import { Button, Label, Modal, ModalHeader, ModalBody, ModalFooter, Media} from 
 import { Glyphicon } from 'react-bootstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router';
-// import {MyGroupsQuery} from '/imports/ui/containers/profileLists/MyGroupsQuery'
+// import {MyGroupsQuery} from '/imports/ui/containers/groups/MyGroupsQuery'
 
 
 class MyGroupsList extends React.Component {

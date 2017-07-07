@@ -3,13 +3,13 @@ import PostPreview from '../PostPreview'
 import { gql, graphql, withApollo, compose, fetchPolicy } from 'react-apollo'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import MyGroups from '/imports/ui/components/profile/MyGroupsList'
+import MyGroups from '/imports/ui/components/groups/MyGroupsList'
 import { Button,Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link, BrowserRouter as Router, Route } from 'react-router';
-import GroupMembers from '/imports/ui/components/profile/GroupMembers'
-// import GroupPosts from '/imports/ui/components/profile/GroupPosts'
-import { GroupPostsQuery } from '/imports/ui/containers/profileLists/GroupPostsQuery'
+import GroupMembers from '/imports/ui/components/groups/GroupMembers'
+// import GroupPosts from '/imports/ui/components/groups/GroupPosts'
+import { GroupPostsQuery } from '/imports/ui/containers/groupQueries/GroupPostsQuery'
 import CreatePost from '/imports/ui/components/CreatePost'
 import PostUpload from '/imports/ui/components/Posts/PostUpload'
 import TagUtils from '/imports/ui/components/TagUtils';

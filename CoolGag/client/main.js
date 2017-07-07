@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from '../imports/ui/containers/App'
 import Home from '../imports/ui/components/Home'
 import CreatePost from '../imports/ui/components/CreatePost'
-import CreateGroup from '../imports/ui/components/CreateGroup'
+import CreateGroup from '../imports/ui/components/groups/CreateGroup'
 import CreateUser from '../imports/ui/components/CreateUser'
 import LoginUser from '../imports/ui/components/LoginUser'
 import ProfilePage from '../imports/ui/components/profile/ProfilePage'
@@ -18,7 +18,7 @@ import PublicProfile from '../imports/ui/components/PublicProfile'
 
 import Settings from '../imports/ui/components/profile/Settings'
 import PostPage from '../imports/ui/components/SinglePostPage/PostPage'
-import GroupPage from '../imports/ui/components/profile/GroupPage'
+import GroupPage from '../imports/ui/components/groups/GroupPage'
 
 
 import HotList from '../imports/ui/containers/HotList'
@@ -28,7 +28,7 @@ import KittensList from '../imports/ui/containers/KittensList'
 import ListWithTag from '../imports/ui/containers/ListWithTag'
 import UserQuery from '../imports/ui/containers/UserQuery'
 
-import MyGroups from '../imports/ui/containers/profileLists/MyGroups'
+import MyGroups from '../imports/ui/containers/groupQueries/MyGroups'
 import MyComments from '../imports/ui/containers/profileLists/MyComments'
 import MyPosts from '../imports/ui/containers/profileLists/MyPosts'
 import Upvoted from '../imports/ui/containers/profileLists/Upvoted'

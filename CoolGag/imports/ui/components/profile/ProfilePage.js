@@ -5,8 +5,8 @@ import Nav from '../Nav'
 
 export default function App(props) {
   return (
-    <div className='profile-page'>
-      <div className='profile-header'>
+    <div >
+      <div className='profile-page'>
         <ProfileHeader />
       </div>
       <div className='nav-personal-lists'>

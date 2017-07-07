@@ -12,7 +12,7 @@ import FileSelectButton from '/imports/ui/components/FileHandling/FileSelectButt
 import WindowDropZone from '/imports/ui/components/FileHandling/WindowDropZone';
 import FileHandling from '/imports/ui/components/FileHandling/FileHandling';
 import PredefinedMemeSelect from '/imports/ui/components/PredefinedMemeSelect';
-import {MyGroupsQuery} from '/imports/ui/components/profile/MyGroupsList';
+import {MyGroupsQuery} from '/imports/ui/components/groups/MyGroupsList';
 
 class CreateGroup extends React.Component{
 

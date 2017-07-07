@@ -2,7 +2,7 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import MyGroupsList from '/imports/ui/components/profile/MyGroupsList'
+import MyGroupsList from '/imports/ui/components/groups/MyGroupsList'
 import { Button,Label } from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router';

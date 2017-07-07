@@ -1,5 +1,5 @@
 import {gql, graphql } from 'react-apollo';
-import GroupPage from '/imports/ui/components/profile/GroupPage';
+import GroupPage from '/imports/ui/components/groups/GroupPage';
 
 
 export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){

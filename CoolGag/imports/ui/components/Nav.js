@@ -81,8 +81,8 @@ class Example extends React.Component {
 		return (
 			<div>
         <Container >
-          <Row>
-            <Col>
+          <Row >
+            <Col className="nav-col" >
               <Navbar className="navbar-toggleable-md  navbar-toggleable-sm navbar-inverse">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">

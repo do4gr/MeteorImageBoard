@@ -89,12 +89,21 @@ textarea, .form-control{
   text-align: center;
 }
 
+.nav-col{
+	background-color: #585353 !important;
+	border-color: #585353 !important;
+}
+
 nav {
   	min-height: 56px;
   	background-color: #585353 !important;
-	border-color: #333 !important;
+	border-color: #585353 !important;
 	color: #b8cdd8 !important
 }
+
+/*.col-*{
+	padding: 0;
+}*/
 
 /*nav a {
 	color: #b8cdd8 !important;
@@ -102,6 +111,10 @@ nav {
 /*button .navbar-toggler{
 	border-color: #b8cdd8 !important
 }*/
+
+.navbar{
+	margin-bottom: 0 !important;
+}
 nav .nav-item {
   display: flex;
   align-items: center;
