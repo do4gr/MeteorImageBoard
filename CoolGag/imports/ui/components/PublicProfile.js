@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas';
 import Popup from 'react-popup';
 import {Container, Row, Col} from 'reactstrap';
 import ProfilePostListPage from '../components/profile/ProfilePostListPage';
-import { MyGroupsQuery } from '/imports/ui/components/profile/MyGroupsList';
+import { MyGroupsQuery } from '/imports/ui/components/groups/MyGroupsList';
 
 
 

@@ -52,7 +52,7 @@ class ProfileHeader extends React.Component {
 				<div >
 				<Container className="center">
 					<Row>
-						<Col xs="12" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 1.5 }}>
+						<Col xs="6" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 1.5 }}>
 							<h1 className="profileName text-center"> {this.props.data.user.name}</h1>
 							{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 								<div className="profileImage">
@@ -84,7 +84,7 @@ class ProfileHeader extends React.Component {
 						Karma: {this.props.data.user.karma}
 					</div>
 				</Col>
-				<Col xs="12" sm="6" md="5" md={{ size: 5, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }}>
+				<Col xs="6" sm="6" md="5" md={{ size: 5, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }}>
 				<div className="topPadding30">
 					<NavPersonalLists />
 				</div>

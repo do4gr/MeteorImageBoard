@@ -26,6 +26,9 @@ body {
 
 }
 
+
+
+
 h2, .h2 {
 	font-size: 2rem !important;
 }
@@ -87,8 +90,18 @@ textarea, .form-control{
 }
 
 nav {
-  min-height: 56px;
+  	min-height: 56px;
+  	background-color: #585353 !important;
+	border-color: #333 !important;
+	color: #b8cdd8 !important
 }
+
+/*nav a {
+	color: #b8cdd8 !important;
+}*/
+/*button .navbar-toggler{
+	border-color: #b8cdd8 !important
+}*/
 nav .nav-item {
   display: flex;
   align-items: center;

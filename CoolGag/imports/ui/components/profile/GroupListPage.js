@@ -25,8 +25,8 @@ export default class GroupListPage extends React.Component {
     }
 
     return (
-      <div className='group-list-container'>
-        <Container>
+      <div className=''>
+        <Container className="nested">
           <Row>
             <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} xl={{ size: 10, offset: 1 }}>
               <div className="group-header-wrapper">

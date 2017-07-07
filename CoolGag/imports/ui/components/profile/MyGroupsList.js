@@ -93,8 +93,8 @@ class MyGroupsList extends React.Component {
       <div>
         <Container className="nested group-listing">
           <Row>
-            <Col xs="3" sm="2" md="2" lg="1">
-              <div className="imgHolder align-item" >
+            <Col xs="3" sm="2" md="2" lg="1" className="align-item">
+              <div className="imgHolder" >
                   <img  className="img-rounded imgHolder" src={`${this.props.group.picFile? this.props.group.picFile.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
               </div>
             </Col>
@@ -105,7 +105,7 @@ class MyGroupsList extends React.Component {
                 </Link>
               </div>
             </Col>
-            <Col xs="12"  sm="6" md="4" lg="4">
+            <Col xs={{ size:9, offset: 3}}  sm={{ size:4, offset: 2}} md={{ size:4, offset: 0}} >
               <span>
                 <Button data-target="#leaveGroup" color="warning" onClick={this.toggleLeave}>Leave</Button>{" "}
                 <Modal id="leaveGroup" isOpen={this.state.modalLeave} toggle={this.toggleLeave}>

@@ -83,7 +83,7 @@ class Example extends React.Component {
         <Container >
           <Row>
             <Col>
-              <Navbar color="faded" light className="navbar-toggleable-md">
+              <Navbar className="navbar-toggleable-md  navbar-toggleable-sm navbar-inverse">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
                   <img className="logo-img" src="/images/icon1.gif" />

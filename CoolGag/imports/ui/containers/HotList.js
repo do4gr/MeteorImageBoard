@@ -5,14 +5,14 @@ import { withRouter } from 'react-router'
 
 const HotQuery = gql`query HotQuery($filter: PostFilter!) {
   allPosts(orderBy: karmaPoints_DESC
-  filter: $filter) {
-    id
-    user {id,name }
-	postedFile { id, url }
-    description
-	category
-  karmaPoints
-  }
+    filter: $filter) {
+      id
+      user {id,name }
+      postedFile { id, url }
+      description
+      category
+      karmaPoints
+    }
 }`
 
 const HotWithData = graphql(HotQuery, {

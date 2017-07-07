@@ -21,32 +21,7 @@ class GroupPage extends React.Component{
     	router: React.PropTypes.object.isRequired,
     	params: React.PropTypes.object.isRequired,
   	}
-  	constructor(props) {
-	    super(props);
-	    this.state = {
-	      modal: false
-	    };
 
-	    this.toggle = this.toggle.bind(this);
-	}
-
-	state = {
-		isSubmitting: false,
-		postUploadCallbacks: {}
-	}
-
-	postUpload = null;
-
-	toggle() {
-	    this.setState({
-	      	modal: !this.state.modal
-	    });
-	}
-
-
-  	handleCreatePost = (event) =>{
-		this.props.router.replace('/createPost/')
-  	}
 
 	render(){
 		console.log(this.props)
@@ -70,25 +45,9 @@ class GroupPage extends React.Component{
 					<Row>
 						<Col xs="12" sm="12" md="11" lg="10">
 							<div className="pull-right">
-								<Button color="info" onClick={ this.toggle }>+&nbsp;Post</Button>
-								<Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-						          <ModalHeader toggle={this.toggle}>CreatePost</ModalHeader>
-						          <ModalBody>
-						          {//<CreatePost group={this.props.data.Group}/>
-						          }
-						          <PostUpload 
-						          	group={this.props.data.Group} 
-						          	callbacks={this.state.postUploadCallbacks}
-									enableMemeSelect={true}
-									enableDescription={true}
-									onUploaded={this.onFileUploaded.bind(this)}/>
-						          	
-						          </ModalBody>
-						          <ModalFooter>
-						          	<Button color="primary" onClick={this.toggle}>Finished</Button>{' '}
-						            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-						          </ModalFooter>
-						        </Modal>
+							<Link to={`/createPost/`} params={{ groupId: this.props.data.Group.name }}>
+								<Button color="info">+&nbsp;Post</Button>
+							</Link>
 							</div>
 						</Col>
 					</Row>
@@ -109,62 +68,8 @@ class GroupPage extends React.Component{
 					</Row>
 				</Container>
 			</div>
-			)
-	}
-
-
-	onFileUploaded(file) {
-		//self.setState({imageUrl: result.url});
-		
-		var postedFileId = file.id;
-		var userId = this.props.data.user.id;
-		var description = file.description;
-		var tagsTextList = TagUtils.findTags(description).textList;
-		var tags = tagsTextList.map((element) => {
-			return {text: element};
-		});
-		PostUtils.requestTags({
-			client: this.props.client,
-			tags: tagsTextList,
-			callback: (actualTags) => {
-				var existingTagIds = [];
-				for(var i = 0; i < actualTags.length; i++) {
-					var actual = actualTags[i];
-					for(var j = 0; j < tags.length; j++) {
-						if(tags[j].text == actual.text) {
-							tags[j].id = actual.id;
-							tags.splice(j,1);
-							existingTagIds.push(actual.id);
-							j -= 1;
-						}
-					}
-				}
-				this.props.mutate({
-					variables: {
-						description: description,
-						postedFileId: postedFileId,
-						userId: userId,
-						tags: tags,
-						groupId: this.props.data.Group != null ? this.props.data.Group.id : null
-					}
-				}).then((result) => {
-					var promisses = [];
-					for(var i = 0; i < existingTagIds.length; i++) {
-						promisses.push(PostUtils.addExistingTag({
-							client: this.props.client,
-							postId: result.data.createPost.id,
-							tagId: existingTagIds[i]
-						}));
-					}
-					// TODO(rw): check, if the reference adding worked
-					//for(var i = 0; i < promisses.length; i++) {
-					//	await promisses[i];
-					//}
-					<Route path={`/group/${this.props.data.Group.id}`} component={GroupPage}/>
-				});
-			}
-		});
-	}
+		)
+	}	
 }
 
 const Group = ({ match }) => (
@@ -173,20 +78,6 @@ const Group = ({ match }) => (
   </div>
 )
 
-const createPost = gql`
-	mutation ($description: String!, $groupId: ID, $postedFileId: ID!, $userId: ID!, $tags: [PosttagsTag!]) {
-		createPost(
-			description: $description,
-			postedFileId: $postedFileId,
-			userId: $userId,
-			tags: $tags,
-			groupId: $groupId)
-		{
-			id
-			postedFile { id }
-		}
-	}
-`
 
 const userQuery = gql`
 	query {
@@ -198,7 +89,6 @@ const userQuery = gql`
 
 
 const GroupPageWithData = compose(
-	graphql(createPost),
 	graphql(userQuery, fetchPolicy: "network-only" ),
 	graphql(GroupPostsQuery, {
 	  	options: (ownProps) => ({

@@ -97,7 +97,12 @@ class CreatePost extends React.Component {
 					//for(var i = 0; i < promisses.length; i++) {
 					//	await promisses[i];
 					//}
-					this.props.router.replace('/');
+					if(this.props.group != null){
+						<Route path={`/group/${this.props.data.Group.id}`} component={GroupPage}/>
+
+					}else{
+						this.props.router.replace('/');
+					}
 				});
 			}
 		});

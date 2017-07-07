@@ -5,7 +5,7 @@ const FreshQuery = gql`query {
   allPosts(orderBy: createdAt_DESC) {
     id
     user {id,name }
-	  postedFile { id, url }
+	 postedFile { id, url }
     description
     karmaPoints
 	  category
