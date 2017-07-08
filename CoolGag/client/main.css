@@ -6,7 +6,7 @@ body {
 }
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0px;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 
 }
@@ -32,6 +32,10 @@ h2, .h2 {
 textarea, .form-control{
 	font-size: 16px !important;
 	line-height: 24px !important;
+}
+.container{
+	padding-right: 5px !important;
+	padding-left: 5px !important;
 }
 .dropdown-menu{
 	font-size: 16px !important;
@@ -89,11 +93,12 @@ textarea, .form-control{
   text-align: center;
 }
 
+/*change*/
 .nav-col{
 	background-color: #585353 !important;
 	border-color: #585353 !important;
 }
-
+/*change*/
 nav {
   	min-height: 56px;
   	background-color: #585353 !important;
