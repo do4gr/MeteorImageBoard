@@ -9,27 +9,62 @@ div .startpage{
 }
 
 .greet-section{
-	height: 60%;
+	height: 70%;
+	background-color: black;
+	color: white;
 }
 
-.row.startpage-logo-wrapper{
+.col.startpage-logo-wrapper{
 	text-align: center;
 }
 
 .loggin-section{
 	height: 20%;
+	align-items: center;
 }
 
-.startpage-logo{
-	max-height: 40%;
-	max-width: 40%;	
+.img-logo-holder{
+	max-height: 250px;
+	max-width: 250px;
+	margin: 20px auto;
+
 }
+
+
 .welcome-title{
 	margin-top: 20px;
-	font-size: 50px;
+	font-size: 180%;
 }	
 .btn-login, .btn-signup{
 	height: 50px;
-	width: 170px;
+	width: 160px;
 	background-color: rgba(118, 22, 165, 0.4) !important;
+}
+.col-12.btn{
+	padding: 0 !important;
+}
+
+@media(max-width: 300px){
+	.startpage-logo{
+		max-height: 80px;
+		max-width: 80px;	
+	}
+	.welcome-title{
+		margin-top: 10px;
+		font-size: 20px;
+		background-color: black;
+		color: white;
+	}
+	.loggin-section{
+		height: 20%;
+		align-items: center;
+	}
+	.greet-section{
+		height: 50%;
+	}
+	.btn-login, .btn-signup{
+		height: 50px;
+		width: 120px;
+		background-color: rgba(118, 22, 165, 0.4) !important;
+	}
 }
