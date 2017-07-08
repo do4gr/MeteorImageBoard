@@ -7,9 +7,9 @@ const UpvotePostsQuery = gql`query {
         id
         upvotedPosts(orderBy: createdAt_DESC) {
             id
-        	  postedFile { id, url }
+        	postedFile { id, url }
             description
-            user{id}
+            user{ id, name }
         }
     }
 }`
