@@ -4,22 +4,34 @@ import { withRouter } from 'react-router'
 
 var date = new Date(); //generate the current date
 date.setDate(date.getDate() - 1); // calculate the date of yesterday
-const TrendingQuery = gql`query TrendingQuery($yesterday: DateTime!) {
+const TrendingQuery = gql`query TrendingQuery($filter: PostFilter!) {
   allPosts(orderBy: karmaPoints_DESC
-  filter: {createdAt_gt: $yesterday}) {
-    id
-    user {id,name }
+  filter: $filter) {
+  id
+  user {id,name }
 	postedFile { id, url }
-    description
+  description
 	category
   karmaPoints
   }
 }`
 
+
 const TrendingWithData = graphql(TrendingQuery, {
-  options: {
-    variables: {
-      yesterday: date
+  options: (ownProps) => {
+    var date = new Date(); //generate the current date
+    date.setDate(date.getDate() - 1); // calculate the date of yesterday
+    console.log(date.toISOString())
+    return {
+      variables: {
+        filter: {
+          AND:[{
+            createdAt_gt: date.toISOString()
+          },{
+            group: null
+          }]
+        }
+      }
     }
   }
 })(withRouter(ListPage))
