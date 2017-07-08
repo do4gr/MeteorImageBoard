@@ -8,9 +8,9 @@ const MyPostsQuery = gql`query {
         id
         posts(orderBy: createdAt_DESC) {
             id
-        	  postedFile {id,  url }
+        	postedFile {id,  url }
             description
-            user {id,name }
+            user{ id, name }
 
         }
     }
