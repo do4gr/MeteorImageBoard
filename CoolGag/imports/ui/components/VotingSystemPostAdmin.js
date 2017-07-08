@@ -165,8 +165,8 @@ class VotingSystemPostAdmin extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
-								<span className="karma-list-view">
-								Karma:&nbsp;
+								<span>
+								KarmaPoints:&nbsp;
 												{this.props.post.karmaPoints
 													? this.props.post.karmaPoints
 													: 0}&nbsp;
@@ -174,7 +174,7 @@ class VotingSystemPostAdmin extends React.Component {
 							</div>
 						</Col>
 					    <Col xs="12" sm="6" >
-					        <div className='pull-right author-tag'>
+					        <div className='pull-right'>
 					            Author:&nbsp;
 					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
 				                    {this.props.post.user
