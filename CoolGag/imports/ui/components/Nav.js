@@ -108,6 +108,9 @@ class Example extends React.Component {
                       <NavLink href="/createGroup/">+&nbsp;Group</NavLink>
                     </NavItem>
                     <NavItem>
+                      <NavLink href="/admin/">Admin</NavLink>
+                    </NavItem>
+                    <NavItem>
                       <NavLink href="/search/"><Glyphicon glyph="search"/></NavLink>
                     </NavItem>
                <NavItem >
