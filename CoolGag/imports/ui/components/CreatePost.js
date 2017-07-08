@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, Route, Link, Redirect } from 'react-router';
 import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
 import {Button} from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import TagUtils from '/imports/ui/components/TagUtils';
 import PostUtils from '/imports/ui/components/Posts/PostUtils';
 import PostUpload from '/imports/ui/components/Posts/PostUpload';
+import GroupPage from '/imports/ui/components/groups/GroupPage'
 
 class CreatePost extends React.Component {
 
@@ -14,7 +15,7 @@ class CreatePost extends React.Component {
 		router: PropTypes.object.isRequired,
 		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
-		group: PropTypes.object
+    	params: React.PropTypes.object.isRequired,
 	}
 
 	state = {
@@ -25,6 +26,7 @@ class CreatePost extends React.Component {
 	postUpload = null;
 
 	render () {
+		console.log(this.props)
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
@@ -82,7 +84,7 @@ class CreatePost extends React.Component {
 						postedFileId: postedFileId,
 						userId: userId,
 						tags: tags,
-						groupId: this.props.group != null ? this.props.group.id : null
+						groupId: this.props.params.groupId != null ? this.props.params.groupId : null
 					}
 				}).then((result) => {
 					var promisses = [];
@@ -97,8 +99,9 @@ class CreatePost extends React.Component {
 					//for(var i = 0; i < promisses.length; i++) {
 					//	await promisses[i];
 					//}
-					if(this.props.group != null){
-						<Route path={`/group/${this.props.data.Group.id}`} component={GroupPage}/>
+					if(this.props.params.groupId != null){
+						const groupId = this.props.params.groupId;
+						<Redirect to={`/group/${this.props.params.groupId}`} push={push} />;
 
 					}else{
 						this.props.router.replace('/');
@@ -133,6 +136,12 @@ const userQuery = gql`
 `
 
 export default compose(
-  graphql(createPost),
+  graphql(createPost,{
+	  	options: (ownProps) => ({
+		    variables: {
+		        	groupId: ownProps.params.groupId
+		      	}
+		    })
+	  	}),
   graphql(userQuery, fetchPolicy: "network-only" )
 )(withApollo(withRouter(CreatePost)))

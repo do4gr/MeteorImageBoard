@@ -45,7 +45,7 @@ class GroupPage extends React.Component{
 					<Row>
 						<Col xs="12" sm="12" md="11" lg="10">
 							<div className="pull-right">
-							<Link to={`/createPost/`} params={{ groupId: this.props.data.Group.name }}>
+							<Link to={`/createPost/${this.props.data.Group.id}`}>
 								<Button color="info">+&nbsp;Post</Button>
 							</Link>
 							</div>

@@ -113,13 +113,16 @@ nav {
 	border-color: #b8cdd8 !important
 }*/
 
+.fixed-top{
+	z-index: 20 !important;
+}
 @media (max-width: 768px){
 	.fixed-nav {
     position: fixed;
     top: 50px;
     right: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 10;
 	}
 }
 @media (min-width: 769px){
@@ -128,7 +131,7 @@ nav {
     top: 60px;
     right: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 10;
 	}
 }
 

@@ -66,6 +66,7 @@ ReactDOM.render((
       <Route component={App}>
         <Route path='/' component={Home}/>
         <Route path='createPost' component={CreatePost}/>
+        <Route path='createPost/:groupId' component={CreatePost}/>
         <Route path='createGroup' component={CreateGroup}/>
         <Route path='login' component={LoginUser}/>
         <Route path='signup' component={CreateUser}/>
