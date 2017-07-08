@@ -101,7 +101,7 @@ class CreatePost extends React.Component {
 					//}
 					if(this.props.params.groupId != null){
 						const groupId = this.props.params.groupId;
-						<Redirect to={`/group/${this.props.params.groupId}`} push={push} />;
+						<Redirect to={`/group/${this.props.params.groupId}`} />;
 
 					}else{
 						this.props.router.replace('/');
