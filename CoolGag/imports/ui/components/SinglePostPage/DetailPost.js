@@ -133,11 +133,11 @@ class DetailPost extends React.Component {
           <Row>
             <Col>
               <div className="pull-right">
-                <button type="submit" disabled={this.isSubmittable()
+                <Button type="submit" disabled={this.isSubmittable()
                   ? ''
                   : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
-                </button>
+                </Button>
               </div>
             </Col>
           </Row>

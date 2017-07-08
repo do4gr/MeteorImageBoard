@@ -12,7 +12,7 @@ class GroupMembers extends React.Component{
 	    data: PropTypes.shape({
 			loading: React.PropTypes.bool,
 			error: React.PropTypes.object,
-			username: React.PropTypes.object,
+			groupUser: React.PropTypes.object,
 	    }).isRequired
 	}
 
@@ -32,10 +32,8 @@ class GroupMembers extends React.Component{
 			<Container>
 				<Row>
 					<Col>
-						<Link>
-					{//`/profile/${this.props.user.id}`}
-					}
-							<div>{this.props.username}</div>
+						<Link to={`/publicProfile/${this.props.groupUser.id}`} className="profile-post-link">
+							<div>{this.props.groupUser.name}</div>
 						</Link>
 						
 					</Col>
