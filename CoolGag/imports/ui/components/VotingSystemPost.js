@@ -135,7 +135,7 @@ class VotingSystemPost extends React.Component {
 			<div>
 				<Container className="nested">
 					<Row>
-						<Col xs="12" sm="6">
+						<Col xs="12" sm="5">
 							<div>
 								<span>
 									<Button
@@ -160,16 +160,18 @@ class VotingSystemPost extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
-								<span>
-								KarmaPoints:&nbsp;
+							</div>
+						</Col>
+						<Col  sm="3">
+							<span className="karma-list-view">
+								Karma:&nbsp;
 												{this.props.post.karmaPoints
 													? this.props.post.karmaPoints
 													: 0}&nbsp;
-								</span>
-							</div>
+							</span>
 						</Col>
-					    <Col xs="12" sm="6" >
-					        <div className='pull-right'>
+					    <Col xs="12" sm="4" >
+					        <div className='pull-right author-tag'>
 					            Author:&nbsp;
 					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
 				                    {this.props.post.user

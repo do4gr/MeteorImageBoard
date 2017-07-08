@@ -28,7 +28,7 @@ class PostPage extends React.Component {
 
     return (
       <div className=' flex justify-center'>
-        <Container>
+        <Container className="nested">
           <Row>
             <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }} className="singlepost-container" >
                 <DetailPost post={this.props.data.Post} user={this.props.data.user} handleCancel={this.goBack}/>

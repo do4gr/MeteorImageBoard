@@ -32,3 +32,24 @@
 	float: left;
 	margin-right: 5px;
 }
+
+@media (max-width: 570px){
+	.karma-list-view, .comment-points, .time-created{
+		display: none;
+	}
+
+/*	.pull-right.author-tag{
+		float: left !important;
+		margin-top: 5px;
+	}*/
+}
+
+@media (max-width: 570px){
+	.karma-list-view, .comment-points, .time-created{
+		display: none;
+	}
+	.pull-right.author-tag{
+		float: left !important;
+		margin-top: 5px;
+	}
+}
