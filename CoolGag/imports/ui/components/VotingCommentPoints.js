@@ -51,16 +51,16 @@ class VotingCommentPoints extends React.Component{
 							<span>
 								downvotes: {countDownvotes}&nbsp;
 							</span>
-							<span className="comment-points"> |&nbsp; </span>
-						</Col>
-						<Col xs="auto" >
-							<span className="comment-points">
-								comments: {countComments}&nbsp;
-							</span>
-							<span className="time-created"> |&nbsp; </span>
+							<span> |&nbsp; </span>
 						</Col>
 						<Col xs="auto">
-							<span className="time-created">
+							<span>
+								comments: {countComments}&nbsp;
+							</span>
+							<span> |&nbsp; </span>
+						</Col>
+						<Col xs="auto">
+							<span>
 								created: {from}&nbsp;
 							</span>
 						</Col>

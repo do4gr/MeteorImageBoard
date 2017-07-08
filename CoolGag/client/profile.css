@@ -58,8 +58,6 @@
 .container.profile-header{
 	width: auto !important;
 }
-
-/*change*/
 .profile-header{
 	background-color: #585353 !important;
 	border-color: #333 !important;
@@ -110,6 +108,7 @@
 .group-list-container{
 	overflow: auto;
   	border-radius: 10px;
+
   	background: rgba(204, 204, 204, 0.03);
 	padding: 10px;
 	display: block;

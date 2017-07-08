@@ -133,11 +133,11 @@ class DetailPostAdmin extends React.Component {
           <Row>
             <Col>
               <div className="pull-right">
-                <Button type="submit" disabled={this.isSubmittable()
+                <button type="submit" disabled={this.isSubmittable()
                   ? ''
                   : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
-                </Button>
+                </button>
               </div>
             </Col>
           </Row>
