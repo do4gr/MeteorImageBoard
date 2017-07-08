@@ -9,7 +9,7 @@ import { Glyphicon } from 'react-bootstrap';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import VotingCommentPoints from '/imports/ui/components/VotingCommentPoints';
 
-class VotingSystemPost extends React.Component {
+class VotingSystemPostAdmin extends React.Component {
 	static propTypes = {
 		// upvotePost: PropTypes.func.isRequired;
 		data: PropTypes.shape({
@@ -35,23 +35,6 @@ class VotingSystemPost extends React.Component {
 		      	 	variables: { id: postId }
 		      	}],
 
-				// optimisticResponse: {
-				//   __typename: 'Mutation',
-				//   addToUserUpvotedPost: {
-				//   	usersWhoUpvoted: {
-				//      __typename: 'User',
-				//      id: userId,
-				//     },
-				//   },
-				// },
-				// update: (store, { data: { addToUserUpvotedPost } }) => {
-				//   // Read the data from our cache for this query.
-				//   const data = store.readQuery({ query: countQuery });
-				//   // Add our comment from the mutation to the end.
-				//   data.usersWhoUpvotedUser.push(addToUserUpvotedPost);
-				//   // Write our data back to the cache.
-				//   store.writeQuery({ query: countQuery, data });
-				// },
 			})
 			.then(({ data }) => {
 			//	console.log("got data", data);
@@ -74,6 +57,28 @@ class VotingSystemPost extends React.Component {
 	});
 
 	};
+
+  handleDelete = () => {
+    const userId = this.props.user.id;
+    const postId = this.props.post.id;
+
+    this.props
+      .deletePostMutation({
+        variables: { postId, userId },
+        refetchQueries: [{
+              query: countQuery,
+              variables: { id: postId }
+            }],
+
+      })
+      .then(({ data }) => {
+      //	console.log("got data", data);
+      })
+      .catch(error => {
+        console.log("there was an error sending the query", error);
+      });
+
+  };
 
 	handleDownvote = () => {
 		const userId = this.props.user.id;
@@ -179,6 +184,21 @@ class VotingSystemPost extends React.Component {
 					        </div>
 						</Col>
 					</Row>
+
+					<Row>
+								<Col xs="12" className="pt-2">
+                <span>
+                <Button
+                  className="trash-btn"
+                  onClick={this.handleDelete}
+                >
+                  <Glyphicon glyph="trash"/>
+                </Button>
+                {" "}
+                </span>
+								</Col>
+					 </Row>
+
 					<Row>
 			        	<Col xs="12" className="pt-2">
 			        		<VotingCommentPoints data={this.props.data} post={ this.props.post } user={ this.props.data.user } />
@@ -211,6 +231,14 @@ const upvotePost = gql`
   		}
 }`;
 
+const deletePost = gql`
+ 	mutation deletePost($postId: ID!) {
+  		deletePost(id: $postId) {
+        id
+  		}
+}`;
+
+
 const updatePost = gql`
 	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
 		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
@@ -237,16 +265,8 @@ const countQuery = gql`
 	export default compose(
 		graphql(updatePost, { name: "updatePost" }),
 		graphql(upvotePost, { name: "upvotePostMutation" }),
-		graphql(downvotePost, {
-			name: "downvotePostMutation"
-			// 	options:{
-			// 		 update: (proxy, { data: { addToUserUpvotedPost } }) => {
-			// const data = proxy.readQuery({ query: countQuery });
-			// data.usersWhoUpvoted.push(addToUserUpvotedPost);
-			// proxy.writeQuery({ query: countQuery , data });
-			// 		},
-			// 	},
-		}),
+    graphql(deletePost, { name: "deletePostMutation" }),
+		graphql(downvotePost, { name: "downvotePostMutation"}),
 		graphql(countQuery, {
 			options: ownProps => ({
 				variables: {
@@ -254,4 +274,4 @@ const countQuery = gql`
 				}
 			})
 		})
-	)(VotingSystemPost);
+	)(VotingSystemPostAdmin);
