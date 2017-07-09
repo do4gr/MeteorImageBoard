@@ -13,6 +13,8 @@ const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
     karmaPoints
     youtubeID
   }
+  user {id, name}
+
 }`
 
 const FeedWithData = graphql(FeedQuery, {

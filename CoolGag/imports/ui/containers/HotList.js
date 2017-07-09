@@ -14,6 +14,8 @@ const HotQuery = gql`query HotQuery($filter: PostFilter!) {
       karmaPoints
       youtubeID
     }
+    user {id, name}
+
 }`
 
 const HotWithData = graphql(HotQuery, {
