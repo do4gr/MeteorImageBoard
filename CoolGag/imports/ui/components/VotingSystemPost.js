@@ -63,7 +63,7 @@ class VotingSystemPost extends React.Component {
 			this.props
 	.updatePost({
 		mutation: updatePost,
-		variables: { postId, dummy, userId, karmaPoints},
+		variables: { postId, dummy, karmaPoints},
 	})
 	.then(({ data }) => {
 
@@ -101,7 +101,7 @@ class VotingSystemPost extends React.Component {
 			this.props
 				.updatePost({
 					mutation: updatePost,
-					variables: { postId, dummy, userId, karmaPoints},
+					variables: { postId, dummy, karmaPoints},
 				})
 				.then(({ data }) => {
 
@@ -160,7 +160,7 @@ class VotingSystemPost extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
-								</div>							
+								</div>
 						</Col>
 					    <Col xs="12" sm="6" className="author-padding" >
 					        <div className='pull-right author-tag'>
@@ -206,8 +206,8 @@ const upvotePost = gql`
 }`;
 
 const updatePost = gql`
-	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
-		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+	mutation updatePost($postId: ID!, $dummy: String!, $karmaPoints: Int!){
+		updatePost(id: $postId, dummy: $dummy, karmaPoints: $karmaPoints){
 			id
 		}
 	}`;
