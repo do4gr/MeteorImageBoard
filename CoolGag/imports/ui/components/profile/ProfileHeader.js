@@ -48,6 +48,31 @@ class ProfileHeader extends React.Component {
 			this.props.router.replace('/');
 		}
 
+		let points = 0
+if (this.props.data.user.posts){
+	{this.props.data.user.posts.map((post) =>
+		points = points + post.karmaPoints
+	)}
+
+
+}
+
+if (this.props.data.user.downvotedPosts){
+	{this.props.data.user.downvotedPosts.map((post) =>
+		points = points + 2
+	)}
+}
+if (this.props.data.user.upvotedPosts){
+	{this.props.data.user.upvotedPosts.map((post) =>
+		points = points + 2
+	)}
+}
+if (this.props.data.user.comments){
+	{this.props.data.user.comments.map((comment) =>
+		points = points + 5
+	)}
+}
+
 		return (
 			<div >
 				<Container className="nested center profile-header">
@@ -81,7 +106,7 @@ class ProfileHeader extends React.Component {
 								Member since {moment(this.props.data.user.createdAt).format("MMM Do YY")}
 							</div>
 							<div className="text-center profile-karma-info">
-								Karma: {this.props.data.user.karma}
+								Karma: {points}
 							</div>
 						</Col>
 						<Col xs={{ size: 5, offset: 0.5 }} sm={{ size: 5, offset: 0.5 }} md={{ size: 4, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }} className="profile-header">
@@ -112,6 +137,9 @@ const profileData = gql`
 			name
 			createdAt
 			karma
+			downvotedPosts{ id }
+			upvotedPosts{ id }
+			comments{ id }
 			profilePic {
 				id
 				url
