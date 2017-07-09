@@ -4,7 +4,15 @@
 	max-width: 123px;
 	margin: 0 auto;
 }
-
+.setting-profile-image, .setting-profile-default-image{
+	position: relative;
+	margin: 20px auto;
+}
+.center-picture{
+	max-height: 190px;
+	max-width: 190px;
+	margin: 20px auto;
+}
 @media(max-width: 520px){
 	.defaultImage, .profileImage {
 		position: relative;
@@ -19,6 +27,11 @@
 		display: none;
 	}
 
+}
+
+.profileName, .setting-form{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 @media(max-width: 575px){

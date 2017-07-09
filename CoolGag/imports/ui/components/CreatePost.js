@@ -54,7 +54,7 @@ console.log(this.state.isUpload);
 				<Container className="nested">
 					<Row>
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleLink.bind(this)}>Upload Link</Button>
 						</Col>
 					</Row>		
 					<PostUpload
@@ -83,7 +83,7 @@ console.log(this.state.isUpload);
 			<Container className="nested">
 				<Row>
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
 					</Col>
 				</Row>
 					<PostYoutube
@@ -102,8 +102,8 @@ console.log(this.state.isUpload);
 			<Container className="nested">
 				<Row>
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
-						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleLink.bind(this)}>Upload Link</Button>
 					</Col>	
 				</Row>
 			</Container>
