@@ -41,20 +41,20 @@ class CreateLogin extends React.Component {
         <div style={{ maxWidth: 400 }} className=''>
         <form onSubmit={this.handleSubmit}>
           <input
-            className='w-100 pa3 mv2'
+            className='w-100 pa3 mv2 input-form'
             value={this.state.email}
             placeholder='Email'
             onChange={(e) => this.setState({email: e.target.value})}
           />
           <input
-            className='w-100 pa3 mv2'
+            className='w-100 pa3 mv2 input-form'
             type='password'
             value={this.state.password}
             placeholder='Password'
             onChange={(e) => this.setState({password: e.target.value})}
           />
 
-          <Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Login</Button>
+          <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Login</Button>
 
           </form>
         </div>
@@ -65,9 +65,16 @@ class CreateLogin extends React.Component {
   signinUser = () => {
     const {email, password} = this.state
 
-    this.props.signinUser({variables: {email, password}})
+    this.props.signinUser({
+      variables: {email, password},
+      refetchQueries: [{
+              query: userQuery,
+              variables: { email, password }
+            }],
+    })
       .then((response) => {
         window.localStorage.setItem('graphcoolToken', response.data.signinUser.token)
+        console.log('you are logged in')
         this.props.router.replace('/')
       }).catch((e) => {
         console.error(e)
@@ -85,7 +92,7 @@ const signinUser = gql`
 `
 
 const userQuery = gql`
-  query {
+  query userQuery{
     user {
       id
     }

@@ -253,7 +253,7 @@ class CreateGroup extends React.Component{
 											</div>
 										}
 
-										<Button type="cancel" disabled={(this.state.isEditingPicture ? false : true )} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
+										<Button type="cancel" disabled={(!this.isSubmittable())} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
 											Cancel
 										</Button>{" "}
 										<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
@@ -272,7 +272,7 @@ class CreateGroup extends React.Component{
 							onChange={(e) => this.setState({name: e.target.value})}
 							/>
 						</FormGroup>
-					<Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+					<Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 								{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
 					</Button>
 				</form>
