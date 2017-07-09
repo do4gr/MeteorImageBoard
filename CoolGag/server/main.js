@@ -1,9 +1,12 @@
 import request from 'request';
 import url from 'url';
+import { HTTP } from 'meteor/http';
 
 // This proxy filters traffic on paths with ‘/image’ and takes 2 required params:
 // img = an image url
 // user= a Meteor user id
+
+// image proxy
 WebApp.connectHandlers.use((req, res, next) => {
 	//request = Meteor.npmRequire ‘request’
 	//url = Meteor.npmRequire ‘url’
