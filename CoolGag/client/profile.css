@@ -1,5 +1,24 @@
 .defaultImage, .profileImage {
 	position: relative;
+	height: 123px ;
+	max-width: 123px;
+	margin: 0 auto;
+}
+
+@media(max-width: 520px){
+	.defaultImage, .profileImage {
+		position: relative;
+		max-height: 63px ;
+		max-width: 63px ;
+		margin: 0 auto;
+	}
+}
+
+@media(max-width: 250px){
+	.defaultImage, .profileImage, .profileName, .profile-karma-info, .profile-user-info {
+		display: none;
+	}
+
 }
 
 @media(max-width: 575px){
