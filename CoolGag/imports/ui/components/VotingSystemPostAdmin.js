@@ -1,7 +1,7 @@
 import React from "react";
 import { gql, graphql, compose } from "react-apollo";
-import { withRouter, Route, Link, Redirect } from 'react-router';
 import PropTypes from "prop-types";
+import { Link } from "react-router";
 import { FormGroup, Input, Button } from "reactstrap";
 import update from "immutability-helper";
 import {Container, Row, Col} from 'reactstrap';
@@ -12,7 +12,6 @@ import VotingCommentPoints from '/imports/ui/components/VotingCommentPoints';
 class VotingSystemPostAdmin extends React.Component {
 	static propTypes = {
 		// upvotePost: PropTypes.func.isRequired;
-		router: PropTypes.object.isRequired,
 		data: PropTypes.shape({
 			loading: React.PropTypes.bool,
 			error: React.PropTypes.object,
@@ -65,10 +64,15 @@ class VotingSystemPostAdmin extends React.Component {
 
     this.props
       .deletePostMutation({
-        variables: { postId, userId }
+        variables: { postId, userId },
+        refetchQueries: [{
+              query: countQuery,
+              variables: { id: postId }
+            }],
+
       })
-      .then((response) => {
-				this.props.router.replace('/');
+      .then(({ data }) => {
+      //	console.log("got data", data);
       })
       .catch(error => {
         console.log("there was an error sending the query", error);
@@ -157,36 +161,30 @@ class VotingSystemPostAdmin extends React.Component {
 									{" "}
 								</span>
 								<span>
-									<Button
-										className="trash-btn"
-										onClick={this.handleDelete}
-									>
-										<Glyphicon glyph="trash"/>
-									</Button>
-									{" "}
-								</span>
-								<span>
 									<Link to={`/view/${this.props.post.id}`}>
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
 								<span>
-									KarmaPoints:&nbsp;
-									{this.props.post.karmaPoints
-										? this.props.post.karmaPoints
-										: 0}&nbsp;
+								<Button
+									className="trash-btn"
+									onClick={this.handleDelete}
+								>
+									<Glyphicon glyph="trash"/>
+								</Button>
+								{" "}
 								</span>
 							</div>
 						</Col>
-						<Col xs="12" sm="6" >
-							<div className='pull-right'>
-								Author:&nbsp;
-								<Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
-									{this.props.post.user
-										? this.props.post.user.name
-										: "deleted user"}&nbsp;
-								</Link>
-							</div>
+					    <Col xs="12" sm="6" >
+					        <div className='pull-right'>
+					            Author:&nbsp;
+					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
+				                    {this.props.post.user
+				                      ? this.props.post.user.name
+				                      : "deleted user"}&nbsp;
+				                 </Link>
+					        </div>
 						</Col>
 					</Row>
 					<Row>
@@ -264,4 +262,4 @@ const countQuery = gql`
 				}
 			})
 		})
-	)(withRouter(VotingSystemPostAdmin));
+	)(VotingSystemPostAdmin);
