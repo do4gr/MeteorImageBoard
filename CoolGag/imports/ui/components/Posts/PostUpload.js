@@ -124,7 +124,7 @@ class PostUpload extends React.Component {
 								{ this.props.enableMemeSelect &&
 									<span>
 										&nbsp;
-										<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.onSelectMeme.bind(this)}>Select Meme</Button>
+										<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.onSelectMeme.bind(this)}>Select Meme</Button>
 									</span>
 								}
 								{ !this.state.imageUrl &&
@@ -179,7 +179,7 @@ class PostUpload extends React.Component {
 										}
 									</div>
 								}
-								<Button type="submit"  className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+								<Button type="submit"  className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim btn-normal" : "btn-normal black-30 bg-black-05 disabled")}>
 									{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
 								</Button>
 								

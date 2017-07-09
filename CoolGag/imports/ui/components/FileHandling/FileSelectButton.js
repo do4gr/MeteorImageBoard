@@ -11,7 +11,7 @@ export default class FileSelectButton extends React.Component {
 	
 	render() {
 		return (
-			<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={()=>{$(ReactDOM.findDOMNode(this)).find('[name="imageFile"]').click();}}>
+			<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={()=>{$(ReactDOM.findDOMNode(this)).find('[name="imageFile"]').click();}}>
 				{ this.props.label &&
 					<span>{this.props.label}</span>
 				}

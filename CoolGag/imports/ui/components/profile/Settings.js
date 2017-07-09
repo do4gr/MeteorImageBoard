@@ -62,8 +62,8 @@ class Settings extends React.Component {
 							<div className="defaultImage changePicture">
 								<Row>
 
-									<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} >Delete</Button>
-									<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)}>Update</Button>{" "}
+									<Button className="pa3 bn ttu pointer bg-black-10 dim btn-normal" type="button" value="Delete" onClick={this.handleDelete.bind(this)} >Delete</Button>
+									<Button className="pa3 bn ttu pointer bg-black-10 dim btn-normal" type="button" value="Update" onClick={this.startChoosingImage.bind(this)}>Update</Button>{" "}
 
 								</Row>
 								<Row>
@@ -76,7 +76,7 @@ class Settings extends React.Component {
 
 									<div>
 										<Row>
-											<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Upload a picture" onClick={this.startChoosingImage.bind(this)} />
+											<input className="pa3 bn ttu pointer bg-black-10 dim btn-normal" type="button" value="Upload a picture" onClick={this.startChoosingImage.bind(this)} />
 										</Row>
 									</div>
 									<div>
@@ -171,7 +171,7 @@ class Settings extends React.Component {
 										value={this.state.newPassword}
 										placeholder='enter new password'
 										onChange={(e) => this.setState({newPassword: e.target.value})} />
-									 	<button type="submit" disabled={(this.isPasswordSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isPasswordSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.state.changePassword}>change password</button>
+									 	<button type="submit" disabled={(this.isPasswordSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isPasswordSubmittable() ? " bg-black-10 dim " : " black-30 bg-black-05 disabled")} onClick={this.state.changePassword}>change password</button>
 								  	</form>
 								</Row>
 								</div>

@@ -40,14 +40,20 @@ class SearchApp extends Component {
     return (
       <Container>
         <Row>
-          <Col xs="3"></Col>
-          <Col xs="auto"><Input value={this.state.searchTerm} onChange={(e) => this.setState({searchTerm: e.target.value})} placeholder="search title or comments" id="search-form" className="w-40"/></Col>
-          <Col xs="3"><Button type="submit" disabled={(!this.isSubmittable())} onClick={this.onSearchClicked} className="pa2 bn ttu dim pointer ">Search</Button>
+          <Col xs="6" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 3 }} xl={{ size: 4, offset: 3.5 }}>
+            <Input 
+              value={this.state.searchTerm} 
+              onChange={(e) => this.setState({searchTerm: e.target.value})} 
+              placeholder="search title or comments" 
+              id="search-form"
+              className="w-40"/>
+          </Col>
+          <Col xs="6" sm="6" md={{ size: 4, offset: 0.5 }} lg={{ size: 4, offset: 3 }} xl={{ size: 4, offset: 3.5 }}>
+            <Button type="submit" disabled={(!this.isSubmittable())} onClick={this.onSearchClicked} className="btn-normal pa2 bn ttu dim pointer ">Search</Button>
           </Col>
         </Row>
         <Row>
-          <Col xs="3"></Col>
-          <Col xs="6">
+          <Col sm="12" md={{ size: 8, offset: 2}} lg={{ size: 6, offset: 3 }} xl={{ size: 5, offset: 3.5 }}>
             {this.props.data.allPosts.map((post) =>
               <PostPreview key={post.id} post={post}/>
             )}

@@ -53,7 +53,7 @@ class PostYoutube extends React.Component {
               placeholder='Link... Please provide https://www.youtube.com/watch?v=ID format'
               onChange={(e) => this.setState({youtubeLink: e.target.value})}
             />
-            <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+            <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer btn-normal' + (this.isSubmittable() ? "btn-normal bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
               {this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
             </Button>
             </form>

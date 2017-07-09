@@ -204,7 +204,7 @@ class CreateGroup extends React.Component{
 				<Row>
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 				<form className={'groupForm'} onSubmit={this.handleUpload.bind(this)}>					
-						<Button onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
+						<Button className="btn-red" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
 						<Collapse isOpen={this.state.collapse}>
 				          <Card>
 				            <CardBlock>

@@ -78,7 +78,12 @@ textarea, .form-control{
   display: inline-block;
 
 }
-
+.btn-normal{
+	background-color: #eadede !important;
+}
+.btn-red{
+	background-color: #d9534f !important;
+}
 /*.container{
 	padding-right: 5px !important;
 	padding-left: 5px !important;
@@ -176,7 +181,7 @@ nav .navbar-brand{
 
 .btn-sm {
 	font-size: 12px !important;
-	border-radius: 3px !important;
+	border-radius: 0px !important;
 	line-height: 18px !important;
 	padding: 3px 12px !important;
 }
