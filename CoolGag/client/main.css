@@ -108,6 +108,13 @@ nav {
 	border-radius: 0px !important;
 }
 
+.input-form{
+	border-bottom-color: blue;
+	border-radius: 3px;
+	border-top-color: transparent;
+	border-left-color: transparent;
+}
+
 /*.col-*{
 	padding: 0;
 }*/

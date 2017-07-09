@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Form, FormGroup, Input, Button} from 'reactstrap'
+import {Form, FormGroup, Input, Button, Container, Row, Col} from 'reactstrap'
 import {gql,  graphql, withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 import PostPreview from '../PostPreview.js'
-import { Container, Row, Col } from 'reactstrap';
+
 
 
 class SearchApp extends Component {
@@ -42,9 +42,7 @@ class SearchApp extends Component {
         <Row>
           <Col xs="3"></Col>
           <Col xs="auto"><Input value={this.state.searchTerm} onChange={(e) => this.setState({searchTerm: e.target.value})} placeholder="search title or comments" id="search-form" className="w-40"/></Col>
-          <Col xs="3"><button type="submit" disabled={this.isSubmittable()
-            ? ''
-            : 'disabled'} onClick={this.onSearchClicked} className="pa2 bn ttu dim pointer ">Search</button>
+          <Col xs="3"><Button type="submit" disabled={(!this.isSubmittable())} onClick={this.onSearchClicked} className="pa2 bn ttu dim pointer ">Search</Button>
           </Col>
         </Row>
         <Row>

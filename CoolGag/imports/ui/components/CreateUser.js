@@ -42,27 +42,27 @@ class CreateUser extends React.Component {
         <div style={{ maxWidth: 400 }} className=''>
         <form onSubmit={this.handleSubmit}>
           <input
-            className='w-100 pa3 mv2'
+            className='w-100 pa3 mv2 input-form'
             value={this.state.email}
             placeholder='Email'
             onChange={(e) => this.setState({email: e.target.value})}
           />
           <input
-            className='w-100 pa3 mv2'
+            className='w-100 pa3 mv2 input-form'
             type='password'
             value={this.state.password}
             placeholder='Password'
             onChange={(e) => this.setState({password: e.target.value})}
           />
           <input
-            className='w-100 pa3 mv2'
+            className='w-100 pa3 mv2 input-form'
             value={this.state.name}
             placeholder='Name'
             onChange={(e) => this.setState({name: e.target.value})}
           />
           <div>
             <input
-              className='w-100 pa3 mv2'
+              className='w-100 pa3 mv2 input-form'
               value={this.state.emailSubscription}
               type='checkbox'
               onChange={(e) => this.setState({emailSubscription: e.target.checked})}
@@ -71,7 +71,7 @@ class CreateUser extends React.Component {
               Subscribe to email notifications?
             </span>
           </div>
-          <Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</Button>
+          <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</Button>
 
           </form>
         </div>
