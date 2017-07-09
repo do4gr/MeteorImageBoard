@@ -92,6 +92,14 @@ class DetailPost extends React.Component {
       )
     }
 
+    feedImg = null
+if (this.props.post.youtubeID){
+feedImg = <iframe className='w-100' height="431" src={`https://www.youtube.com/embed/${this.props.post.youtubeID}`} frameBorder="0"></iframe>
+console.log(feedImg);
+} else {
+feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
+}
+
     const comments = this.props.post.comments;
     return (
       <div className="detailPost-view">
@@ -108,7 +116,7 @@ class DetailPost extends React.Component {
           <Row>
             <Col xs="12">
               <div >
-                <img src={`${this.props.post.postedFile.url}`} className="post-img w-100"/>
+              {feedImg}
               </div>
             </Col>
           </Row>

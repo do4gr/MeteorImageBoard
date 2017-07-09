@@ -9,6 +9,7 @@ const AdminList = gql`query {
     description
     karmaPoints
 	  category
+    youtubeID
   }
 }`
 

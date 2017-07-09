@@ -11,6 +11,7 @@ const WithTagQuery = gql`query WithTagQuery($filter: PostFilter!) {
     description
 	category
     karmaPoints
+    youtubeID
   }
 }`
 
@@ -19,7 +20,7 @@ const WithTagWithData = graphql(WithTagQuery, {
   	var tagText = ownProps.params.tagText
     return {
       variables: {
-        filter: { 
+        filter: {
           AND:[{
             tags_some: {text: tagText}
           },{
@@ -32,5 +33,3 @@ const WithTagWithData = graphql(WithTagQuery, {
 })(withRouter(ListPage))
 
 export default WithTagWithData
-
-

@@ -11,6 +11,7 @@ const KittenQuery = gql`query KittenQuery($filter: PostFilter!){
     description
   	category
     karmaPoints
+    youtubeID
   }
 }`
 

@@ -12,6 +12,7 @@ const HotQuery = gql`query HotQuery($filter: PostFilter!) {
       description
       category
       karmaPoints
+      youtubeID
     }
 }`
 
