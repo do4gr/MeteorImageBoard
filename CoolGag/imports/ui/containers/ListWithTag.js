@@ -13,8 +13,7 @@ const WithTagQuery = gql`query WithTagQuery($filter: PostFilter!) {
     karmaPoints
     youtubeID
   }
-  user{id, name}
-
+  user {id, name}
 }`
 
 const WithTagWithData = graphql(WithTagQuery, {
