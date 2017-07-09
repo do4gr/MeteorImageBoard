@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, graphql, compose, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
-import { Button, ButtonGroup, Col, Row } from 'reactstrap'
+import { Button, ButtonGroup, Col, Row, Container } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
 import ContentEditable from 'react-contenteditable';
 import PropTypes from 'prop-types';
@@ -52,9 +52,9 @@ class Settings extends React.Component {
 		}
 
 		return (
-			<container>
-				<Col>
-					<div>
+			<div>
+			<Container>
+					
 						<Row>
 							<h1 className="profileName">Hey {this.props.data.user.name}, lets update your profile!</h1>
 						</Row>
@@ -93,7 +93,6 @@ class Settings extends React.Component {
 							</div>
 						}
 							<form className={'profileForm'} onSubmit={this.handleUpload.bind(this)}>
-								<div>
 									<Row>
 									{this.state.isEditingPicture &&
 										<div>
@@ -155,7 +154,6 @@ class Settings extends React.Component {
 										</button>
 									</div>
 									</Row>
-								</div>
 							}
 							<button type="cancel" disabled={(!this.isSubmittable())} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
 								Cancel
@@ -163,7 +161,7 @@ class Settings extends React.Component {
 							<button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 								{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
 							</button>
-						</div>
+						</form>
 						<form>
 							<div>
 								<Row>
@@ -195,9 +193,9 @@ class Settings extends React.Component {
 								</Row>
 							</div>
 						</form>
-					</div>
-				</Col>
-			</container>
+					
+			</Container>
+			</div>
 		);
 	}
 
