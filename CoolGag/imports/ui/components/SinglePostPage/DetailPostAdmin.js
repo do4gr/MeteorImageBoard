@@ -6,13 +6,13 @@ import CommentList from 'react-uikit-comment-list'
 import {Form, FormGroup, Input, Button} from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
-import ShowComment from './ShowComment'
-import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
+import ShowCommentAdmin from './ShowCommentAdmin'
+import VotingSystemPostAdmin from '/imports/ui/components/VotingSystemPostAdmin';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
 
 
-class DetailPost extends React.Component {
+class DetailPostAdmin extends React.Component {
 
   static propTypes = {
     data: PropTypes.shape({loading: React.PropTypes.bool, error: React.PropTypes.object, Post: React.PropTypes.object, user: React.PropTypes.object}).isRequired
@@ -114,7 +114,7 @@ class DetailPost extends React.Component {
           </Row>
           <Row>
             <Col xs="12">
-              <VotingSystemPost post={this.props.post} user={this.props.user}/>
+              <VotingSystemPostAdmin post={this.props.post} user={this.props.user}/>
             </Col>
           </Row>
           <Row>
@@ -133,11 +133,11 @@ class DetailPost extends React.Component {
           <Row>
             <Col>
               <div className="pull-right">
-                <Button type="submit" disabled={this.isSubmittable()
+                <button type="submit" disabled={this.isSubmittable()
                   ? ''
                   : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
-                </Button>
+                </button>
               </div>
             </Col>
           </Row>
@@ -145,7 +145,7 @@ class DetailPost extends React.Component {
             <Col>
               <div className='commentList'>
                 {comments.map((comment) =>
-                  <ShowComment key={comment.id} comment={comment}/>)}
+                  <ShowCommentAdmin key={comment.id} comment={comment}/>)}
               </div>
             </Col>
           </Row>
@@ -185,4 +185,4 @@ const userQuery = gql `
 
  export default compose(graphql(createComment, {name: 'createCommentMutation'}),
  graphql(updatePost, { name: "updatePost" }),
- graphql(userQuery),)(DetailPost)
+ graphql(userQuery),)(DetailPostAdmin)

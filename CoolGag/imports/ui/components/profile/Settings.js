@@ -98,11 +98,8 @@ class Settings extends React.Component {
 					<div className="defaultImage changePicture">
 						<Row>
 						<span>
-
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)} />
-
-
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} />
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} >Delete</Button>
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)}>Update</Button>{" "}
 						</span>
 						</Row>
 						<Row>

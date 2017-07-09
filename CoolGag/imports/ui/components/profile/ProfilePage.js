@@ -5,11 +5,11 @@ import Nav from '../Nav'
 
 export default function App(props) {
   return (
-    <div className='profile-page'>
-      <div className='profile-header'>
+    <div >
+      <div className='profile-page fixed-nav'>
         <ProfileHeader />
       </div>
-      <div className='nav-personal-lists'>
+      <div className='profile-body'>
         {props.children}
       </div>
     </div>
