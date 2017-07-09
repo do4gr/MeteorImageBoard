@@ -12,7 +12,6 @@ const AdminList = gql`query {
     youtubeID
   }
   user{id, name}
-
 }`
 
 export default graphql(AdminList)(ListPageAdmin);
