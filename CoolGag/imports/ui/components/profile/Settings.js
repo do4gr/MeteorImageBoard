@@ -54,7 +54,7 @@ class Settings extends React.Component {
 		return (
 			<div>
 			<Container>
-					
+
 						<Row>
 							<h1 className="profileName">Hey {this.props.data.user.name}, lets update your profile!</h1>
 						</Row>
@@ -75,9 +75,9 @@ class Settings extends React.Component {
 							<div className="defaultImage">
 
 									<div>
-										<Row>
-											<input className="pa3 bn ttu pointer bg-black-10 dim btn-normal" type="button" value="Upload a picture" onClick={this.startChoosingImage.bind(this)} />
-										</Row>
+
+										<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Upload a picture" onClick={this.startChoosingImage.bind(this)} />
+
 									</div>
 									<div>
 										<Row>
@@ -104,46 +104,7 @@ class Settings extends React.Component {
 										</div>
 									}
 									</Row>
-									<Row>
-									{ !this.state.imageUrl &&
-										<div className='w-100 dropzone mv3'>
-											{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
-												<span>Select a file or drop an image here.</span>
-											}
-											{ this.state.isLoadingFile &&
-												<span>Processing File...</span>
-											}
-											{ this.state.isDraggingFile && this.state.isValidType &&
-												<span>Drop to Upload</span>
-											}
-											{ this.state.isDraggingFile && !this.state.isValidType &&
-												<span>Invalid File</span>
-											}
-										</div>
-									}
-									</Row>
-									<Row>
-								  	{ this.state.imageUrl &&
-										<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
-											<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
-												<img src={this.state.imageUrl} crossOrigin='Anonymous' role='presentation' className='w-100' onLoad={this.onImageLoaded.bind(this)} onError={this.onImageLoadError.bind(this)} />
-											</div>
-											{ (this.state.isDraggingFile || this.state.isLoadingFile) &&
-												<div className='w-100 dropzone'>
-													{ this.state.isDraggingFile && this.state.isValidType &&
-														<span>Drop to Upload</span>
-													}
-													{ this.state.isDraggingFile && !this.state.isValidType &&
-														<span>Invalid File</span>
-													}
-													{ this.state.isLoadingFile &&
-														<span>Processing File...</span>
-													}
-												</div>
-											}
-										</div>
-									}
-									</Row>
+
 									<Row>
 									<div>
 										<button type="cancel" disabled={(this.state.isEditingPicture ? "" : "disabled")} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
@@ -154,13 +115,6 @@ class Settings extends React.Component {
 										</button>
 									</div>
 									</Row>
-							}
-							<button type="cancel" disabled={(!this.isSubmittable())} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
-								Cancel
-							</button>
-							<button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
-								{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
-							</button>
 						</form>
 						<form>
 							<div>
@@ -193,7 +147,7 @@ class Settings extends React.Component {
 								</Row>
 							</div>
 						</form>
-					
+
 			</Container>
 			</div>
 		);
@@ -406,7 +360,7 @@ const profileData = gql`
 `
 const deleteUser = gql`
   	mutation deleteUser($userId: ID!) {
-		deleteUser(id: userId){
+		deleteUser(id: $userId){
 	  		id
 		}
 	}`;
