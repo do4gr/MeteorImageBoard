@@ -4,13 +4,17 @@ import { withRouter } from 'react-router'
 
 const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
   allPosts(orderBy: createdAt_DESC
-  filter: $filter) {
+  filter: $filter
+  first: 20) {
     id
     user {id,name }
     postedFile {id,url }
     description
 	category
     karmaPoints
+  }
+  user{
+    id, name
   }
 }`
 
