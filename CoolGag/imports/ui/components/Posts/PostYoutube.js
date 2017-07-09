@@ -44,6 +44,12 @@ class PostYoutube extends React.Component {
             <form className='' onSubmit={this.onPostClicked.bind(this)}>
             <input
               className='w-100 pa3 mv2'
+              value={this.state.description}
+              placeholder='Title'
+              onChange={(e) => {this.setState({description: e.target.value});}}
+            />
+            <input
+              className='w-100 pa3 mv2'
               placeholder='Link... Please provide https://www.youtube.com/watch?v=ID format'
               onChange={(e) => this.setState({youtubeLink: e.target.value})}
             />

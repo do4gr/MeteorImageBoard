@@ -56,7 +56,7 @@ console.log(this.state.isUpload);
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
 						</Col>
-					<Row>		
+					</Row>		
 					<PostUpload
 							callbacks={this.state.postUploadCallbacks}
 							enableMemeSelect={true}
@@ -85,19 +85,8 @@ console.log(this.state.isUpload);
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
 					</Col>
-				<Row>
-				</Row>
-					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>	
-						<input
-							className='w-100 pa3 mv2'
-							value={this.state.description}
-							placeholder='Title'
-							onChange={(e) => {this.setState({description: e.target.value});}}
-						/>
-				</Col>	
 				</Row>
 					<PostYoutube
-						enableDescription = {true}
 					 />
 
 
