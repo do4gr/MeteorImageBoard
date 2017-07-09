@@ -23,7 +23,7 @@ export default class ListPage extends React.Component {
           <Row>
             <Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }} className="feed-container">
               {this.props.data.allPosts.map((post) => {
-                if(post && post.user.id === this.props.data.user.id){
+                if((post && post.user.id === this.props.data.user.id) || this.props.data.user.isAdmin){
                   return (
                     <PostPreviewAdmin key={post.id} post={post}/>
                   );}
