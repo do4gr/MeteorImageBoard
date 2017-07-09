@@ -107,7 +107,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
+                {this.props.post.description
                   ? this.props.post.description
                   : "-"}&nbsp;
               </div>
