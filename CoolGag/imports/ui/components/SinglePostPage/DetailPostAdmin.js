@@ -141,9 +141,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col>
               <div className="pull-right">
-                <button type="submit" disabled={this.isSubmittable()
-                  ? ''
-                  : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                <button type="submit" disabled={!this.isSubmittable()} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
                 </button>
               </div>
