@@ -11,6 +11,7 @@ const WithTagQuery = gql`query WithTagQuery($filter: PostFilter!) {
     description
 	category
     karmaPoints
+    youtubeID
   }
   user{id, name}
 

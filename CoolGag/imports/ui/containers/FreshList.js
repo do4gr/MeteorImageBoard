@@ -10,6 +10,7 @@ const FreshQuery = gql`query FreshQuery($filter: PostFilter!){
     description
     karmaPoints
 	category
+  youtubeID
   }
   user{id, name}
 }`

@@ -19,6 +19,7 @@ const MyGroupsQuery = gql`query {
             	  postedFile { id, url }
                 description
                 user{id}
+                youtubeID
             }
         }
     }
