@@ -20,10 +20,12 @@ export default class ShowComment extends React.Component {
 			<Container className="nested">
 				<Comment>
 				<Row>
-					<Col>
+					<Col className="align-item">
 						<span>
 							<Media left href="#">
-								<Media object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width:'40px'}}/>
+								<div className="imgHolder">
+									<Media className="img-responsive" object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width:'40px'}}/>
+								</div>
 							</Media>
 						</span>
 						<span className="profile-comment-link commentAuthor">
