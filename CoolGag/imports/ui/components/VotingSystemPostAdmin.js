@@ -170,12 +170,6 @@ class VotingSystemPostAdmin extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
-								<span>
-									KarmaPoints:&nbsp;
-									{this.props.post.karmaPoints
-										? this.props.post.karmaPoints
-										: 0}&nbsp;
-								</span>
 							</div>
 						</Col>
 						<Col xs="12" sm="6" >
