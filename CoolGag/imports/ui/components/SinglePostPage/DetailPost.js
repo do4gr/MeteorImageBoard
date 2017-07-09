@@ -59,7 +59,7 @@ class DetailPost extends React.Component {
     this.props
   .updatePost({
     mutation: updatePost,
-    variables: { postId, dummy, userId, karmaPoints},
+    variables: { postId, dummy, karmaPoints},
   })
   .then(({ data }) => {
     console.log("got update", data);
@@ -184,8 +184,8 @@ const createComment = gql `
  }
  `
  const updatePost = gql`
- 	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
- 		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+ 	mutation updatePost($postId: ID!, $dummy: String!, $karmaPoints: Int!){
+ 		updatePost(id: $postId, dummy: $dummy, karmaPoints: $karmaPoints){
  			id
  		}
  	}`;

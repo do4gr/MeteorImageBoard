@@ -47,7 +47,7 @@ class VotingSystemPostAdmin extends React.Component {
 			this.props
 	.updatePost({
 		mutation: updatePost,
-		variables: { postId, dummy, userId, karmaPoints},
+		variables: { postId, dummy, karmaPoints},
 	})
 	.then(({ data }) => {
 
@@ -102,7 +102,7 @@ class VotingSystemPostAdmin extends React.Component {
 			this.props
 				.updatePost({
 					mutation: updatePost,
-					variables: { postId, dummy, userId, karmaPoints},
+					variables: { postId, dummy, karmaPoints},
 				})
 				.then(({ data }) => {
 
@@ -224,8 +224,8 @@ const deletePost = gql`
 
 
 const updatePost = gql`
-	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
-		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+	mutation updatePost($postId: ID!, $dummy: String!, $karmaPoints: Int!){
+		updatePost(id: $postId, dummy: $dummy, karmaPoints: $karmaPoints){
 			id
 		}
 	}`;
