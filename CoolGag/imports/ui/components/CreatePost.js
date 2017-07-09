@@ -8,6 +8,8 @@ import TagUtils from '/imports/ui/components/TagUtils';
 import PostUtils from '/imports/ui/components/Posts/PostUtils';
 import PostUpload from '/imports/ui/components/Posts/PostUpload';
 import GroupPage from '/imports/ui/components/groups/GroupPage'
+import PostYoutube from './Posts/PostYoutube';
+
 
 class CreatePost extends React.Component {
 
@@ -16,17 +18,23 @@ class CreatePost extends React.Component {
 		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
     	params: React.PropTypes.object.isRequired,
+		group: PropTypes.object
+
 	}
 
 	state = {
 		isSubmitting: false,
-		postUploadCallbacks: {}
+		description: '',
+		postUploadCallbacks: {},
+		isUploadSelected: true,
+		isUpload : null,
+		isLink : null
+
 	}
 
 	postUpload = null;
 
 	render () {
-		console.log(this.props)
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
@@ -36,23 +44,94 @@ class CreatePost extends React.Component {
 			console.warn('only logged in users can create new posts')
 			this.props.router.replace('/')
 		}
-		
-		if(this.postUpload == null) {
-			this.postUpload = (
-				<PostUpload 
+
+console.log(this.state.isUpload);
+
+		if (this.state.isUpload){
+		return (
+
+			<div className="container">
+				<button type="button" className='pa3 bn ttu pointer bg-black-10 dim highlight' onClick={this.handleMeme.bind(this)}>Select Meme</button>
+				<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</button>
+
+			<PostUpload
 					callbacks={this.state.postUploadCallbacks}
 					enableMemeSelect={true}
-					enableDescription={true}
 					onUploaded={this.onFileUploaded.bind(this)}
-				></PostUpload>
-			);
-			window.postUpload = this.postUpload;
-		}
-		
-		return this.postUpload;
+					shouldUpload={this.state.isUploadSelected}
+					isSubmittable={this.state.description != ''}
+				>
+					<input
+						className='w-100 pa3 mv2'
+						value={this.state.description}
+						placeholder='Title'
+						onChange={(e) => {this.setState({description: e.target.value});}}
+					/>
+				</PostUpload>
+				</div>
+
+		);
 	}
-	
-	
+
+	console.log(this.state.isLink);
+
+
+	if (this.state.isLink){
+		return(
+
+			<div className="container">
+	<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</button>
+	<button type="button" className='pa3 bn ttu pointer bg-black-10 dim highlight' onClick={this.handleLink.bind(this)}>Upload Link</button>
+
+		<PostYoutube
+		>
+			<input
+				className='w-100 pa3 mv2'
+				value={this.state.description}
+				placeholder='Title'
+				onChange={(e) => {this.setState({description: e.target.value});}}
+			/>
+		</PostYoutube>
+		</div>
+
+	)
+
+	}
+
+	return(
+
+		<div className="container">
+<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</button>
+<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</button>
+</div>
+
+	)
+
+	}
+
+	handleMeme(e){
+	if (this.state.isUpload){
+	this.setState({isUpload : false})
+}else {
+	this.setState({isUpload : true})
+}
+	if (this.state.isLink){
+		this.setState({isLink : false})
+	}
+}
+
+handleLink(e){
+	if (this.state.isLink){
+	this.setState({isLink : false})
+}else {
+	this.setState({isLink : true})
+}
+if (this.state.isUpload){
+	this.setState({isUpload : false})
+}
+}
+
+
 	onFileUploaded(file) {
 		//self.setState({imageUrl: result.url});
 		var postedFileId = file.id;
