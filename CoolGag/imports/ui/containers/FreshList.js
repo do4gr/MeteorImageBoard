@@ -11,6 +11,7 @@ const FreshQuery = gql`query FreshQuery($filter: PostFilter!){
     karmaPoints
 	category
   }
+  user{id, name}
 }`
 
 const FreshWithData = graphql(FreshQuery, {
