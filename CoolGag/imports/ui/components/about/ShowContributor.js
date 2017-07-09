@@ -4,7 +4,7 @@ import { Media } from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 
 export default class ShowContributor extends React.Component {
-	
+
 	static propTypes = {
 		contributor: PropTypes.object,
   	}
@@ -21,11 +21,6 @@ export default class ShowContributor extends React.Component {
 				<h3>{this.props.contributor.user.name}</h3>
 				<p>{this.props.contributor.text}</p>
 			</Col>
-
-	
   		)
-  	} 
+  	}
 }
-
-
-

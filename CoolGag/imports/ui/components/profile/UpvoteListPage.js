@@ -1,6 +1,5 @@
 import React from 'react'
 import PostPreview from '../PostPreview'
-import { gql, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import {Container, Row, Col} from 'reactstrap';
 

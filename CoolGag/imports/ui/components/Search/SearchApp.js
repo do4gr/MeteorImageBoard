@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Form, FormGroup, Input, Button, Container, Row, Col} from 'reactstrap'
-import {gql,  graphql, withApollo } from 'react-apollo';
+import { Input, Button, Container, Row, Col} from 'reactstrap'
+import {gql,  graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import PostPreview from '../PostPreview.js'
 
@@ -41,10 +41,10 @@ class SearchApp extends Component {
       <Container>
         <Row>
           <Col xs="6" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 3 }} xl={{ size: 4, offset: 3.5 }}>
-            <Input 
-              value={this.state.searchTerm} 
-              onChange={(e) => this.setState({searchTerm: e.target.value})} 
-              placeholder="search title or comments" 
+            <Input
+              value={this.state.searchTerm}
+              onChange={(e) => this.setState({searchTerm: e.target.value})}
+              placeholder="search title or comments"
               id="search-form"
               className="w-40"/>
           </Col>
