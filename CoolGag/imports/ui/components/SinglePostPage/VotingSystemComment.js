@@ -66,7 +66,7 @@ class VotingSystemComment extends React.Component{
 	   		<div>
 				<Container className="nested">
 					<Row>
-						<Col>
+						<Col className="voting-comment">
 							<div className="points-comment">
 							    <span>
 							        upvotes: { countUpvotes }&nbsp;
@@ -80,7 +80,7 @@ class VotingSystemComment extends React.Component{
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col className="voting-comment">
 							<div>
 								<span>
 					      			<Button className="upvote-btn btn-sm"  onClick={this.handleUpvote} >
