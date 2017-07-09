@@ -4,7 +4,8 @@ import { withRouter } from 'react-router'
 
 const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
   allPosts(orderBy: createdAt_DESC
-  filter: $filter) {
+  filter: $filter
+  first: 20) {
     id
     user {id,name }
     postedFile {id,url }
@@ -13,8 +14,14 @@ const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
     karmaPoints
     youtubeID
   }
+<<<<<<< HEAD
   user {id, name}
 
+=======
+  user{
+    id, name
+  }
+>>>>>>> Development
 }`
 
 const FeedWithData = graphql(FeedQuery, {

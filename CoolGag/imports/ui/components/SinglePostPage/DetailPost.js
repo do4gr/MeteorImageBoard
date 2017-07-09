@@ -7,6 +7,8 @@ import {Form, FormGroup, Input, Button} from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
+import ShowCommentAdmin from './ShowCommentAdmin'
+import PostTitle from '../Posts/PostTitle'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
@@ -60,7 +62,6 @@ class DetailPost extends React.Component {
     variables: { postId, dummy, userId, karmaPoints},
   })
   .then(({ data }) => {
-
     console.log("got update", data);
   })
   .catch(error => {
@@ -107,9 +108,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
-                  ? this.props.post.description
-                  : "-"}&nbsp;
+                <PostTitle title={this.props.post.description} /> &nbsp;
               </div>
             </Col>
           </Row>
@@ -141,9 +140,8 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col>
               <div className="pull-right">
-                <Button type="submit" disabled={this.isSubmittable()
-                  ? ''
-                  : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                <Button type="submit" disabled={!this.isSubmittable()
+                } onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
                 </Button>
               </div>
@@ -151,9 +149,20 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           </Row>
           <Row>
             <Col>
-              <div className='commentList'>
-                {comments.map((comment) =>
-                  <ShowComment key={comment.id} comment={comment}/>)}
+              <div className='commentList'>{comments.map((comment) => {
+                if(comment && comment.user.id === this.props.data.user.id){
+                  return (
+                    <ShowCommentAdmin key={comment.id} comment={comment}/>
+                  );}
+                else {
+                  return (
+                    <ShowComment key={comment.id} comment={comment}/>
+                  );
+                }
+              }
+
+
+              )}
               </div>
             </Col>
           </Row>

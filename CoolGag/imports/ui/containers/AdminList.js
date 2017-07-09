@@ -11,7 +11,11 @@ const AdminList = gql`query {
 	  category
     youtubeID
   }
+<<<<<<< HEAD
   user {id, name}
+=======
+  user{id, name}
+>>>>>>> Development
 
 }`
 

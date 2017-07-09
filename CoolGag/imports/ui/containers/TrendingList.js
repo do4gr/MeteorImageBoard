@@ -6,7 +6,8 @@ var date = new Date(); //generate the current date
 date.setDate(date.getDate() - 1); // calculate the date of yesterday
 const TrendingQuery = gql`query TrendingQuery($filter: PostFilter!) {
   allPosts(orderBy: karmaPoints_DESC
-  filter: $filter) {
+  filter: $filter
+  first: 20) {
   id
   user {id,name }
 	postedFile { id, url }
@@ -15,8 +16,12 @@ const TrendingQuery = gql`query TrendingQuery($filter: PostFilter!) {
   karmaPoints
   youtubeID
   }
+<<<<<<< HEAD
   user {id, name}
 
+=======
+  user{id, name}
+>>>>>>> Development
 }`
 
 

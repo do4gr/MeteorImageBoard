@@ -92,7 +92,7 @@ class Example extends React.Component {
               <Navbar className="navbar-toggleable-sm navbar-inverse fixed-top">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
-                  <img className="logo-img" src="/images/icon2.gif" />
+                  <img className="logo-img" src="/images/icon1.gif" />
                 </NavbarBrand>
                 <Collapse isOpen={this.state.isNavBarOpen} navbar>
                   <Nav className="ml-auto" navbar>
@@ -147,6 +147,7 @@ class Example extends React.Component {
                           <DropdownItem href="/mygroups/">My Groups</DropdownItem>
                           <DropdownItem href="/settings/">Settings</DropdownItem>
                           <DropdownItem divider />
+                          <DropdownItem href="/about">About</DropdownItem>
                           <DropdownItem href="/"  className="logout-btn" onClick={this._logout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

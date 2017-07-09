@@ -13,7 +13,11 @@ const WithTagQuery = gql`query WithTagQuery($filter: PostFilter!) {
     karmaPoints
     youtubeID
   }
+<<<<<<< HEAD
   user {id, name}
+=======
+  user{id, name}
+>>>>>>> Development
 
 }`
 
