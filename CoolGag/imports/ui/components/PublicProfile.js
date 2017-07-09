@@ -242,6 +242,7 @@ export const PublicPostsQuery = gql`query PublicPostsQuery($userId: ID!){
       description
       karmaPoints
       category
+      youtubeID
     }
   }
 }`
