@@ -4,10 +4,10 @@ import CommentList from 'react-uikit-comment-list'
 import { Link } from 'react-router';
 import Comment from 'react-uikit-comment'
 import { Media } from 'reactstrap'
-import VotingSystemComment from './VotingSystemComment';
+import VotingSystemCommentAdmin from './VotingSystemCommentAdmin';
 import {Container, Row, Col} from 'reactstrap';
 
-export default class ShowComment extends React.Component {
+export default class ShowCommentAdmin extends React.Component {
 
 	static propTypes = {
 		comment: PropTypes.object.isRequired,
@@ -38,7 +38,7 @@ export default class ShowComment extends React.Component {
 				</Row>
 				<Row>
 					<Col>
-						<VotingSystemComment comment={ this.props.comment }/>
+						<VotingSystemCommentAdmin comment={ this.props.comment }/>
 					</Col>
 				</Row>
 				</Comment>

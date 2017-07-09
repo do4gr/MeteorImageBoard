@@ -99,10 +99,9 @@ class Settings extends React.Component {
 						<Row>
 						<span>
 
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)} />
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Update" onClick={this.startChoosingImage.bind(this)}>Update</Button>{" "}
+							<Button className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} >Delete</Button>
 
-
-							<input className="pa3 bn ttu pointer bg-black-10 dim" type="button" value="Delete" onClick={this.handleDelete.bind(this)} />
 						</span>
 						</Row>
 						<Row>
@@ -190,6 +189,7 @@ class Settings extends React.Component {
 				<div>
 					{/* <NavPersonalLists /> */}
 				</div>
+
 				<form>
 					<div>
 							<div>
@@ -227,6 +227,7 @@ class Settings extends React.Component {
 						</div>
 					</div>
 				</form>
+
 			</div>
 			</Col>
 			</container>

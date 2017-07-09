@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter} from 'react-router';
 import {Link} from 'react-router';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
-import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
+import {Button, ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Media} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
 import { gql, graphql, compose, fetchPolicy, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types';
@@ -19,11 +19,12 @@ class Example extends React.Component {
 		super(props);
 
 		this.toggleNavBar = this.toggleNavBar.bind(this);
-		this.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
+		this.toggleProfileMenu = this.toggleProfileMenu.bind(this);
+    this.toggleCreateItemMenu = this.toggleCreateItemMenu.bind(this);
 		this.state = {
 			isNavBarOpen: false,
-			isBurgerMenuOpen: false,
-      isCategoriesMenuOpen: false,
+			isProfileMenuOpen: false,
+      isCreateItemMenuOpen: false,
 		};
 	}
 
@@ -33,11 +34,16 @@ class Example extends React.Component {
 		});
 	}
 
-	toggleBurgerMenu() {
+	toggleProfileMenu() {
 		this.setState( {
-			isBurgerMenuOpen: !this.state.isBurgerMenuOpen,
+			isProfileMenuOpen: !this.state.isProfileMenuOpen,
 		});
 	}
+  toggleCreateItemMenu() {
+    this.setState( {
+      isCreateItemMenuOpen: !this.state.isCreateItemMenuOpen,
+    });
+  }
 	getFilteredTags() {
 		return TagUtils.mostUsed(this.props.allTags.allTags).slice(0, 5);
 	}
@@ -63,6 +69,7 @@ class Example extends React.Component {
   //container the listpage to open it with the query of the category you are looking at
 
 	render() {
+    console.log(this.props)
     if (this._isLoggedIn()) {
       return this.renderLoggedIn()
     } else {
@@ -79,13 +86,13 @@ class Example extends React.Component {
   renderLoggedIn() {
 		return (
 			<div>
-        <Container>
-          <Row>
-            <Col>
-              <Navbar color="faded" light className="navbar-toggleable-md">
+        <Container >
+          <Row >
+            <Col className="nav-col" >
+              <Navbar className="navbar-toggleable-sm navbar-inverse fixed-top">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
-                  <img src="/images/icon1.gif" style={{width:'100px'}}/>
+                  <img className="logo-img" src="/images/icon2.gif" />
                 </NavbarBrand>
                 <Collapse isOpen={this.state.isNavBarOpen} navbar>
                   <Nav className="ml-auto" navbar>
@@ -99,9 +106,6 @@ class Example extends React.Component {
                       <NavLink href="/freshlist/">Fresh</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink href="/kittenslist/">Kittens&nbsp;List</NavLink>
-                    </NavItem>
-                    <NavItem>
                       <NavLink href="/createPost/">+&nbsp;Post</NavLink>
                     </NavItem>
                     <NavItem>
@@ -110,46 +114,44 @@ class Example extends React.Component {
                     <NavItem>
                       <NavLink href="/search/"><Glyphicon glyph="search"/></NavLink>
                     </NavItem>
-               <NavItem >
-                <NavLink >
-				<Dropdown isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleTagsMenu.bind(this)}>
-					<DropdownToggle caret color="secondary" outline>
-						More Fun
-					</DropdownToggle>
-					<DropdownMenu className="dropdown-menu-left">
-						{ !this.props.allTags.allTags &&
-							<DropdownItem header>Loading</DropdownItem>
-						}
-						{ this.props.allTags.allTags && this.getFilteredTags().map((tag)=>{
-							return (
-								<DropdownItem key={tag} onClick={this.tagClicked.bind(this, tag)}>
-									{'#' + tag}
-								</DropdownItem>);
-						})}
-					</DropdownMenu>
-				</Dropdown>
+                   <NavItem >
+                  <NavLink >
+          				<Dropdown isOpen={this.state.isCategoriesMenuOpen} toggle={this.toggleTagsMenu.bind(this)}>
+          					<DropdownToggle caret color="secondary" outline>
+          						More Fun
+          					</DropdownToggle>
+          					<DropdownMenu className="dropdown-menu-right">
+          						{ !this.props.allTags.allTags &&
+          							<DropdownItem header>Loading</DropdownItem>
+          						}
+          						{ this.props.allTags.allTags && this.getFilteredTags().map((tag)=>{
+          							return (
+          								<DropdownItem key={tag} onClick={this.tagClicked.bind(this, tag)}>
+          									{'#' + tag}
+          								</DropdownItem>);
+          						})}
+          					</DropdownMenu>
+          				</Dropdown>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink >
-                <Dropdown isOpen={this.state.isBurgerMenuOpen} toggle={this.toggleBurgerMenu}>
-                        <DropdownToggle caret color="info" outline >
-                          {this.props.data.user.name}
+                <Dropdown isOpen={this.state.isProfileMenuOpen} toggle={this.toggleProfileMenu}>
+                        <DropdownToggle className="profile-img">
+                          <div className="imgHolder">
+                            <img  className="img-responsive" src={`${this.props.data.user.profilePic? this.props.data.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image"/>
+                          </div>
                         </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-left">
+                        <DropdownMenu className="dropdown-menu-right">
                           <DropdownItem href="/myposts/">My Profile</DropdownItem>
                           <DropdownItem href="/mygroups/">My Groups</DropdownItem>
-                          <DropdownItem divider />
                           <DropdownItem href="/settings/">Settings</DropdownItem>
+                          <DropdownItem divider />
+                          <DropdownItem href="/"  className="logout-btn" onClick={this._logout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 </NavLink>
               </NavItem>
-              <NavItem >
-                <NavLink href="/"  onClick={this._logout}>
-                  <Button color="danger"  outline >Logout</Button>{''}
-                </NavLink>
-							</NavItem>
 						</Nav>
 					</Collapse>
 				</Navbar>
@@ -166,6 +168,7 @@ const userQuery = gql`
     user {
       id
       name
+      profilePic { id, url }
     }
   }
 `

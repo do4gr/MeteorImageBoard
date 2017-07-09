@@ -1,0 +1,70 @@
+#root, .app{
+	height: 100%; 
+}
+div .startpage-wrapper{
+	height:100vh;
+}
+div .startpage{
+	height:100vh;
+}
+
+.greet-section{
+	height: 70%;
+	background-color: black;
+	color: white;
+}
+
+.col.startpage-logo-wrapper{
+	text-align: center;
+}
+
+.loggin-section{
+	height: 20%;
+	align-items: center;
+}
+
+.img-logo-holder{
+	max-height: 250px;
+	max-width: 250px;
+	margin: 20px auto;
+
+}
+
+
+.welcome-title{
+	margin-top: 20px;
+	font-size: 180%;
+}	
+.btn-login, .btn-signup{
+	height: 50px;
+	width: 160px;
+	background-color: rgba(118, 22, 165, 0.4) !important;
+}
+.col-12.btn{
+	padding: 0 !important;
+}
+
+@media(max-width: 300px){
+	.startpage-logo{
+		max-height: 80px;
+		max-width: 80px;	
+	}
+	.welcome-title{
+		margin-top: 10px;
+		font-size: 20px;
+		background-color: black;
+		color: white;
+	}
+	.loggin-section{
+		height: 20%;
+		align-items: center;
+	}
+	.greet-section{
+		height: 50%;
+	}
+	.btn-login, .btn-signup{
+		height: 50px;
+		width: 120px;
+		background-color: rgba(118, 22, 165, 0.4) !important;
+	}
+}
