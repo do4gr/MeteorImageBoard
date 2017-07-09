@@ -17,7 +17,9 @@
   width: 100%;
 
 }
-
+.col.voting-comment{
+  padding-left: 0px !important
+}
 .post-img {
 	display: block;
  	margin: 10px auto 10px auto;

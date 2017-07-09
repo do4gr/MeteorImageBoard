@@ -23,7 +23,8 @@ export default class ShowCommentAdmin extends React.Component {
 					<Col>
 						<span>
 							<Media left href="#">
-								<Media object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width:'40px'}}/>
+								<div className="img-holder"></div>
+								<Media className="img-responsive" object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width:'40px'}}/>
 							</Media>
 						</span>
 						<span className="profile-comment-link commentAuthor">

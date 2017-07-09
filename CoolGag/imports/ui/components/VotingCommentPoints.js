@@ -38,29 +38,38 @@ class VotingCommentPoints extends React.Component{
 
 		return(
 			<div>
-				<Container>
+				<Container className="nested">
 					<Row className="points-post">
+						<Col  xs="auto" className="karma-points">
+							<span className="karma-list-view">
+								karma:&nbsp;
+									{this.props.post.	karmaPoints
+										? this.props.post.karmaPoints
+										: 0}&nbsp;
+							</span>
+							<span className="karma-list-view">|&nbsp;</span>
+						</Col>
 						<Col xs="auto" >
 							<span>
-								upvotes: {countUpvotes}&nbsp;
+								up: {countUpvotes}&nbsp;
 							</span>
 
-							<span> |&nbsp; </span>
+							<span>|&nbsp;</span>
 						</Col>
 						<Col xs="auto">
 							<span>
-								downvotes: {countDownvotes}&nbsp;
+								down: {countDownvotes}&nbsp;
 							</span>
-							<span> |&nbsp; </span>
+							<span className="comment-points">|&nbsp;</span>
 						</Col>
-						<Col xs="auto">
-							<span>
+						<Col xs="auto" >
+							<span className="comment-points">
 								comments: {countComments}&nbsp;
 							</span>
-							<span> |&nbsp; </span>
+							<span className="time-created">|&nbsp;</span>
 						</Col>
 						<Col xs="auto">
-							<span>
+							<span className="time-created">
 								created: {from}&nbsp;
 							</span>
 						</Col>
