@@ -12,6 +12,9 @@ const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
 	category
     karmaPoints
   }
+  user{
+    id, name
+  }
 }`
 
 const FeedWithData = graphql(FeedQuery, {
