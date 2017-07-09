@@ -157,6 +157,11 @@ class VotingSystemPostAdmin extends React.Component {
 									{" "}
 								</span>
 								<span>
+									<Link to={`/view/${this.props.post.id}`}>
+										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
+									</Link>
+								</span>
+								<span>
 									<Button
 										className="trash-btn"
 										onClick={this.handleDelete}
@@ -164,11 +169,6 @@ class VotingSystemPostAdmin extends React.Component {
 										<Glyphicon glyph="trash"/>
 									</Button>
 									{" "}
-								</span>
-								<span>
-									<Link to={`/view/${this.props.post.id}`}>
-										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
-									</Link>
 								</span>
 							</div>
 						</Col>

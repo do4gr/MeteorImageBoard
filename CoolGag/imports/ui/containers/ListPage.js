@@ -14,7 +14,7 @@ const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
     karmaPoints
     youtubeID
   }
-  user {id, name}
+  user {id, name, isAdmin}
 }`
 
 const FeedWithData = graphql(FeedQuery, {
