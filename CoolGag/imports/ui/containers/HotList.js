@@ -13,6 +13,7 @@ const HotQuery = gql`query HotQuery($filter: PostFilter!) {
       category
       karmaPoints
     }
+    user{id, name}
 }`
 
 const HotWithData = graphql(HotQuery, {

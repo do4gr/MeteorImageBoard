@@ -10,6 +10,8 @@ const AdminList = gql`query {
     karmaPoints
 	  category
   }
+  user{id, name}
+
 }`
 
 export default graphql(AdminList)(ListPageAdmin);
