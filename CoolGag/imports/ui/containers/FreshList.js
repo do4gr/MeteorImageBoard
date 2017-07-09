@@ -12,7 +12,7 @@ const FreshQuery = gql`query FreshQuery($filter: PostFilter!){
 	category
   youtubeID
   }
-  user {id, name}
+  user {id, name, isAdmin}
 }`
 
 const FreshWithData = graphql(FreshQuery, {
