@@ -52,11 +52,11 @@ class ProfileHeader extends React.Component {
 			<div >
 				<Container className="nested center profile-header">
 					<Row className="align-item">
-						<Col xs={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1.5 }} className="profile-header">
+						<Col xs={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1.5 }} className="profile-header profile-user-info">
 							<div className="profileName text-center"> {this.props.data.user.name}</div>
 							{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 								<div className="profileImage">
-									<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
+									<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 img-responsive profilePic ' onError={this.onProfileImageLoadError.bind(this)} />
 								</div>
 							}
 							{!(this.props.data.user.profilePic && this.props.data.user.profilePic.url) &&
@@ -80,7 +80,7 @@ class ProfileHeader extends React.Component {
 							<div className="text-center member-date">
 								Member since {moment(this.props.data.user.createdAt).format("MMM Do YY")}
 							</div>
-							<div className="text-center">
+							<div className="text-center profile-karma-info">
 								Karma: {this.props.data.user.karma}
 							</div>
 						</Col>

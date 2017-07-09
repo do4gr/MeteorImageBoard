@@ -92,7 +92,7 @@ class Example extends React.Component {
               <Navbar className="navbar-toggleable-sm navbar-inverse fixed-top">
                 <NavbarToggler right onClick={this.toggleNavBar} />
                 <NavbarBrand href="/">
-                  <img className="logo-img" src="/images/icon2.gif" />
+                  <img className="logo-img" src="/images/icon1.gif" />
                 </NavbarBrand>
                 <Collapse isOpen={this.state.isNavBarOpen} navbar>
                   <Nav className="ml-auto" navbar>

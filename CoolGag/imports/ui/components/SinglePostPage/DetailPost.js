@@ -8,7 +8,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import ShowCommentAdmin from './ShowCommentAdmin'
-
+import PostTitle from '../Posts/PostTitle'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
@@ -100,9 +100,7 @@ class DetailPost extends React.Component {
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
-                  ? this.props.post.description
-                  : "-"}&nbsp;
+                <PostTitle title={this.props.post.description} /> &nbsp;
               </div>
             </Col>
           </Row>
