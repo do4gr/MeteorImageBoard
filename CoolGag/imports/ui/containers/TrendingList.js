@@ -16,12 +16,7 @@ const TrendingQuery = gql`query TrendingQuery($filter: PostFilter!) {
   karmaPoints
   youtubeID
   }
-<<<<<<< HEAD
   user {id, name}
-
-=======
-  user{id, name}
->>>>>>> Development
 }`
 
 
