@@ -13,6 +13,7 @@ class Example extends React.Component {
   static propTypes = {
 		router: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequires,
   }
 
 	constructor(props) {
