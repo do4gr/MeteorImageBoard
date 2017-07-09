@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Route, Link, Redirect } from 'react-router';
 import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
-import {Button} from 'reactstrap';
+import {Button, Container, Row, Col} from 'reactstrap';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import TagUtils from '/imports/ui/components/TagUtils';
@@ -49,26 +49,27 @@ console.log(this.state.isUpload);
 
 		if (this.state.isUpload){
 		return (
-
+			
 			<div className="container">
-				<button type="button" className='pa3 bn ttu pointer bg-black-10 dim highlight' onClick={this.handleMeme.bind(this)}>Select Meme</button>
-				<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</button>
-
-			<PostUpload
-					callbacks={this.state.postUploadCallbacks}
-					enableMemeSelect={true}
-					onUploaded={this.onFileUploaded.bind(this)}
-					shouldUpload={this.state.isUploadSelected}
-					isSubmittable={this.state.description != ''}
-				>
-					<input
-						className='w-100 pa3 mv2'
-						value={this.state.description}
-						placeholder='Title'
-						onChange={(e) => {this.setState({description: e.target.value});}}
+				<Container className="nested">
+					<Row>
+						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+						</Col>
+					<Row>		
+					<PostUpload
+							callbacks={this.state.postUploadCallbacks}
+							enableMemeSelect={true}
+							onUploaded={this.onFileUploaded.bind(this)}
+							shouldUpload={this.state.isUploadSelected}
+							isSubmittable={this.state.description != ''}
+							enableDescription = {true}
 					/>
-				</PostUpload>
-				</div>
+
+				</Container>
+				
+				
+			</div>
 
 		);
 	}
@@ -78,36 +79,49 @@ console.log(this.state.isUpload);
 
 	if (this.state.isLink){
 		return(
-
 			<div className="container">
-	<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</button>
-	<button type="button" className='pa3 bn ttu pointer bg-black-10 dim highlight' onClick={this.handleLink.bind(this)}>Upload Link</button>
+			<Container className="nested">
+				<Row>
+					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+					</Col>
+				<Row>
+				</Row>
+					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>	
+						<input
+							className='w-100 pa3 mv2'
+							value={this.state.description}
+							placeholder='Title'
+							onChange={(e) => {this.setState({description: e.target.value});}}
+						/>
+				</Col>	
+				</Row>
+					<PostYoutube
+						enableDescription = {true}
+					 />
 
-		<PostYoutube
-		>
-			<input
-				className='w-100 pa3 mv2'
-				value={this.state.description}
-				placeholder='Title'
-				onChange={(e) => {this.setState({description: e.target.value});}}
-			/>
-		</PostYoutube>
-		</div>
 
-	)
+				</Container>
+			</div>
+
+		)
 
 	}
 
 	return(
-
 		<div className="container">
-<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</button>
-<button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</button>
-</div>
-
+			<Container className="nested">
+				<Row>
+					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+					</Col>	
+				</Row>
+			</Container>
+		</div>
 	)
 
-	}
+}
 
 	handleMeme(e){
 	if (this.state.isUpload){
@@ -180,7 +194,7 @@ if (this.state.isUpload){
 					//}
 					if(this.props.params.groupId != null){
 						const groupId = this.props.params.groupId;
-						<Redirect to={`/group/${this.props.params.groupId}`} />;
+						this.props.router.replate('/mygroups/')
 
 					}else{
 						this.props.router.replace('/');

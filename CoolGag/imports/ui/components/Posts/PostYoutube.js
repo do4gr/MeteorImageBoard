@@ -38,24 +38,18 @@ class PostYoutube extends React.Component {
 
     return (
 			<div>
-				<Container>
+				<Container className="nested">
 					<Row>
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
             <form className='' onSubmit={this.onPostClicked.bind(this)}>
             <input
               className='w-100 pa3 mv2'
-              value={this.state.description}
-              placeholder='Description'
-              onChange={(e) => this.setState({description: e.target.value})}
-            />
-            <input
-              className='w-100 pa3 mv2'
               placeholder='Link... Please provide https://www.youtube.com/watch?v=ID format'
               onChange={(e) => this.setState({youtubeLink: e.target.value})}
             />
-            <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+            <Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
               {this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Post'}
-            </button>
+            </Button>
             </form>
 						</Col>
 					</Row>
