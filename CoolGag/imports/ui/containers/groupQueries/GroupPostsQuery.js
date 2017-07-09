@@ -1,5 +1,5 @@
 import {gql, graphql } from 'react-apollo';
-import GroupPage from '/imports/ui/components/profile/GroupPage';
+import GroupPage from '/imports/ui/components/groups/GroupPage';
 
 
 export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
@@ -9,12 +9,13 @@ export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
     picFile { id, url }
     createdAt
     updatedAt
+    admins { id }
     users{
         id
         name
         profilePic { id, url }
       }
-    posts{
+    posts (orderBy: createdAt_DESC){
         id
         postedFile { id, url }
         description

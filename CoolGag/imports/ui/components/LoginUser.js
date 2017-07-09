@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import {gql,  graphql, fetchPolicy } from 'react-apollo'
 import PropTypes from 'prop-types'
+import { Button, Container, Row, Col} from 'reactstrap';
 
 class CreateLogin extends React.Component {
 
@@ -53,7 +54,7 @@ class CreateLogin extends React.Component {
             onChange={(e) => this.setState({password: e.target.value})}
           />
 
-          <button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Login</button>
+          <Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.signinUser}>Login</Button>
 
           </form>
         </div>
@@ -92,5 +93,5 @@ const userQuery = gql`
 `
 
 export default graphql(signinUser, {name: 'signinUser'})(
-  graphql(userQuery, fetchPolicy: "network-only")(withRouter(CreateLogin))
+  graphql(userQuery, {fetchPolicy: "network-only"})(withRouter(CreateLogin))
 )

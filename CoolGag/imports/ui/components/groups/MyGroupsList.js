@@ -2,11 +2,11 @@ import React from 'react'
 import PostPreview from '../PostPreview'
 import { gql, graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Button, Label, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import { Button, Label, Modal, ModalHeader, ModalBody, ModalFooter, Media} from 'reactstrap'
 import { Glyphicon } from 'react-bootstrap'
 import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router';
-// import {MyGroupsQuery} from '/imports/ui/containers/profileLists/MyGroupsQuery'
+// import {MyGroupsQuery} from '/imports/ui/containers/groups/MyGroupsQuery'
 
 
 class MyGroupsList extends React.Component {
@@ -16,22 +16,29 @@ class MyGroupsList extends React.Component {
       loading: React.PropTypes.bool,
       error: React.PropTypes.object,
       group: React.PropTypes.object,
-      user: React.PropTypes.object
-    }).isRequired
+      user: React.PropTypes.object,
+    }).isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modalDelete: false,
+      modalLeave: false
     };
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
+    this.toggleLeave = this.toggleLeave.bind(this);
   }
 
-  toggle() {
+   toggleDelete() {
     this.setState({
-      modal: !this.state.modal
+      modalDelete: !this.state.modalDelete
+    });
+  }
+  toggleLeave() {
+    this.setState({
+      modalLeave: !this.state.modalLeave
     });
   }
 
@@ -60,7 +67,6 @@ class MyGroupsList extends React.Component {
       variables: { groupId, userId },
       refetchQueries: [{
             query: MyGroupsQuery,
-            // variables: { id: postId }
           }],
     })
     .then(({ data }) => {
@@ -73,7 +79,7 @@ class MyGroupsList extends React.Component {
 
 
   render () {
-    //console.log(this.props)
+    console.log(this.props)
     if (this.props.data.loading) {
       return (<div>Loading</div>)
     }
@@ -87,49 +93,63 @@ class MyGroupsList extends React.Component {
       <div>
         <Container className="nested group-listing">
           <Row>
-            <Col xs="12" sm="6" md="8">
+            <Col xs="3" sm="2" md="2" lg="1" className="align-item">
+              <div className="imgHolder" >
+                  <img  className="img-rounded imgHolder" src={`${this.props.group.picFile? this.props.group.picFile.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
+              </div>
+            </Col>
+            <Col xs="9" sm="4" md="6" lg="7" className="align-item">
               <div className="group-list-group-title">
                 <Link to={`/group/${this.props.group.id}`}>
                     {this.props.group.name}
                 </Link>
               </div>
             </Col>
-            <Col xs="12"  sm="6" md="4">
-                <Button color="warning" onClick={this.handleLeaving}>Leave</Button>{" "}
-              {/*
-                <Modal isOpen={this.state.modal} toggle={this.toggle} >
-                  <ModalHeader toggle={this.toggle}>Leave this Group</ModalHeader>
-                  <ModalBody>
-                  Hey &nbsp;{ this.props.data.user }&nbsp;, are you sure you want to leave {this.props.group.name}?
+            <Col xs={{ size:9, offset: 3}}  sm={{ size:4, offset: 2}} md={{ size:4, offset: 0}} >
+              <span>
+                <Button data-target="#leaveGroup" color="warning" onClick={this.toggleLeave}>Leave</Button>{" "}
+                <Modal id="leaveGroup" isOpen={this.state.modalLeave} toggle={this.toggleLeave}>
+                  <ModalHeader toggle={this.toggleLeave}>Leave Group</ModalHeader>
+                  <ModalBody className="text-center">
+                    Are you sure that you want to leave the group "{ this.props.group.name }"?
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" onClick={this.handleLeaving}>Leave</Button>{' '}
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    <Button color="primary" onClick={this.toggleLeave} onClick={this.handleLeaving}>Leave</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleLeave}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-              */}
-                <Button color="danger"><Glyphicon glyph="trash" onClick={this.handleDeletion} /></Button>
-
+              </span>
+               { this.props.data.user.id === this.props.group.admins.id && 
+              <span>
+                <Button data-target="#deleteGroup" color="danger" onClick={this.toggleDelete} ><Glyphicon glyph="trash"/></Button>
+                <Modal id="deleteGroup" isOpen={this.state.modalDelete} toggle={this.toggleDelete}>
+                  <ModalHeader toggle={this.toggleDelete}>Delete Group</ModalHeader>
+                  <ModalBody className="text-center">
+                    Are you sure that you want to delete the group "{ this.props.group.name }"?
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={this.toggleDelete} onClick={this.handleDeletion}>Delete</Button>{' '}
+                    <Button color="secondary" onClick={this.toggleDelete}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+                </span>
+              }
             </Col>
           </Row>
         </Container>
-
-
-       {/*
-        
-          */}
       </div>
     )
   }
 }
 
-const MyGroupsQuery = gql`query {
+const MyGroupsQuery = gql`query MyGroupsQuery{
     user{
         id
         name
         groups (orderBy: createdAt_DESC){
             id
             name
+            admins { id }
             createdAt
             updatedAt
             users{id,name}
@@ -160,7 +180,7 @@ const userLeavesGroup = gql`
 
 
 export default compose(
-  graphql(MyGroupsQuery),
+  graphql(MyGroupsQuery, { name: "MyGroupsQuery" }),
   graphql(deleteGroup, { name: "deleteGroup" }),
   graphql(userLeavesGroup, { name: "userLeavesGroup"})
 )(MyGroupsList);
