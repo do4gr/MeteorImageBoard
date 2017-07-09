@@ -54,7 +54,7 @@ class Settings extends React.Component {
 		return (
 			<container>
 				<Col>
-					<div className="center-text">
+					<div>
 						<Row>
 							<h1 className="profileName">Hey {this.props.data.user.name}, lets update your profile!</h1>
 						</Row>
@@ -92,9 +92,9 @@ class Settings extends React.Component {
 									</div>
 							</div>
 						}
-						<Row>
 							<form className={'profileForm'} onSubmit={this.handleUpload.bind(this)}>
 								<div>
+									<Row>
 									{this.state.isEditingPicture &&
 										<div>
 											<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
@@ -104,6 +104,8 @@ class Settings extends React.Component {
 											onDropFiles={this.onDropFiles.bind(this)} />
 										</div>
 									}
+									</Row>
+									<Row>
 									{ !this.state.imageUrl &&
 										<div className='w-100 dropzone mv3'>
 											{ !this.state.isLoadingFile && !this.state.isDraggingFile &&
@@ -120,6 +122,8 @@ class Settings extends React.Component {
 											}
 										</div>
 									}
+									</Row>
+									<Row>
 								  	{ this.state.imageUrl &&
 										<div className={'imagePreviewCotnainer w-100 mv3' + (this.state.isDraggingFile ? ' isDragging' : '')}>
 											<div className={'imagePreview' + (this.state.isTextEntered ? ' textEntered' : '')}>
@@ -140,6 +144,8 @@ class Settings extends React.Component {
 											}
 										</div>
 									}
+									</Row>
+									<Row>
 									<div>
 										<button type="cancel" disabled={(this.state.isEditingPicture ? "" : "disabled")} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
 											Cancel
@@ -148,9 +154,9 @@ class Settings extends React.Component {
 											{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
 										</button>
 									</div>
+									</Row>
 								</div>
 							</form>
-						</Row>
 						<div>
 							{/* <NavPersonalLists /> */}
 						</div>
@@ -364,7 +370,7 @@ class Settings extends React.Component {
 	  this.props.data.changeUserPassword({
 		  mutation: changePassword,
 		  variables: {
-			  userID,
+			  userId,
 			  newPassword
 		  }
 	  })
@@ -372,10 +378,10 @@ class Settings extends React.Component {
 	changeEmail = () => {
       const {newEmail} = this.state.newEmail
 	  const userId = this.props.data.user.id;
-      this.props.data.changeEmailPassword({
+      this.props.data.changeUserEmail({
 		  mutation: changeEmail,
 		  variables: {
-			  userID,
+			  userId,
 			  newEmail
 		  }
 	  })
