@@ -1,5 +1,3 @@
-
-
 export default class FileHandling {
 	static getDataUrl(file, callback) {
 		var reader = new FileReader();
@@ -9,10 +7,10 @@ export default class FileHandling {
 				callback(reader.result);
 			}, false);
 		}
-		
+
 		reader.readAsDataURL(file);
 	}
-	
+
 	// used to create submittable content from an image url
 	// see: https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
 	static dataURItoBlob(dataURI, options) {

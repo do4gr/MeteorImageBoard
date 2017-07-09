@@ -10,9 +10,10 @@ const MyCommentsQuery = gql`query {
             createdAt
             post{
                 id
-            	postedFile { id, url }
+            	  postedFile { id, url }
                 description
                 user{ id, name }
+                youtubeID
             }
             text
             updatedAt

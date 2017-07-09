@@ -21,8 +21,7 @@ export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
         description
         user{ id, name }
     }
-  
+
     }
   user{id, name}
 }`
-

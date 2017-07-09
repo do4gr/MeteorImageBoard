@@ -1,5 +1,5 @@
 import React from 'react'
-import { gql, graphql, compose, withApollo } from 'react-apollo'
+import { gql, graphql, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
 import { Button, ButtonGroup, Container, Col, Row } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
@@ -12,7 +12,6 @@ import FileSelectButton from './../FileHandling/FileSelectButton';
 import WindowDropZone from './../FileHandling/WindowDropZone';
 import FileHandling from './../FileHandling/FileHandling';
 import PredefinedMemeSelect from './../PredefinedMemeSelect';
-import MyPosts from './../../containers/profileLists/MyPosts';
 import moment from 'moment';
 
 
@@ -53,8 +52,6 @@ if (this.props.data.user.posts){
 	{this.props.data.user.posts.map((post) =>
 		points = points + post.karmaPoints
 	)}
-
-
 }
 
 if (this.props.data.user.downvotedPosts){
@@ -137,9 +134,12 @@ const profileData = gql`
 			name
 			createdAt
 			karma
-			downvotedPosts{ id }
+			downvotedPosts{ id}
 			upvotedPosts{ id }
-			comments{ id }
+			comments{
+				id,
+				post{ id}
+			 }
 			profilePic {
 				id
 				url

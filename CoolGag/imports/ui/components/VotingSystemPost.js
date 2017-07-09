@@ -160,24 +160,24 @@ class VotingSystemPost extends React.Component {
 										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
 									</Link>
 								</span>
-								</div>
+							</div>
 						</Col>
-					    <Col xs="12" sm="6" className="author-padding" >
-					        <div className='pull-right author-tag'>
-					            Author:&nbsp;
-					            <Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
-				                    {this.props.post.user
-				                      ? this.props.post.user.name
-				                      : "deleted user"}&nbsp;
-				                 </Link>
-					        </div>
+						<Col xs="12" sm="6" className="author-padding" >
+							<div className='pull-right author-tag'>
+								Author:&nbsp;
+								<Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">
+									{this.props.post.user
+										? this.props.post.user.name
+										: "deleted user"}&nbsp;
+								</Link>
+							</div>
 						</Col>
 					</Row>
 					<Row>
-			        	<Col xs="12" className="pt-2 voting-comments-point">
-			        		<VotingCommentPoints data={this.props.data} post={ this.props.post } user={ this.props.data.user } />
-			        	</Col>
-			        </Row>
+						<Col xs="12" className="pt-2 voting-comments-point">
+							<VotingCommentPoints data={this.props.data} post={ this.props.post } user={ this.props.data.user } />
+						</Col>
+					</Row>
 				</Container>
 			</div>
 		);

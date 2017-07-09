@@ -1,11 +1,10 @@
 import React from "react";
-import { gql, graphql, compose } from "react-apollo";
+import { gql, graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import { Link } from "react-router";
-import { FormGroup, Input, Button } from "reactstrap";
+import { Input, Button } from "reactstrap";
 import update from "immutability-helper";
 import {Container, Row, Col} from 'reactstrap';
-import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import moment from 'moment';
 
 
@@ -43,9 +42,9 @@ class VotingCommentPoints extends React.Component{
 						<Col  xs="auto" className="karma-points">
 							<span className="karma-list-view">
 								karma:&nbsp;
-									{this.props.post.	karmaPoints
-										? this.props.post.karmaPoints
-										: 0}&nbsp;
+								{this.props.post.	karmaPoints
+									? this.props.post.karmaPoints
+									: 0}&nbsp;
 							</span>
 							<span className="karma-list-view">|&nbsp;</span>
 						</Col>
@@ -70,13 +69,12 @@ class VotingCommentPoints extends React.Component{
 						</Col>
 						<Col xs="auto">
 							<span className="time-created">
-								created: {from}&nbsp;
+								on: {from}&nbsp;
 							</span>
 						</Col>
 					</Row>
 				</Container>
 			</div>
-
 		)
 	}
 }
