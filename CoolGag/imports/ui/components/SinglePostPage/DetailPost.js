@@ -7,6 +7,8 @@ import {Form, FormGroup, Input, Button} from 'reactstrap'
 import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
+import ShowCommentAdmin from './ShowCommentAdmin'
+import PostTitle from '../Posts/PostTitle'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
@@ -57,10 +59,9 @@ class DetailPost extends React.Component {
     this.props
   .updatePost({
     mutation: updatePost,
-    variables: { postId, dummy, userId, karmaPoints},
+    variables: { postId, dummy, karmaPoints},
   })
   .then(({ data }) => {
-
     console.log("got update", data);
   })
   .catch(error => {
@@ -92,6 +93,14 @@ class DetailPost extends React.Component {
       )
     }
 
+    feedImg = null
+if (this.props.post.youtubeID){
+feedImg = <iframe className='w-100' height="431" src={`https://www.youtube.com/embed/${this.props.post.youtubeID}`} frameBorder="0"></iframe>
+console.log(feedImg);
+} else {
+feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
+}
+
     const comments = this.props.post.comments;
     return (
       <div className="detailPost-view">
@@ -99,16 +108,14 @@ class DetailPost extends React.Component {
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
-                  ? this.props.post.description
-                  : "-"}&nbsp;
+                <PostTitle title={this.props.post.description} /> &nbsp;
               </div>
             </Col>
           </Row>
           <Row>
             <Col xs="12">
               <div >
-                <img src={`${this.props.post.postedFile.url}`} className="post-img w-100"/>
+              {feedImg}
               </div>
             </Col>
           </Row>
@@ -133,9 +140,8 @@ class DetailPost extends React.Component {
           <Row>
             <Col>
               <div className="pull-right">
-                <Button type="submit" disabled={this.isSubmittable()
-                  ? ''
-                  : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                <Button type="submit" disabled={!this.isSubmittable()
+                } onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
                 </Button>
               </div>
@@ -143,9 +149,20 @@ class DetailPost extends React.Component {
           </Row>
           <Row>
             <Col>
-              <div className='commentList'>
-                {comments.map((comment) =>
-                  <ShowComment key={comment.id} comment={comment}/>)}
+              <div className='commentList'>{comments.map((comment) => {
+                if(comment && comment.user.id === this.props.data.user.id){
+                  return (
+                    <ShowCommentAdmin key={comment.id} comment={comment}/>
+                  );}
+                else {
+                  return (
+                    <ShowComment key={comment.id} comment={comment}/>
+                  );
+                }
+              }
+
+
+              )}
               </div>
             </Col>
           </Row>
@@ -167,8 +184,8 @@ const createComment = gql `
  }
  `
  const updatePost = gql`
- 	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
- 		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+ 	mutation updatePost($postId: ID!, $dummy: String!, $karmaPoints: Int!){
+ 		updatePost(id: $postId, dummy: $dummy, karmaPoints: $karmaPoints){
  			id
  		}
  	}`;

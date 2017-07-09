@@ -14,8 +14,8 @@ export default class ShowContributor extends React.Component {
   		return(
 			<Col sm="12" md={{ size: 6}} lg={{ size: 4}} xl={{ size: 4}}>
 				<span>
-					<Media top href="#">
-						<Media object className="img-circle" src={`${this.props.contributor.user.profilePic ? this.props.contributor.user.profilePic.url : '/images/icon2.gif'}`} alt="Generic placeholder image" />
+					<Media top href="#" className="about-img">
+						<Media object className="img-circle about-img" src={`${this.props.contributor.user.profilePic ? this.props.contributor.user.profilePic.url : '/images/icon2.gif'}`} alt="Generic placeholder image"/>
 					</Media>
 				</span>
 				<h3>{this.props.contributor.user.name}</h3>

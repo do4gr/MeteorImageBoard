@@ -52,11 +52,8 @@ class VotingSystemCommentAdmin extends React.Component{
 	 	    const commentId = this.props.comment.id
 	 	    this.props.deleteCommentMutation({
 	 	      	mutation: deleteComment,
-						variables: { commentId, userId },
-	 	      	refetchQueries: [{
-	 	      	 	query: countQuery,
-	 	      	 	variables: { id: commentId }
-	 	      	}],
+						variables: { commentId, userId }
+
 	 	    }).then(({ data }) => {
 	 	        //console.log('got data', data);
 	 	      }).catch((error) => {
@@ -98,7 +95,7 @@ class VotingSystemCommentAdmin extends React.Component{
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col className="voting-comment">
 							<div>
 								<span>
 					      			<Button className="upvote-btn btn-sm"  onClick={this.handleUpvote} >

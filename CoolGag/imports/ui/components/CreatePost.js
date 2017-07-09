@@ -1,13 +1,15 @@
 import React from 'react';
 import { withRouter, Route, Link, Redirect } from 'react-router';
 import { gql, graphql, compose, withApollo, fetchPolicy } from 'react-apollo';
-import {Button} from 'reactstrap';
+import {Button, Container, Row, Col} from 'reactstrap';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import TagUtils from '/imports/ui/components/TagUtils';
 import PostUtils from '/imports/ui/components/Posts/PostUtils';
 import PostUpload from '/imports/ui/components/Posts/PostUpload';
 import GroupPage from '/imports/ui/components/groups/GroupPage'
+import PostYoutube from './Posts/PostYoutube';
+
 
 class CreatePost extends React.Component {
 
@@ -16,17 +18,23 @@ class CreatePost extends React.Component {
 		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
     	params: React.PropTypes.object.isRequired,
+		group: PropTypes.object
+
 	}
 
 	state = {
 		isSubmitting: false,
-		postUploadCallbacks: {}
+		description: '',
+		postUploadCallbacks: {},
+		isUploadSelected: true,
+		isUpload : null,
+		isLink : null
+
 	}
 
 	postUpload = null;
 
 	render () {
-		console.log(this.props)
 		if (this.props.data.loading) {
 			return (<div>Loading</div>)
 		}
@@ -36,23 +44,97 @@ class CreatePost extends React.Component {
 			console.warn('only logged in users can create new posts')
 			this.props.router.replace('/')
 		}
-		
-		if(this.postUpload == null) {
-			this.postUpload = (
-				<PostUpload 
-					callbacks={this.state.postUploadCallbacks}
-					enableMemeSelect={true}
-					enableDescription={true}
-					onUploaded={this.onFileUploaded.bind(this)}
-				></PostUpload>
-			);
-			window.postUpload = this.postUpload;
-		}
-		
-		return this.postUpload;
+
+console.log(this.state.isUpload);
+
+		if (this.state.isUpload){
+		return (
+			
+			<div className="container">
+				<Container className="nested">
+					<Row>
+						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+						</Col>
+					</Row>		
+					<PostUpload
+							callbacks={this.state.postUploadCallbacks}
+							enableMemeSelect={true}
+							onUploaded={this.onFileUploaded.bind(this)}
+							shouldUpload={this.state.isUploadSelected}
+							isSubmittable={this.state.description != ''}
+							enableDescription = {true}
+					/>
+
+				</Container>
+				
+				
+			</div>
+
+		);
 	}
-	
-	
+
+	console.log(this.state.isLink);
+
+
+	if (this.state.isLink){
+		return(
+			<div className="container">
+			<Container className="nested">
+				<Row>
+					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+					</Col>
+				</Row>
+					<PostYoutube
+					 />
+
+
+				</Container>
+			</div>
+
+		)
+
+	}
+
+	return(
+		<div className="container">
+			<Container className="nested">
+				<Row>
+					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim' onClick={this.handleLink.bind(this)}>Upload Link</Button>
+					</Col>	
+				</Row>
+			</Container>
+		</div>
+	)
+
+}
+
+	handleMeme(e){
+	if (this.state.isUpload){
+	this.setState({isUpload : false})
+}else {
+	this.setState({isUpload : true})
+}
+	if (this.state.isLink){
+		this.setState({isLink : false})
+	}
+}
+
+handleLink(e){
+	if (this.state.isLink){
+	this.setState({isLink : false})
+}else {
+	this.setState({isLink : true})
+}
+if (this.state.isUpload){
+	this.setState({isUpload : false})
+}
+}
+
+
 	onFileUploaded(file) {
 		//self.setState({imageUrl: result.url});
 		var postedFileId = file.id;
@@ -101,7 +183,7 @@ class CreatePost extends React.Component {
 					//}
 					if(this.props.params.groupId != null){
 						const groupId = this.props.params.groupId;
-						<Redirect to={`/group/${this.props.params.groupId}`} />;
+						this.props.router.replate('/mygroups/')
 
 					}else{
 						this.props.router.replace('/');

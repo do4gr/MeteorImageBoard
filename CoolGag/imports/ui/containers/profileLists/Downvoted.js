@@ -11,6 +11,7 @@ const DownvotePostsQuery = gql`query {
         	postedFile { id, url }
             description
             user{ id, name }
+            youtubeID
         }
     }
 }`
