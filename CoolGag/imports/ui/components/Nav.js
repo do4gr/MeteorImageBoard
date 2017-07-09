@@ -147,6 +147,7 @@ class Example extends React.Component {
                           <DropdownItem href="/mygroups/">My Groups</DropdownItem>
                           <DropdownItem href="/settings/">Settings</DropdownItem>
                           <DropdownItem divider />
+                          <DropdownItem href="/about">About</DropdownItem>
                           <DropdownItem href="/"  className="logout-btn" onClick={this._logout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
