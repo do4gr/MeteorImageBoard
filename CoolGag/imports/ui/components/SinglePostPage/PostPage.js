@@ -50,6 +50,7 @@ export const PostQuery = gql`query PostQuery($postId: ID!){
     category
     upvotes
     karmaPoints
+    youtubeID
     comments(orderBy: createdAt_DESC){
       id
       text

@@ -17,7 +17,16 @@ class PostPreview extends React.Component {
   }
 
 	render () {
-		return (
+
+      feedImg = null
+      if (this.props.post.youtubeID){
+      feedImg = <iframe className='w-100' height="611" src={`https://www.youtube.com/embed/${this.props.post.youtubeID}`} frameBorder="0"></iframe>
+      console.log(feedImg);
+      } else {
+      feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
+      }
+      return (
+
 			<div>
 				<Container className="nested">
           <div className='list-container'>
@@ -32,7 +41,7 @@ class PostPreview extends React.Component {
               <Col >
                 <div className="feed-img">
                   <Link to={`/view/${this.props.post.id}`}>
-                    <img src={this.props.post.postedFile.url} className='w-100' />
+                  {feedImg}
                   </Link>
                 </div>
               </Col>
