@@ -46,8 +46,9 @@ const userQuery = gql`
     user {
       id
       name
+      groups{ id, name }
     }
   }
 `
 
-export default graphql(userQuery, fetchPolicy: 'network-only')(withRouter(App))
+export default graphql(userQuery, {fetchPolicy: 'network-only'})(withRouter(App))
