@@ -47,7 +47,6 @@ class PostPageAdmin extends React.Component {
 export const PostQuery = gql`query PostQuery($postId: ID!){
   Post (id: $postId){
     id
-    category
     upvotes
     karmaPoints
     youtubeID
@@ -59,6 +58,7 @@ export const PostQuery = gql`query PostQuery($postId: ID!){
         name
         profilePic { id, url }
       }
+      post{id }
     }
     postedFile { id, url }
     description

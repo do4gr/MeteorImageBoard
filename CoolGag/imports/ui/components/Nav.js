@@ -66,7 +66,6 @@ class Example extends React.Component {
     window.x = this.props;
     return this.props.data.user
   }
-  //container the listpage to open it with the query of the category you are looking at
 
 	render() {
     console.log(this.props)

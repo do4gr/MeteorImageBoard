@@ -7,9 +7,8 @@ const WithTagQuery = gql`query WithTagQuery($filter: PostFilter!) {
   allPosts(orderBy: createdAt_DESC, filter: $filter) {
     id
     user {id,name }
-	postedFile { id, url }
+	  postedFile { id, url }
     description
-	category
     karmaPoints
     youtubeID
   }
