@@ -1,25 +1,8 @@
 import React from 'react'
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Row, Col} from 'reactstrap'
-import { gql, graphql } from 'react-apollo'
-import ListPage from '../ListPage'
-import ProfilePostListPage from './ProfilePostListPage'
+import {Navbar, Nav, NavItem, NavLink, Container, Row, Col} from 'reactstrap'
 
 
 export default class NavPersonalLists extends React.Component {
-
-	constructor(props) {
-		super(props);
-		this.toggleNavBar = this.toggleNavBar.bind(this);
-		this.state = {
-			isNavBarOpen: false
-		};
-	}
-
-	toggleNavBar() {
-		this.setState({
-			isNavBarOpen: !this.state.isNavBarOpen
-		});
-	}
 
 	render() {
 		return (

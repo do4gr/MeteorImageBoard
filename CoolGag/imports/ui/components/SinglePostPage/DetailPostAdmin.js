@@ -107,7 +107,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
+                {this.props.post.description
                   ? this.props.post.description
                   : "-"}&nbsp;
               </div>
@@ -141,11 +141,9 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col>
               <div className="pull-right">
-                <button type="submit" disabled={this.isSubmittable()
-                  ? ''
-                  : 'disabled'} onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                <Button type="submit" disabled={!this.isSubmittable()} onClick={this.handleComment} className="btn-normal pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
-                </button>
+                </Button>
               </div>
             </Col>
           </Row>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Form, FormGroup, Input, Button} from 'reactstrap'
-import {gql,  graphql, withApollo } from 'react-apollo';
+import { Input, Button, Container, Row, Col} from 'reactstrap'
+import {gql,  graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import PostPreview from '../PostPreview.js'
-import { Container, Row, Col } from 'reactstrap';
+
 
 
 class SearchApp extends Component {
@@ -40,16 +40,20 @@ class SearchApp extends Component {
     return (
       <Container>
         <Row>
-          <Col xs="3"></Col>
-          <Col xs="auto"><Input value={this.state.searchTerm} onChange={(e) => this.setState({searchTerm: e.target.value})} placeholder="search title or comments" id="search-form" className="w-40"/></Col>
-          <Col xs="3"><button type="submit" disabled={this.isSubmittable()
-            ? ''
-            : 'disabled'} onClick={this.onSearchClicked} className="pa2 bn ttu dim pointer ">Search</button>
+          <Col xs="6" sm="6" md={{ size: 4, offset: 2 }} lg={{ size: 4, offset: 3 }} xl={{ size: 4, offset: 3.5 }}>
+            <Input
+              value={this.state.searchTerm}
+              onChange={(e) => this.setState({searchTerm: e.target.value})}
+              placeholder="search title or comments"
+              id="search-form"
+              className="w-40"/>
+          </Col>
+          <Col xs="6" sm="6" md={{ size: 4, offset: 0.5 }} lg={{ size: 4, offset: 3 }} xl={{ size: 4, offset: 3.5 }}>
+            <Button type="submit" disabled={(!this.isSubmittable())} onClick={this.onSearchClicked} className="btn-normal pa2 bn ttu dim pointer ">Search</Button>
           </Col>
         </Row>
         <Row>
-          <Col xs="3"></Col>
-          <Col xs="6">
+          <Col sm="12" md={{ size: 8, offset: 2}} lg={{ size: 6, offset: 3 }} xl={{ size: 5, offset: 3.5 }}>
             {this.props.data.allPosts.map((post) =>
               <PostPreview key={post.id} post={post}/>
             )}
@@ -68,7 +72,6 @@ query SearchPosts($searchTerm: String!) {
     user {id,name }
     postedFile {id,url }
     description
-    category
   }
 }`, {
   options: (props) => ({

@@ -78,7 +78,12 @@ textarea, .form-control{
   display: inline-block;
 
 }
-
+.btn-normal{
+	background-color: #eadede !important;
+}
+.btn-red{
+	background-color: #d9534f !important;
+}
 /*.container{
 	padding-right: 5px !important;
 	padding-left: 5px !important;
@@ -106,6 +111,13 @@ nav {
 	border-color: #585353 !important;
 	color: #b8cdd8 !important
 	border-radius: 0px !important;
+}
+
+.input-form{
+	border-bottom-color: blue;
+	border-radius: 3px;
+	border-top-color: transparent;
+	border-left-color: transparent;
 }
 
 /*.col-*{
@@ -169,7 +181,7 @@ nav .navbar-brand{
 
 .btn-sm {
 	font-size: 12px !important;
-	border-radius: 3px !important;
+	border-radius: 0px !important;
 	line-height: 18px !important;
 	padding: 3px 12px !important;
 }

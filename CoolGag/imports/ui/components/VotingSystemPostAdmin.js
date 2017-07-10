@@ -51,7 +51,7 @@ class VotingSystemPostAdmin extends React.Component {
 	})
 	.then(({ data }) => {
 
-		console.log("got update", data);
+		//console.log("got update", data);
 	})
 	.catch(error => {
 		console.log("there was an error sending the update", error);
@@ -93,7 +93,7 @@ class VotingSystemPostAdmin extends React.Component {
 			})
 			.then(({ data }) => {
 
-				console.log("got data", data);
+				//console.log("got data", data);
 			})
 			.catch(error => {
 				console.log("there was an error sending the query", error);
@@ -106,7 +106,7 @@ class VotingSystemPostAdmin extends React.Component {
 				})
 				.then(({ data }) => {
 
-					console.log("got update", data);
+				//	console.log("got update", data);
 				})
 				.catch(error => {
 					console.log("there was an error sending the update", error);
@@ -136,8 +136,8 @@ class VotingSystemPostAdmin extends React.Component {
 			<div>
 				<Container className="nested">
 					<Row>
-						<Col xs="12" sm="6">
-							<div>
+						<Col xs="12" sm="7">
+							<div className='pull-left'>
 								<span>
 									<Button
 										className="upvote-btn"
@@ -157,6 +157,11 @@ class VotingSystemPostAdmin extends React.Component {
 									{" "}
 								</span>
 								<span>
+									<Link to={`/admin/view/${this.props.post.id}`}>
+										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
+									</Link>
+								</span>
+								<span>
 									<Button
 										className="trash-btn"
 										onClick={this.handleDelete}
@@ -165,20 +170,9 @@ class VotingSystemPostAdmin extends React.Component {
 									</Button>
 									{" "}
 								</span>
-								<span>
-									<Link to={`/view/${this.props.post.id}`}>
-										<Button className="comment-btn"  onClick= {()=>{}}><Glyphicon glyph="comment" /></Button>{" "}
-									</Link>
-								</span>
-								<span>
-									KarmaPoints:&nbsp;
-									{this.props.post.karmaPoints
-										? this.props.post.karmaPoints
-										: 0}&nbsp;
-								</span>
 							</div>
 						</Col>
-						<Col xs="12" sm="6" >
+						<Col xs="12" sm="5" >
 							<div className='pull-right'>
 								Author:&nbsp;
 								<Link to={`/publicProfile/${this.props.post.user.id}`} className="profile-post-link">

@@ -28,7 +28,7 @@ class PostPageAdmin extends React.Component {
 
     return (
       <div className=' flex justify-center'>
-        <Container>
+        <Container className="nested">
           <Row>
             <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }} className="singlepost-container" >
                 <DetailPostAdmin post={this.props.data.Post} user={this.props.data.user} handleCancel={this.goBack}/>
@@ -47,9 +47,9 @@ class PostPageAdmin extends React.Component {
 export const PostQuery = gql`query PostQuery($postId: ID!){
   Post (id: $postId){
     id
-    category
     upvotes
     karmaPoints
+    youtubeID
     comments(orderBy: createdAt_DESC){
       id
       text
@@ -58,6 +58,7 @@ export const PostQuery = gql`query PostQuery($postId: ID!){
         name
         profilePic { id, url }
       }
+      post{id }
     }
     postedFile { id, url }
     description

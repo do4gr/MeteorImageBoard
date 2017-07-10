@@ -86,14 +86,16 @@ class CreateGroup extends React.Component{
               				query: MyGroupsQuery,
             			}],
 					});
-					this.props.router.replace('/mygroups/')
+					
 					this.setState({'isSubmitting': false});
+					this.props.router.replace('/mygroups/')
 					
 				});	
 			}).catch((exception) => {
 				// TODO: handle upload error
-				this.props.router.replace('/createGroup/')
+				
 				this.setState({'isSubmitting': false});
+				this.props.router.replace('/createGroup/')
 			})
 		};
 
@@ -204,7 +206,7 @@ class CreateGroup extends React.Component{
 				<Row>
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 				<form className={'groupForm'} onSubmit={this.handleUpload.bind(this)}>					
-						<Button onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
+						<Button className="btn-red" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
 						<Collapse isOpen={this.state.collapse}>
 				          <Card>
 				            <CardBlock>
@@ -253,7 +255,7 @@ class CreateGroup extends React.Component{
 											</div>
 										}
 
-										<Button type="cancel" disabled={(this.state.isEditingPicture ? false : true )} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
+										<Button type="cancel" disabled={(!this.isSubmittable())} onClick={this.cancelEditPicture.bind(this)} className={'pa3 bn ttu pointer' + (this.state.isSubmitting ? " black-30 bg-black-05 disabled" : " bg-black-10 dim" )}>
 											Cancel
 										</Button>{" "}
 										<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
@@ -272,7 +274,7 @@ class CreateGroup extends React.Component{
 							onChange={(e) => this.setState({name: e.target.value})}
 							/>
 						</FormGroup>
-					<Button type="submit" disabled={(this.isSubmittable() ? "" : "disabled")} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
+					<Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")}>
 								{this.state.isSubmitting ? (this.state.isRendering ? 'Rendering...' : 'Submitting ...') : 'Submit'}
 					</Button>
 				</form>

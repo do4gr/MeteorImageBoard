@@ -11,11 +11,10 @@ const HotQuery = gql`query HotQuery($filter: PostFilter!) {
       user {id,name }
       postedFile { id, url }
       description
-      category
       karmaPoints
       youtubeID
     }
-    user{id, name}
+    user {id, name, isAdmin}
 }`
 
 const HotWithData = graphql(HotQuery, {

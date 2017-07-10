@@ -8,7 +8,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {Glyphicon} from 'react-bootstrap';
 import ShowComment from './ShowComment'
 import ShowCommentAdmin from './ShowCommentAdmin'
-
+import PostTitle from '../Posts/PostTitle'
 import VotingSystemPost from '/imports/ui/components/VotingSystemPost';
 import {CountPostQuery} from '/imports/ui/containers/CountPostQuery';
 import {PostQuery} from './PostPage'
@@ -59,7 +59,7 @@ class DetailPost extends React.Component {
     this.props
   .updatePost({
     mutation: updatePost,
-    variables: { postId, dummy, userId, karmaPoints},
+    variables: { postId, dummy, karmaPoints},
   })
   .then(({ data }) => {
     console.log("got update", data);
@@ -108,9 +108,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col xs="12">
               <div className='pt3'>
-                Description: {this.props.post.description
-                  ? this.props.post.description
-                  : "-"}&nbsp;
+                <PostTitle title={this.props.post.description} /> &nbsp;
               </div>
             </Col>
           </Row>
@@ -142,8 +140,7 @@ feedImg = <img src={this.props.post.postedFile.url} className='w-100' />
           <Row>
             <Col>
               <div className="pull-right">
-                <Button type="submit" disabled={!this.isSubmittable()
-                } onClick={this.handleComment} className="pa2 bn ttu dim pointer comment-submit-btn ">
+                <Button type="submit" disabled={!this.isSubmittable()} onClick={this.handleComment} className="btn-normal pa2 bn ttu dim pointer comment-submit-btn ">
                   Add Comment
                 </Button>
               </div>
@@ -186,8 +183,8 @@ const createComment = gql `
  }
  `
  const updatePost = gql`
- 	mutation updatePost($postId: ID!, $dummy: String!, $userId: ID!, $karmaPoints: Int!){
- 		updatePost(id: $postId, dummy: $dummy, userId: $userId, karmaPoints: $karmaPoints){
+ 	mutation updatePost($postId: ID!, $dummy: String!, $karmaPoints: Int!){
+ 		updatePost(id: $postId, dummy: $dummy, karmaPoints: $karmaPoints){
  			id
  		}
  	}`;

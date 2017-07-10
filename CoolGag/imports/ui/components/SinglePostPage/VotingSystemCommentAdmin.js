@@ -95,7 +95,7 @@ class VotingSystemCommentAdmin extends React.Component{
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col className="voting-comment">
 							<div>
 								<span>
 					      			<Button className="upvote-btn btn-sm"  onClick={this.handleUpvote} >

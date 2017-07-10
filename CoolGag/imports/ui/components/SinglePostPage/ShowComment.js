@@ -22,9 +22,9 @@ export default class ShowComment extends React.Component {
 				<Row>
 					<Col className="align-item">
 						<span>
-							<Media left href="#">
+							<Media left href="#" >
 								<div className="imgHolder">
-									<Media className="img-responsive" object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" style={{width:'40px'}}/>
+									<Media className="img-responsive" object src={`${this.props.comment.user.profilePic? this.props.comment.user.profilePic.url : '/images/ProfileDummy.png'}`} alt="Generic placeholder image" />
 								</div>
 							</Media>
 						</span>

@@ -53,9 +53,6 @@ class PublicProfile extends React.Component {
     event.preventDefault();
   }
 
-
-
-
   render () {
     console.log(this.props)
 
@@ -70,11 +67,9 @@ class PublicProfile extends React.Component {
 
     let points = 0
     if (this.props.data.User.posts){
-
-      {this.props.data.User.posts.map((post) =>
-        points = points + post.karmaPoints
-      )}
-
+    {this.props.data.User.posts.map((post) =>
+      points = points + post.karmaPoints
+    )}
 
     }
     if (this.props.data.User.downvotedPosts){
@@ -95,38 +90,38 @@ class PublicProfile extends React.Component {
 
     return (
       <div >
-      <Container>
-        <Row>
-          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
-            <h1 className="profileName center-text"> {this.props.data.User.name}</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="9" md={{ size: 6, offset: 2 }} lg={{ size: 6, offset: 3 }}>
-             {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
-            <div className="profilePic center-block">
-              <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-80 profilePic'/>
-            </div>
-          }
-          </Col>
-          <Col sm="3" md={{ size: 3, offset: 1 }} lg={{ size: 2, offset: 1 }}>
-            <div className="pull-right">
-              <Button color="info" onClick={ this.toggle }>+&nbsp;Invite to Group</Button>
+        <Container>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+              <h1 className="profileName center-text"> {this.props.data.User.name}</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="9" md={{ size: 6, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+              {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
+                <div className="profilePic center-block">
+                  <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-80 profilePic'/>
+                </div>
+              }
+            </Col>
+            <Col sm="3" md={{ size: 3, offset: 1 }} lg={{ size: 2, offset: 1 }}>
+              <div className="pull-right">
+                <Button color="info" onClick={ this.toggle }>+&nbsp;Invite to Group</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                   <ModalHeader toggle={this.toggle}>Add {this.props.data.User.name} to Group</ModalHeader>
                   <ModalBody className="text-center">
                     <form onSubmit={this.handleSubmit}>
                       <FormGroup>
-                      <Label for="groupSelect">Select the Group you want {this.props.data.User.name} to join:</Label>
-                      <Input type="select" name="select" id="groupSelect"
-                        value={this.state.groupId}
-                        onChange={(e) => this.setState({groupId: e.target.value})}>
+                        <Label for="groupSelect">Select the Group you want {this.props.data.User.name} to join:</Label>
+                        <Input type="select" name="select" id="groupSelect"
+                          value={this.state.groupId}
+                          onChange={(e) => this.setState({groupId: e.target.value})}>
                           <option></option>
-                         { this.props.userQuery.user.groups.map((group) =>
+                          { this.props.userQuery.user.groups.map((group) =>
                             <option  key={ group.id } value={ group.id }> { group.name } </option>
-                        )}
-                      </Input>
-                    </FormGroup>
+                          )}
+                        </Input>
+                      </FormGroup>
                     </form>
                   </ModalBody>
                   <ModalFooter>
@@ -134,57 +129,35 @@ class PublicProfile extends React.Component {
                     <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                   </ModalFooter>
                 </Modal>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
-            <div className="center-text">
-             Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
-            <div className="center-text" >
-              Karma: {points}
-            </div>
-          </Col>
-        </Row>
-        <hr/>
-         <Row>
-          <Col>
-            <div className="paddingTopPage">
-              <ProfilePostListPage data={this.props.data}/>
-            </div>
-            <hr/>
-          </Col>
-        </Row>
-      </Container>
-        <div>
-
-          {this.props.data.User.profilePic && this.props.data.User.profilePic.url &&
-            <div className="profileImage">
-              <img src={this.props.data.User.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic'/>
-            </div>
-          }
-          <div>
-            Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
-          </div>
-          <div>
-            Karma: {points}
-          </div>
-
-        </div>
-        <div className="paddingTopPage">
-        <ProfilePostListPage data={this.props.data}/>
-        </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+              <div className="center-text">
+                Member since {this.props.data.User.createdAt.split("T")[0].split("-")[2]}.{this.props.data.User.createdAt.split("T")[0].split("-")[1]}.{this.props.data.User.createdAt.split("T")[0].split("-")[0]}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
+              <div className="center-text" >
+                Karma: {points}
+              </div>
+            </Col>
+          </Row>
+          <hr/>
+          <Row>
+            <Col>
+              <div className="paddingTopPage">
+                <ProfilePostListPage data={this.props.data}/>
+              </div>
+              <hr/>
+            </Col>
+          </Row>
+        </Container>
       </div>
-    );
-
-  }
-
-
+  )};
 
   goBack = () => {
     this.props.router.replace('/')
@@ -241,7 +214,7 @@ export const PublicPostsQuery = gql`query PublicPostsQuery($userId: ID!){
       postedFile { id, url }
       description
       karmaPoints
-      category
+      youtubeID
     }
   }
 }`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { gql, graphql, compose, withApollo } from 'react-apollo'
+import { gql, graphql, withApollo } from 'react-apollo'
 import { withRouter, Redirect } from 'react-router'
 import { Button, ButtonGroup, Container, Col, Row } from 'reactstrap'
 import NavPersonalLists from './NavPersonalLists'
@@ -12,7 +12,6 @@ import FileSelectButton from './../FileHandling/FileSelectButton';
 import WindowDropZone from './../FileHandling/WindowDropZone';
 import FileHandling from './../FileHandling/FileHandling';
 import PredefinedMemeSelect from './../PredefinedMemeSelect';
-import MyPosts from './../../containers/profileLists/MyPosts';
 import moment from 'moment';
 
 
@@ -48,15 +47,38 @@ class ProfileHeader extends React.Component {
 			this.props.router.replace('/');
 		}
 
+		let points = 0
+if (this.props.data.user.posts){
+	{this.props.data.user.posts.map((post) =>
+		points = points + post.karmaPoints
+	)}
+}
+
+if (this.props.data.user.downvotedPosts){
+	{this.props.data.user.downvotedPosts.map((post) =>
+		points = points + 2
+	)}
+}
+if (this.props.data.user.upvotedPosts){
+	{this.props.data.user.upvotedPosts.map((post) =>
+		points = points + 2
+	)}
+}
+if (this.props.data.user.comments){
+	{this.props.data.user.comments.map((comment) =>
+		points = points + 5
+	)}
+}
+
 		return (
 			<div >
 				<Container className="nested center profile-header">
 					<Row className="align-item">
-						<Col xs={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1.5 }} className="profile-header">
+						<Col xs={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1.5 }} className="profile-header profile-user-info">
 							<div className="profileName text-center"> {this.props.data.user.name}</div>
 							{this.props.data.user.profilePic && this.props.data.user.profilePic.url &&
 								<div className="profileImage">
-									<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 profilePic' onError={this.onProfileImageLoadError.bind(this)} />
+									<img src={this.props.data.user.profilePic.url} crossOrigin='Anonymous' role='presentation' className='w-100 img-responsive profilePic ' onError={this.onProfileImageLoadError.bind(this)} />
 								</div>
 							}
 							{!(this.props.data.user.profilePic && this.props.data.user.profilePic.url) &&
@@ -80,8 +102,8 @@ class ProfileHeader extends React.Component {
 							<div className="text-center member-date">
 								Member since {moment(this.props.data.user.createdAt).format("MMM Do YY")}
 							</div>
-							<div className="text-center">
-								Karma: {this.props.data.user.karma}
+							<div className="text-center profile-karma-info">
+								Karma: {points}
 							</div>
 						</Col>
 						<Col xs={{ size: 5, offset: 0.5 }} sm={{ size: 5, offset: 0.5 }} md={{ size: 4, offset: 0.5 }} lg={{ size: 3.5, offset: 1.5 }} className="profile-header">
@@ -112,6 +134,12 @@ const profileData = gql`
 			name
 			createdAt
 			karma
+			downvotedPosts{ id}
+			upvotedPosts{ id }
+			comments{
+				id,
+				post{ id}
+			 }
 			profilePic {
 				id
 				url
