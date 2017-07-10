@@ -1,7 +1,9 @@
 {
   "galaxy.meteor.com": {
      "env": {
+       "ROOT_URL": "http://coolgag.meteorapp.com",
        "MONGO_URL": ""
      }
    }
 }
+// DEPLOY_HOSTNAME=eu-west-1.galaxy-deploy.meteor.com meteor deploy coolgag.meteorapp.com --settings ./settings.json

@@ -12,8 +12,6 @@ class Home extends React.Component {
     data: PropTypes.object.isRequired,
   }
 
-
-
   _showLogin = () => {
     this.props.router.push('/login')
   }
