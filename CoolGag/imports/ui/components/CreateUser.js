@@ -1,8 +1,8 @@
 import React from 'react'
-import { withRouter } from 'react-router'
-import { gql, graphql , fetchPolicy} from 'react-apollo'
+import {withRouter} from 'react-router'
+import {gql, graphql, fetchPolicy} from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Button, Container, Row, Col} from 'reactstrap';
+import {Button, Container, Row, Col} from 'reactstrap';
 
 class CreateUser extends React.Component {
 
@@ -10,14 +10,13 @@ class CreateUser extends React.Component {
     router: PropTypes.object.isRequired,
     createUser: PropTypes.func.isRequired,
     signinUser: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired
   }
 
   state = {
     email: this.props.location.query.email || '',
     password: '',
-    name: '',
-    emailSubscription: false,
+    name: ''
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -26,9 +25,11 @@ class CreateUser extends React.Component {
     return this.state.email && this.state.password && this.state.name;
   }
 
-  render () {
+  render() {
     if (this.props.data.loading) {
-      return (<div>Loading</div>)
+      return (
+        <div>Loading</div>
+      )
     }
 
     // redirect if user is logged in
@@ -39,76 +40,60 @@ class CreateUser extends React.Component {
 
     return (
       <div className='w-100 pa4 flex justify-center'>
-        <div style={{ maxWidth: 400 }} className=''>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            className='w-100 pa3 mv2 input-form'
-            value={this.state.email}
-            placeholder='Email'
-            onChange={(e) => this.setState({email: e.target.value})}
-          />
-          <input
-            className='w-100 pa3 mv2 input-form'
-            type='password'
-            value={this.state.password}
-            placeholder='Password'
-            onChange={(e) => this.setState({password: e.target.value})}
-          />
-          <input
-            className='w-100 pa3 mv2 input-form'
-            value={this.state.name}
-            placeholder='Name'
-            onChange={(e) => this.setState({name: e.target.value})}
-          />
-          <div>
-            <input
-              className='w-100 pa3 mv2 input-form'
-              value={this.state.emailSubscription}
-              type='checkbox'
-              onChange={(e) => this.setState({emailSubscription: e.target.checked})}
-            />
-            <span>
-              Subscribe to email notifications?
-            </span>
-          </div>
-          <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable() ? " bg-black-10 dim" : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</Button>
+        <div style={{
+          maxWidth: 400
+        }} className=''>
+          <form onSubmit={this.handleSubmit}>
+            <input className='w-100 pa3 mv2 input-form' value={this.state.email} placeholder='Email' onChange={(e) => this.setState({email: e.target.value})}/>
+            <input className='w-100 pa3 mv2 input-form' type='password' value={this.state.password} placeholder='Password' onChange={(e) => this.setState({password: e.target.value})}/>
+            <input className='w-100 pa3 mv2 input-form' value={this.state.name} placeholder='Name' onChange={(e) => this.setState({name: e.target.value})}/>
+            <Button type="submit" disabled={(!this.isSubmittable())} className={'pa3 bn ttu pointer' + (this.isSubmittable()
+              ? " bg-black-10 dim"
+              : " black-30 bg-black-05 disabled")} onClick={this.createUser}>Signin</Button>
 
           </form>
         </div>
       </div>
     )
   }
-  // <input className='pa3 bg-black-10 bn dim ttu pointer' onClick={this.createUser} type="submit" value="Login"/>
 
   createUser = () => {
-    const {email, password, name, emailSubscription} = this.state
-
-    this.props.createUser({variables: {email, password, name, emailSubscription}})
-      .then((response) => {
-        this.props.signinUser({variables: {email, password}})
-          .then((response) => {
-            window.localStorage.setItem('graphcoolToken', response.data.signinUser.token)
-            this.props.router.replace('/')
-          }).catch((e) => {
-            console.error(e)
-            this.props.router.replace('/')
-          })
+    const {email, password, name} = this.state
+    this.props.createUser({
+      variables: {
+        email,
+        password,
+        name
+      }
+    }).then((response) => {
+      this.props.signinUser({
+        variables: {
+          email,
+          password
+        }
+      }).then((response) => {
+        window.localStorage.setItem('graphcoolToken', response.data.signinUser.token)
+        this.props.router.replace('/')
       }).catch((e) => {
         console.error(e)
         this.props.router.replace('/')
       })
+    }).catch((e) => {
+      console.error(e)
+      this.props.router.replace('/')
+    })
   }
 }
 
-const createUser = gql`
-  mutation ($email: String!, $password: String!, $name: String!, $emailSubscription: Boolean!) {
-    createUser(authProvider: {email: {email: $email, password: $password}}, name: $name, emailSubscription: $emailSubscription) {
+const createUser = gql `
+  mutation ($email: String!, $password: String!, $name: String!) {
+    createUser(authProvider: {email: {email: $email, password: $password}}, name: $name) {
       id
     }
   }
 `
 
-const signinUser = gql`
+const signinUser = gql `
   mutation ($email: String!, $password: String!) {
     signinUser(email: {email: $email, password: $password}) {
       token
@@ -116,7 +101,7 @@ const signinUser = gql`
   }
 `
 
-const userQuery = gql`
+const userQuery = gql `
   query {
     user {
       id
@@ -124,9 +109,4 @@ const userQuery = gql`
   }
 `
 
-export default graphql(createUser, {name: 'createUser'})(
-  graphql(userQuery, {fetchPolicy: "network-only"})(
-    graphql(signinUser, {name: 'signinUser'})(
-      withRouter(CreateUser))
-    )
-)
+export default graphql(createUser, {name: 'createUser'})(graphql(userQuery, {fetchPolicy: "network-only"})(graphql(signinUser, {name: 'signinUser'})(withRouter(CreateUser))))
