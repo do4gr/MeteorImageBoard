@@ -41,11 +41,11 @@ class PostYoutube extends React.Component {
 				<Container className="nested">
 					<Row>
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-            <form className='' onSubmit={this.onPostClicked.bind(this)}>
-            <input
-              className='w-100 pa3 mv2'
-              value={this.state.description}
-              placeholder='Title'
+              <form className='' onSubmit={this.onPostClicked.bind(this)}>
+                <input
+                  className='w-100 pa3 mv2'
+                  value={this.state.description}
+                  placeholder='Description'
               onChange={(e) => {this.setState({description: e.target.value});}}
             />
             <input
@@ -93,9 +93,9 @@ class PostYoutube extends React.Component {
        console.log(typeof videoid[1]);
 
        this.props.createPostMutation({
-   				variables: { 
-            description: description, 
-            userId: userId, 
+   				variables: {
+            description: description,
+            userId: userId,
             youtubeID: youtubeID,
             groupId: this.props.group.groupId != null ? this.props.group.groupId : null },
         }).then((result) => {
@@ -152,9 +152,9 @@ const createPost = gql`
 
 
 export default compose(
-  graphql(createPost, { 
-        name: "createPostMutation" 
-        
+  graphql(createPost, {
+        name: "createPostMutation"
+
       }),
   graphql(userQuery, fetchPolicy: "network-only" )
 )(withApollo(withRouter(PostYoutube)))

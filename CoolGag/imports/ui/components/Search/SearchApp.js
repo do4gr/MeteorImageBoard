@@ -44,7 +44,7 @@ class SearchApp extends Component {
             <Input
               value={this.state.searchTerm}
               onChange={(e) => this.setState({searchTerm: e.target.value})}
-              placeholder="search title or comments"
+              placeholder="search description"
               id="search-form"
               className="w-40"/>
           </Col>

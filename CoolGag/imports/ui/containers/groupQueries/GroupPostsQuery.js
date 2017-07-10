@@ -20,7 +20,7 @@ export const GroupPostsQuery = gql`query GroupPostsQuery($groupId: ID!){
         postedFile { id, url }
         description
         user{ id, name }
-            youtubeID
+        youtubeID
     }
 
     }

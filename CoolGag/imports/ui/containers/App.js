@@ -3,13 +3,6 @@ import Nav from '../components/Nav'
 import { fetchPolicy, gql, graphql } from 'react-apollo'
 import { withRouter } from 'react-router'
 
-
-/*
-  Props:
-    router
-    location (from react-router)
-    data (from apollo)
-*/
 class App extends React.Component {
   componentDidMount() {
     this.checkRedirect(this.props)

@@ -47,7 +47,6 @@ class PostPageAdmin extends React.Component {
 export const PostQuery = gql`query PostQuery($postId: ID!){
   Post (id: $postId){
     id
-    upvotes
     karmaPoints
     youtubeID
     comments(orderBy: createdAt_DESC){

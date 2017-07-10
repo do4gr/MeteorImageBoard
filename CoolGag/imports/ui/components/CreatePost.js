@@ -17,9 +17,8 @@ class CreatePost extends React.Component {
 		router: PropTypes.object.isRequired,
 		mutate: PropTypes.func.isRequired,
 		data: PropTypes.object.isRequired,
-    	params: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object.isRequired,
 		group: PropTypes.object
-
 	}
 
 	state = {
@@ -29,7 +28,6 @@ class CreatePost extends React.Component {
 		isUploadSelected: true,
 		isUpload : null,
 		isLink : null
-
 	}
 
 	postUpload = null;
@@ -45,8 +43,6 @@ class CreatePost extends React.Component {
 			this.props.router.replace('/')
 		}
 
-console.log(this.state.isUpload);
-
 		if (this.state.isUpload){
 		return (
 			<div className="container">
@@ -55,7 +51,7 @@ console.log(this.state.isUpload);
 						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleLink.bind(this)}>Upload Link</Button>
 						</Col>
-					</Row>		
+					</Row>
 					<PostUpload
 							callbacks={this.state.postUploadCallbacks}
 							enableMemeSelect={true}
@@ -70,9 +66,6 @@ console.log(this.state.isUpload);
 		);
 	}
 
-	console.log(this.state.isLink);
-
-
 	if (this.state.isLink){
 		return(
 			<div className="container">
@@ -85,9 +78,7 @@ console.log(this.state.isUpload);
 					<PostYoutube group={this.props.params}/>
 				</Container>
 			</div>
-
 		)
-
 	}
 
 	return(
@@ -97,12 +88,11 @@ console.log(this.state.isUpload);
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
 						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
 						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleLink.bind(this)}>Upload Link</Button>
-					</Col>	
+					</Col>
 				</Row>
 			</Container>
 		</div>
 	)
-
 }
 
 	handleMeme(e){
@@ -129,7 +119,6 @@ console.log(this.state.isUpload);
 
 
 	onFileUploaded(file) {
-		//self.setState({imageUrl: result.url});
 		var postedFileId = file.id;
 		var userId = this.props.data.user.id;
 		var description = file.description;
