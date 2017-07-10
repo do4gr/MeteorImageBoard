@@ -1,9 +1,6 @@
 import request from 'request';
 import url from 'url';
-import { HTTP } from 'meteor/http';
 import faker from 'faker';
-import ApolloClient from 'apollo-client';
-import { meteorClientConfig } from 'meteor/apollo';
 
 
 function randomRange(start, end) {
