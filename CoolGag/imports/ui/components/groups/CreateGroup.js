@@ -44,10 +44,6 @@ class CreateGroup extends React.Component{
 		isEditingPicture: false,
 	}
 
-	// const handleSubmit = () => {
-	// 	event.preventDefault();
-	// }
-
 	onWindowResize(event) {
 		this.recalcImageFontSize();
 	}
@@ -71,9 +67,7 @@ class CreateGroup extends React.Component{
 				method: 'POST'
 			}).then((response) => {
 				response.json().then(result => {
-					//this.setState({imageUrl: result.url});
 					this.setState({picFileId: result.id});
-					// this.setState({userId: this.props.data.user.id });
 					var {picFileId, name} = this.state;
 					this.props.createGroup({
 						variables: {
@@ -86,14 +80,14 @@ class CreateGroup extends React.Component{
               				query: MyGroupsQuery,
             			}],
 					});
-					
+
 					this.setState({'isSubmitting': false});
 					this.props.router.replace('/mygroups/')
-					
-				});	
+
+				});
 			}).catch((exception) => {
 				// TODO: handle upload error
-				
+
 				this.setState({'isSubmitting': false});
 				this.props.router.replace('/createGroup/')
 			})
@@ -205,7 +199,7 @@ class CreateGroup extends React.Component{
 				<Container>
 				<Row>
 					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-				<form className={'groupForm'} onSubmit={this.handleUpload.bind(this)}>					
+				<form className={'groupForm'} onSubmit={this.handleUpload.bind(this)}>
 						<Button className="btn-red" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Select Group Picture</Button>
 						<Collapse isOpen={this.state.collapse}>
 				          <Card>
@@ -259,13 +253,13 @@ class CreateGroup extends React.Component{
 											Cancel
 										</Button>{" "}
 										<FileSelectButton onSelect={this.handleFileSelect.bind(this)} />
-										
+
 									</div>
 				            	</FormGroup>
 				            </CardBlock>
 				          </Card>
 				        </Collapse>
-					
+
 						<FormGroup>
 							<Input
 							className='w-100 pa3 mv2 group-name'
@@ -302,13 +296,7 @@ const createGroup = gql`
 `
 
 export default compose(
-	
+
 	graphql(createGroup, { name: 'createGroup' }),
 	graphql(UserQuery, {fetchPolicy: 'network-only'})
 	)(withApollo(withRouter(CreateGroup)))
-
-
-
-
-
-

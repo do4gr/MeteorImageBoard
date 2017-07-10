@@ -25,7 +25,6 @@ const TrendingWithData = graphql(TrendingQuery, {
   options: (ownProps) => {
     var date = new Date(); //generate the current date
     date.setDate(date.getDate() - 1); // calculate the date of yesterday
-    console.log(date.toISOString())
     return {
       variables: {
         filter: {

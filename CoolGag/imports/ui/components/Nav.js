@@ -68,7 +68,6 @@ class Example extends React.Component {
   }
 
 	render() {
-    console.log(this.props)
     if (this._isLoggedIn()) {
       return this.renderLoggedIn()
     } else {
