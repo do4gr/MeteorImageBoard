@@ -6,11 +6,10 @@ const FreshQuery = gql`query FreshQuery($filter: PostFilter!){
   allPosts(orderBy: createdAt_DESC, filter: $filter, first: 20) {
     id
     user {id,name }
-	postedFile { id, url }
+	  postedFile { id, url }
     description
     karmaPoints
-	category
-  youtubeID
+    youtubeID
   }
   user {id, name, isAdmin}
 }`

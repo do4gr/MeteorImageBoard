@@ -72,7 +72,6 @@ query SearchPosts($searchTerm: String!) {
     user {id,name }
     postedFile {id,url }
     description
-    category
   }
 }`, {
   options: (props) => ({
