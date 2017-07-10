@@ -86,14 +86,16 @@ class CreateGroup extends React.Component{
               				query: MyGroupsQuery,
             			}],
 					});
-					this.props.router.replace('/mygroups/')
+					
 					this.setState({'isSubmitting': false});
+					this.props.router.replace('/mygroups/')
 					
 				});	
 			}).catch((exception) => {
 				// TODO: handle upload error
-				this.props.router.replace('/createGroup/')
+				
 				this.setState({'isSubmitting': false});
+				this.props.router.replace('/createGroup/')
 			})
 		};
 

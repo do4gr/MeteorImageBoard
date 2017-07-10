@@ -1,19 +1,17 @@
 import React from 'react'
-import PostPreview from '../PostPreview'
 import { gql, graphql, withApollo, compose, fetchPolicy } from 'react-apollo'
-import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import MyGroups from '/imports/ui/components/groups/MyGroupsList'
-import { Button,Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-import {Container, Row, Col} from 'reactstrap';
-import { Link, BrowserRouter as Router, Route } from 'react-router';
+import { Button,Label, Modal, ModalHeader, ModalBody, ModalFooter, Container, Row, Col } from 'reactstrap'
+import { Link, BrowserRouter as Router, Route, withRouter } from 'react-router';
 import GroupMembers from '/imports/ui/components/groups/GroupMembers'
 // import GroupPosts from '/imports/ui/components/groups/GroupPosts'
 import { GroupPostsQuery } from '/imports/ui/containers/groupQueries/GroupPostsQuery'
+import MyGroups from '/imports/ui/components/groups/MyGroupsList'
 import CreatePost from '/imports/ui/components/CreatePost'
 import PostUpload from '/imports/ui/components/Posts/PostUpload'
 import TagUtils from '/imports/ui/components/TagUtils';
 import PostUtils from '/imports/ui/components/Posts/PostUtils';
+import PostPreview from '/imports/ui/components/PostPreview'
 
 class GroupPage extends React.Component{
 	static propTypes = {
@@ -33,7 +31,6 @@ class GroupPage extends React.Component{
       		console.log(this.props.data.error)
       		return (<div>An unexpected error occurred</div>)
 		}
-		
 		return(
 			<div>
 				<Container>
@@ -55,14 +52,14 @@ class GroupPage extends React.Component{
 						<Col xs="12" sm="6" md={{ size: 2, offset: 1 }} lg={{ size: 2.5, offset: 1.5 }}>
 							<div className="heading2">Members</div>
 							{this.props.data.Group.users.map((groupUser) =>              
-                  					<GroupMembers key={groupUser.id} groupUser={groupUser}  data={this.props.data}/>
+                  					<GroupMembers key={groupUser.id} groupUser={groupUser}  data={this.props.data} handleCancel={this.goBack}/>
                   				
                 			)}
 						</Col>
 
 						<Col xs="12" sm={{ size: 10, offset: 1 }} md={{ size: 7, offset: 1 }} lg={{ size: 6, offset: 1.5 }} className="feed-container">
 	                        {this.props.data.Group.posts.map((post) =>
-	                            <PostPreview key={post.id} post={post} />
+	                            <PostPreview key={post.id} post={post} handleCancel={this.goBack}/>
 	                        )}
                     	</Col>
 					</Row>
@@ -71,6 +68,10 @@ class GroupPage extends React.Component{
 		)
 	}	
 }
+
+goBack = () => {
+    this.props.router.replace('/mygroups/')
+  }
 
 const Group = ({ match }) => (
   <div>
