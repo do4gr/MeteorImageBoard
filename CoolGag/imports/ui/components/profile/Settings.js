@@ -281,20 +281,18 @@ class Settings extends React.Component {
 							postedFileId: result.id,
 							userId: this.props.data.user.id
 						},
-						refetch:[{
-							query: profileData,
-						}]
+						refetchQueries: [{
+              				query: profileData,
+            			}]
 					});
 					this.setState({'isSubmitting': false});
-					
+					this.props.router.replace('/settings/');
 				});
-			}).then((result) =>{
-				this.props.router.replace('/settings/');
-			})
-			.catch((exception) => {
+			}).catch((exception) => {
 				// TODO: handle upload error
 				console.log('error uploading the profile picture!');
 				this.setState({'isSubmitting': false});
+				this.props.router.replace('/settings/');
 			});
 		};
 
@@ -318,10 +316,9 @@ class Settings extends React.Component {
 				userId: this.props.data.user.id,
 				fileId: this.props.data.user.profilePic.id
 			},
-			refetch:[{
-				query: profileData,
-			}]
-			
+			refetchQueries: [{
+              query: profileData,
+            }]
 		}).then(({ data}) => {
 			
 		  console.log("got data", data);
@@ -330,6 +327,7 @@ class Settings extends React.Component {
 			// TODO: handle upload error
 			console.log('error deleting the profile picture!');
 			this.setState({'isSubmitting': false});
+			this.props.router.replace('/settings/');
 		});
 		this.setState({'isSubmitting': false, 'isEditingPicture': false});
 		return false;

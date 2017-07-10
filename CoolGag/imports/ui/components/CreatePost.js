@@ -49,7 +49,6 @@ console.log(this.state.isUpload);
 
 		if (this.state.isUpload){
 		return (
-			
 			<div className="container">
 				<Container className="nested">
 					<Row>
@@ -65,10 +64,7 @@ console.log(this.state.isUpload);
 							isSubmittable={this.state.description != ''}
 							enableDescription = {true}
 					/>
-
 				</Container>
-				
-				
 			</div>
 
 		);
@@ -80,16 +76,13 @@ console.log(this.state.isUpload);
 	if (this.state.isLink){
 		return(
 			<div className="container">
-			<Container className="nested">
-				<Row>
-					<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
-						<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
-					</Col>
-				</Row>
-					<PostYoutube
-					 />
-
-
+				<Container className="nested">
+					<Row>
+						<Col sm="12" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }} xl={{ size: 7, offset: 2.5 }}>
+							<Button type="button" className='pa3 bn ttu pointer bg-black-10 dim btn-normal' onClick={this.handleMeme.bind(this)}>Select Meme</Button>{" "}
+						</Col>
+					</Row>
+					<PostYoutube group={this.props.params}/>
 				</Container>
 			</div>
 
@@ -113,26 +106,26 @@ console.log(this.state.isUpload);
 }
 
 	handleMeme(e){
-	if (this.state.isUpload){
-	this.setState({isUpload : false})
-}else {
-	this.setState({isUpload : true})
-}
-	if (this.state.isLink){
-		this.setState({isLink : false})
+		if (this.state.isUpload){
+			this.setState({isUpload : false})
+		}else {
+			this.setState({isUpload : true})
+		}
+		if (this.state.isLink){
+			this.setState({isLink : false})
+		}
 	}
-}
 
-handleLink(e){
-	if (this.state.isLink){
-	this.setState({isLink : false})
-}else {
-	this.setState({isLink : true})
-}
-if (this.state.isUpload){
-	this.setState({isUpload : false})
-}
-}
+	handleLink(e){
+		if (this.state.isLink){
+			this.setState({isLink : false})
+		}else {
+			this.setState({isLink : true})
+		}
+		if (this.state.isUpload){
+			this.setState({isUpload : false})
+		}
+	}
 
 
 	onFileUploaded(file) {
@@ -182,8 +175,8 @@ if (this.state.isUpload){
 					//	await promisses[i];
 					//}
 					if(this.props.params.groupId != null){
-						const groupId = this.props.params.groupId;
-						this.props.router.replate('/mygroups/')
+						// const groupId = this.props.params.groupId;
+						this.props.router.replace('/mygroups/');
 
 					}else{
 						this.props.router.replace('/');
