@@ -10,7 +10,6 @@ const FeedQuery = gql `query FeedQuery($filter: PostFilter!){
     user {id,name }
     postedFile {id,url }
     description
-	category
     karmaPoints
     youtubeID
   }

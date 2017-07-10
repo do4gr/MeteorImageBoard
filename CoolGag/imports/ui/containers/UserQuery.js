@@ -1,4 +1,4 @@
-import {gql,  graphql, fetchPolicy } from 'react-apollo';
+import {gql } from 'react-apollo';
 
 
 export const UserQuery = gql`
@@ -11,5 +11,3 @@ export const UserQuery = gql`
 		}
 	}
 `
-
-
