@@ -6,7 +6,7 @@ This is a meme/imageboard for closed groups. It has all the functionality of wel
 
 # Stack
 
-Build System: Meteor
-GraphQL Client: Apollo
-Frontend: React
-Backend: Graphcool
+- Build System: Meteor
+- GraphQL Client: Apollo
+- Frontend: React
+- Backend: Graphcool
