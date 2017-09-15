@@ -1,0 +1,14 @@
+{
+  SomeGroupExists(
+    filter: {
+      AND: [{
+        id: $node_id
+      },{
+       admins: {
+        id: $user_id
+      }
+      }]
+      }
+    }
+  )
+}

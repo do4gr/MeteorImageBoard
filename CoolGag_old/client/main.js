@@ -31,7 +31,7 @@ import Downvoted from '../imports/ui/containers/profileLists/Downvoted'
 import SearchApp from '../imports/ui/components/Search/SearchApp.js'
 import AboutPage from '../imports/ui/components/about/AboutPage'
 
-const networkInterface = createNetworkInterface({uri: 'https://api.graph.cool/simple/v1/cj2ryvxmbt4qw0160y6qhdgdl'})
+const networkInterface = createNetworkInterface({uri: 'https://api.graph.cool/simple/v1/cj7ltcl10045u0168nf1b0a44'})
 
 networkInterface.use([
   {

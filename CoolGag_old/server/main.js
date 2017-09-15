@@ -10,7 +10,7 @@ WebApp.connectHandlers.use((req, res, next) => {
 	// only process image urls
 	if(url.parse(req.url, true).pathname == '/imageProxy') {
 		queryData = url.parse(req.url, true).query
-		
+
 		if(queryData.imageSecret) {
 			//userId = queryData.user
 			var imageSecret = queryData.imageSecret;
@@ -18,7 +18,7 @@ WebApp.connectHandlers.use((req, res, next) => {
 			//u = Meteor.users.findOne _id: userId
 			//return next() unless u?
 			// pipe request to client
-			var x = request('https://files.graph.cool/cj2ryvxmbt4qw0160y6qhdgdl/' + imageSecret);
+			var x = request('https://api.graph.cool/file/v1/cj7ltcl10045u0168nf1b0a44/' + imageSecret);
 			req.pipe(x).pipe(res);
 		} else {
 			return next()

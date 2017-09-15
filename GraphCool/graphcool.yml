@@ -1,0 +1,94 @@
+types: ./types.graphql
+functions:
+  updateKarmaPoints:
+    handler:
+      code:
+        src: ./code/updateKarmaPoints.js
+    type: operationBefore
+    operation: Post.update
+permissions:
+  - operation: Comment.read
+    authenticated: true
+  - operation: Comment.create
+    authenticated: true
+  - operation: Comment.update
+    authenticated: true
+  - operation: Comment.delete
+    authenticated: true
+  - operation: Contributor.read
+  - operation: Contributor.create
+  - operation: Contributor.update
+  - operation: Contributor.delete
+  - operation: File.read
+    authenticated: true
+  - operation: File.create
+    authenticated: true
+  - operation: File.update
+    authenticated: true
+  - operation: File.delete
+    authenticated: true
+  - operation: Group.read
+    authenticated: true
+  - operation: Group.create
+    authenticated: true
+  - operation: Group.update
+    authenticated: true
+    query: ./query/cj3219lud2x4z0193nl8kd5ze.graphql
+  - operation: Group.delete
+    authenticated: true
+    query: ./query/cj3219lud2x500193oi5csy3r.graphql
+  - operation: Post.create
+    authenticated: true
+  - operation: Post.update
+    authenticated: true
+  - operation: Post.delete
+    authenticated: true
+  - operation: Post.read
+    authenticated: true
+  - operation: PredefinedMeme.read
+    authenticated: true
+  - operation: PredefinedMeme.create
+    authenticated: true
+  - operation: PredefinedMeme.update
+  - operation: PredefinedMeme.delete
+  - operation: Tag.read
+  - operation: Tag.create
+  - operation: Tag.update
+  - operation: Tag.delete
+  - operation: User.read
+  - operation: User.create
+  - operation: User.delete
+  - operation: User.update
+    query: ./query/UserUpdate.graphql
+  - operation: CommentOnUser.*
+    authenticated: true
+  - operation: ContributerOnUser.*
+  - operation: GroupOnFile.*
+  - operation: GroupOnUser.*
+  - operation: NewName.*
+  - operation: PostOnComment.*
+    authenticated: true
+  - operation: PostOnFile.*
+    authenticated: true
+  - operation: PostOnGroup.*
+    authenticated: true
+  - operation: PostOnTag.*
+  - operation: PredefinedMemeOnFile.*
+    authenticated: true
+  - operation: UserDownvotedPost.*
+    authenticated: true
+  - operation: UserOnFile.*
+    authenticated: true
+  - operation: UserOnGroup.*
+    authenticated: true
+  - operation: UserOnPost.*
+    authenticated: true
+  - operation: UsersDownvotedComment.*
+    authenticated: true
+  - operation: UsersUpvotedComment.*
+    authenticated: true
+  - operation: UserUpvotedPost.*
+    authenticated: true
+rootTokens: []
+modules:
+  email-password: modules/email-password/graphcool.yml

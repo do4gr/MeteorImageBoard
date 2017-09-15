@@ -3,10 +3,10 @@ type Comment implements Node {
   id: ID! @isUnique
   post: Post @relation(name: "PostOnComment")
   updatedAt: DateTime!
-  usersWhoDownvoted: [User!]! @relation(name: "UsersDownvotedComment")
-  usersWhoUpvoted: [User!]! @relation(name: "UsersUpvotedComment")
+  usersWhoDownvoted: [EmailUser!]! @relation(name: "UsersDownvotedComment")
+  usersWhoUpvoted: [EmailUser!]! @relation(name: "UsersUpvotedComment")
   text: String!
-  user: User @relation(name: "CommentOnUser")
+  user: EmailUser @relation(name: "CommentOnUser")
 }
 
 type File implements Node {
@@ -19,7 +19,7 @@ type File implements Node {
   size: Int!
   updatedAt: DateTime!
   url: String! @isUnique
-  userProfilePic: User @relation(name: "UserOnFile")
+  userProfilePic: EmailUser @relation(name: "UserOnFile")
   groupPic: Group @relation(name: "GroupOnFile")
   predefinedMeme: PredefinedMeme @relation(name: "PredefinedMemeOnFile")
 }
@@ -30,8 +30,8 @@ type Group implements Node {
   name: String! @isUnique
   posts: [Post!]! @relation(name: "PostOnGroup")
   updatedAt: DateTime!
-  users: [User!]! @relation(name: "UserOnGroup")
-  admins: User @relation(name: "GroupOnUser")
+  users: [EmailUser!]! @relation(name: "UserOnGroup")
+  admins: EmailUser @relation(name: "GroupOnUser")
   picFile: File @relation(name: "GroupOnFile")
 }
 
@@ -43,23 +43,23 @@ type Post implements Node {
   id: ID! @isUnique
   postedFile: File @relation(name: "PostOnFile")
   updatedAt: DateTime!
-  user: User @relation(name: "UserOnPost")
-  usersWhoDownvoted: [User!]! @relation(name: "UserDownvotedPost")
-  usersWhoUpvoted: [User!]! @relation(name: "UserUpvotedPost")
+  user: EmailUser @relation(name: "UserOnPost")
+  usersWhoDownvoted: [EmailUser!]! @relation(name: "UserDownvotedPost")
+  usersWhoUpvoted: [EmailUser!]! @relation(name: "UserUpvotedPost")
   dummy: String
   karmaPoints: Int @defaultValue(value: 0)
   tags: [Tag!]! @relation(name: "PostOnTag")
   youtubeID: String
 }
 
-type User implements Node {
+type EmailUser implements Node {
   createdAt: DateTime!
   downvotedComment: [Comment!]! @relation(name: "UsersDownvotedComment")
   downvotedPosts: [Post!]! @relation(name: "UserDownvotedPost")
   email: String @isUnique
   groups: [Group!]! @relation(name: "UserOnGroup")
   id: ID! @isUnique
-  name: String! @isUnique
+  name: String @isUnique
   password: String
   posts: [Post!]! @relation(name: "UserOnPost")
   profilePic: File @relation(name: "UserOnFile")
@@ -78,7 +78,7 @@ type Contributor implements Node {
   id: ID! @isUnique
   text: String! @defaultValue(value: "Add Description...")
   updatedAt: DateTime!
-  user: User @relation(name: "ContributerOnUser")
+  user: EmailUser @relation(name: "ContributerOnUser")
 }
 
 type PredefinedMeme implements Node {
