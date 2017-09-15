@@ -8,13 +8,19 @@ functions:
       code:
         src: ./code/signup.js
     type: resolver
-    schema: ./schemas/signup.graphql
+    schema: ./code/signup.graphql
   authenticate:
     handler:
       code:
         src: ./code/authenticate.js
     type: resolver
-    schema: ./schemas/authenticate.graphql
+    schema: ./code/authenticate.graphql
+  authenticated:
+    handler:
+      code:
+        src: ./code/authenticated.js
+    type: resolver
+    schema: ./code/authenticated.graphql
 
 # Permanent Auth Token / Root Tokens
 rootTokens:

@@ -1,0 +1,9 @@
+type AuthenticatedUserPayload {
+  id: ID
+  name: String
+  isAdmin: Boolean
+}
+
+extend type Query {
+  authenticatedUser: AuthenticatedUserPayload!
+}

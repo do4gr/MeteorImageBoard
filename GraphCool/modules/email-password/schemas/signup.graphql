@@ -1,7 +1,0 @@
-type SignupEmailUserPayload {
-  id: ID!
-}
-
-extend type Mutation {
-  signupEmailUser(email: String!, name: String!, password: String!): SignupEmailUserPayload
-}
